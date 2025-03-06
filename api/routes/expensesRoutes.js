@@ -1,4 +1,6 @@
 import express from 'express';
+import { authenticateJWT } from '../middleware/authMiddleware.js';
+
 import {
   addExpense,
   getMonthlyExpenses,
@@ -7,8 +9,8 @@ import {
 
 const router = express.Router();
 
-router.post('/', addExpense);
-router.get('/:userId/:year/:month', getMonthlyExpenses);
-router.get('/:userId/:year', getYearlyExpenses);
+router.post('/', authenticateJWT, addExpense);
+router.get('/:userId/:year/:month', authenticateJWT, getMonthlyExpenses);
+router.get('/:userId/:year', authenticateJWT, getYearlyExpenses);
 
 export default router;

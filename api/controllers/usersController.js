@@ -1,6 +1,7 @@
 import pkg from 'pg';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import query from '../utils/db.js';
 import { createUser, getUserByEmail } from '../models/users.js';
 
 const { Client } = pkg;
@@ -42,44 +43,46 @@ export const getUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  // verify input
   if (!email || !password) {
     return res
       .status(400)
       .json({ error: 'Email and password are required.' });
   }
   try {
-    const user = await getUserByEmail(email);
-    if (!user) {
+    // check if user exists
+    const user = await query(
+      `SELECT * FROM users
+      WHERE email = $1`,
+      [email]
+    );
+    if (!user.rows.length) {
       return res
-        .status(404)
+        .status(401)
         .json({ error: 'Invalid email or password.' });
     }
+    const userData = user.rows[0];
+
+    // check if password matches
     const passwordMatch = await bcrypt.compare(
       password,
-      user.password_hash
+      userData.password_hash
     );
     if (!passwordMatch) {
       return res
-        .status(404)
+        .status(401)
         .json({ error: 'Invalid email or password.' });
     }
 
     // create a JWT token
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: userData.id, email: userData.email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPRIRATION }
     );
 
-    // set the session variable for user_id
-    const client = await new Client();
-    await client.connect();
-    // set the session to be used for RLS
-    await client.query(`SET myapp.user_id = $1`, [user.id]);
-
+    // return the token
     res.status(200).json({ message: 'Login successful.', token });
-
-    await client.end();
   } catch (err) {
     console.error('Error logging in user: ', err);
     res

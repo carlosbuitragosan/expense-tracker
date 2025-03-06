@@ -1,4 +1,5 @@
 import express from 'express';
+import authenticateJWT from '../middleware/authMiddleware.js';
 import {
   registerUser,
   getUser,
@@ -7,6 +8,6 @@ import {
 const router = express.Router();
 
 router.post('/register', registerUser);
-router.get('/:email', getUser);
+router.get('/:email', authenticateJWT, getUser);
 
 export default router;
