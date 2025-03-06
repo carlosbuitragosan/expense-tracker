@@ -25,9 +25,17 @@ const testConnection = async () => {
 testConnection();
 
 //function to execute queries on the db
-const query = async (text, params) => {
-  const res = await pool.query(text, params);
-  return res;
+const query = async (text, params, userId = null) => {
+  const client = await pool.connect();
+  try {
+    if (userId) {
+      await client.query(`SET myapp.user_id = $1`, [userId]);
+    }
+    const res = await client.query(text, params);
+    return res;
+  } finally {
+    client.release();
+  }
 };
 
 export default query;
