@@ -1,16 +1,19 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cors from 'cors';
 import usersRoutes from './routes/usersRoutes.js';
-import transactionsRoutes from './routes/transactionsRoutes.js';
+import expensesRoutes from './routes/expensesRoutes.js';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(morgan('dev'));
+
 app.use('/users', usersRoutes);
-app.use('/transactions', transactionsRoutes);
+app.use('/expenses', expensesRoutes);
 
 const PORT = process.env.PORT || 5001;
 

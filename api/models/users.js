@@ -1,5 +1,6 @@
 import query from '../utils/db.js';
-
+import crypto from 'crypto';
+console.log(crypto.randomBytes(64).toString('hex'));
 export const createUser = async (email, passwordHash) => {
   try {
     const result = await query(
