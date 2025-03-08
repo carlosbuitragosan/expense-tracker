@@ -9,6 +9,7 @@ const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
 
@@ -29,6 +30,7 @@ const query = async (text, params, userId = null) => {
   const client = await pool.connect();
   try {
     if (userId) {
+      // set session variable
       await client.query(`SET myapp.user_id = $1`, [userId]);
     }
     const res = await client.query(text, params);

@@ -1,11 +1,6 @@
 import query from '../utils/db.js';
 
-export const insertExpense = async (
-  userId,
-  amount,
-  description,
-  date
-) => {
+export const insertExpense = async (userId, amount, description, date) => {
   try {
     const result = await query(
       `INSERT INTO expenses (user_id, amount, description, date)
@@ -22,9 +17,7 @@ export const insertExpense = async (
 
 export const getExpensesByMonth = async (userId, year, month) => {
   if (!userId || !year || !month) {
-    return res
-      .status(400)
-      .json({ error: 'User ID, year, and month are required.' });
+    throw new Error('User ID, year, and month are required.');
   }
   // handle month increment and year change
   const nextMonth = month === 12 ? 1 : month + 1;
@@ -46,9 +39,7 @@ export const getExpensesByMonth = async (userId, year, month) => {
 
 export const getExpensesByYear = async (userId, year) => {
   if (!userId || !year) {
-    return res
-      .status(400)
-      .json({ error: 'User ID and year are required.' });
+    throw new Error('User ID and year are required.');
   }
   // formate date
   const startDate = `${year}-01-01`;

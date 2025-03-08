@@ -1,16 +1,27 @@
 import query from '../utils/db.js';
-import crypto from 'crypto';
-console.log(crypto.randomBytes(64).toString('hex'));
+
 export const createUser = async (email, passwordHash) => {
   try {
+    await query('BEGIN');
+    // CREATE USER IN THE USERS TABLE
     const result = await query(
       `INSERT INTO users (email, password_hash, created_at)
     VALUES ($1, $2, CURRENT_TIMESTAMP)
     RETURNING *`,
       [email, passwordHash]
     );
-    return result.rows[0];
+
+    const newUser = result.rows[0];
+    const userId = newUser.id;
+
+    // COMMIT THE TRASACTION
+    await query('COMMIT');
+
+    console.log(`Created user ${email} with ID ${userId}`);
+
+    return newUser;
   } catch (err) {
+    await query('ROLLBACK');
     console.error('Database error: ', err);
     throw err;
   }
