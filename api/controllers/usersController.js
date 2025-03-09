@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  const { email } = req.params;
+  const { email } = req.user;
   try {
     const user = await getUserByEmail(email);
     if (user) {
