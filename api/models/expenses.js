@@ -1,12 +1,18 @@
 import query from '../utils/db.js';
 
-export const insertExpense = async (userId, amount, description, date) => {
+export const insertExpense = async (
+  userId,
+  amount,
+  description,
+  category,
+  date
+) => {
   try {
     const result = await query(
-      `INSERT INTO expenses (user_id, amount, description, date)
-    VALUES ($1, $2, $3, $4)
+      `INSERT INTO expenses (user_id, amount, description, category, date)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *`,
-      [userId, amount, description, date]
+      [userId, amount, description, category, date]
     );
     return result.rows[0];
   } catch (err) {
@@ -20,38 +26,75 @@ export const getExpensesByMonth = async (userId, year, month) => {
     throw new Error('User ID, year, and month are required.');
   }
   // handle month increment and year change
-  const nextMonth = month === 12 ? 1 : month + 1;
-  const nextYear = month === 12 ? year + 1 : year;
+  const nextMonth = +month === 12 ? 1 : +month + 1;
+  const nextYear = +month === 12 ? +year + 1 : year;
   // format dates
   const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
   const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
 
-  const result = await query(
-    `SELECT SUM(amount) AS total 
-    FROM expenses 
-    WHERE user_id = $1
-    and date >= $2
-    and date < $3`,
-    [userId, startDate, endDate]
-  );
-  return result.rows[0];
+  try {
+    console.log('calling getExpensesByMonth');
+    console.log(`Start Date: ${startDate}, End Date: ${endDate}`);
+
+    const result = await query(
+      `SELECT SUM(amount) AS total 
+      FROM expenses 
+      WHERE user_id = $1
+      and date >= $2
+      and date < $3`,
+      [userId, startDate, endDate]
+    );
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error getting expenses by month: ', err);
+    throw new Error('Error getting expenses by month.');
+  }
 };
 
-export const getExpensesByYear = async (userId, year) => {
-  if (!userId || !year) {
-    throw new Error('User ID and year are required.');
-  }
-  // formate date
-  const startDate = `${year}-01-01`;
-  const endDate = `${year + 1}-01-01`;
+export const getExpensesByRange = async (
+  userId,
+  startYear,
+  startMonth,
+  endYear = null,
+  endMonth = null
+) => {
+  const startDate = `${startYear}-${String(startMonth).padStart(2, '0')}-01`;
+  const endDate = `${endYear}-${String(endMonth).padStart(2, '0')}-${new Date(endYear, endMonth, 0).getDate()}`;
 
-  const result = await query(
-    `SELECT SUM(amount) AS total
-    FROM expenses
-    WHERE user_id = $1
-    AND date >= $2
-    AND date < $3`,
-    [userId, startDate, endDate]
-  );
-  return result.rows[0];
+  console.log('startDate: ', startDate, 'endDate: ', endDate);
+
+  try {
+    const result = await query(
+      `SELECT SUM(amount) AS total
+      FROM expenses
+      WHERE user_id = $1
+      AND date BETWEEN $2 AND $3`,
+      [userId, startDate, endDate]
+    );
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error getting expenses by year: ', err);
+    throw new Error('Error getting expenses by range.');
+  }
+};
+
+export const getExpensesByCalendarYear = async (userId, year) => {
+  const startDate = `${year}-01-01`;
+  const endDate = `${year}-12-31`;
+
+  console.log('startDate: ', startDate, 'endDate: ', endDate);
+
+  try {
+    const result = await query(
+      `SELECT SUM(amount) AS total
+      FROM expenses
+      WHERE user_id = $1
+      AND date BETWEEN $2 AND $3`,
+      [userId, startDate, endDate]
+    );
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error getting expenses by calendar year: ', err);
+    throw new Error('Error getting expenses by calendar year.');
+  }
 };

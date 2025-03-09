@@ -1,17 +1,25 @@
 import {
   insertExpense,
   getExpensesByMonth,
-  getExpensesByYear,
+  getExpensesByRange,
+  getExpensesByCalendarYear,
 } from '../models/expenses.js';
 
 export const addExpense = async (req, res) => {
-  const { userId, amount, description, date } = req.body;
+  const { userId } = req.user;
+  const { amount, description, category, date } = req.body;
 
-  if (!userId || !amount) {
-    return res.status(400).json({ error: ' User ID and amount are required.' });
+  if (!amount) {
+    return res.status(400).json({ error: 'amount is required.' });
   }
   try {
-    const expense = await insertExpense(userId, amount, description, date);
+    const expense = await insertExpense(
+      userId,
+      amount,
+      description,
+      category,
+      date
+    );
     return res.status(201).json(expense);
   } catch (err) {
     console.error('Error details: ', err);
@@ -22,21 +30,42 @@ export const addExpense = async (req, res) => {
 };
 
 export const getMonthlyExpenses = async (req, res) => {
-  const { userId, year, month } = req.params;
+  const { userId } = req.user;
+  const { year, month } = req.params;
   try {
     const monthlyExpenses = await getExpensesByMonth(userId, year, month);
-    res.status(200).json(monthlyExpenses);
+    return res.status(200).json(monthlyExpenses);
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching expenses.' });
+    console.error('Error getting monthly expenses: ', err);
+    return res.status(500).json({ message: 'Error fetching expenses.' });
   }
 };
 
-export const getYearlyExpenses = async (req, res) => {
-  const { userId, year } = req.params;
+export const getRangeExpenses = async (req, res) => {
+  const { userId } = req.user;
+  const { startYear, startMonth, endYear, endMonth } = req.params;
   try {
-    const yearlyExpenses = await getExpensesByYear(userId, year);
+    const yearlyExpenses = await getExpensesByRange(
+      userId,
+      startYear,
+      startMonth,
+      endYear,
+      endMonth
+    );
     res.status(200).json(yearlyExpenses);
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching expenses.' });
+    return res.status(500).json({ message: 'Error fetching expenses.' });
+  }
+};
+
+export const getCalendarYearExpenses = async (req, res) => {
+  const { userId } = req.user;
+  const { year } = req.params;
+
+  try {
+    const yearlyExpenses = await getExpensesByCalendarYear(userId, year);
+    return res.status(200).json(yearlyExpenses);
+  } catch (err) {
+    return res.status(500).json({ message: 'Error fetchin expenses.' });
   }
 };
