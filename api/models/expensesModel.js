@@ -98,3 +98,30 @@ export const getExpensesByCalendarYear = async (userId, year) => {
     throw new Error('Error getting expenses by calendar year.');
   }
 };
+
+export const updateExpense = async (
+  expenseId,
+  userId,
+  amount,
+  description,
+  category,
+  date
+) => {
+  try {
+    const result = await query(
+      `UPDATE expenses
+      SET amount = $1, 
+      description = $2,
+      category = $3,
+      date = $4
+      WHERE id = $5
+      AND user_id = $6
+      RETURNING *`,
+      [amount, description, category, date, expenseId, userId]
+    );
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error updating expenses.');
+    throw new Error('Error updating expenses.');
+  }
+};

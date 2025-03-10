@@ -3,7 +3,8 @@ import {
   getExpensesByMonth,
   getExpensesByRange,
   getExpensesByCalendarYear,
-} from '../models/expenses.js';
+  updateExpense,
+} from '../models/expensesModel.js';
 
 export const addExpense = async (req, res) => {
   if (!req.user || !req.user.userId) {
@@ -11,7 +12,6 @@ export const addExpense = async (req, res) => {
   }
 
   const { userId } = req.user;
-  console.log(userId);
   const { amount, description, category, date } = req.body;
 
   if (!amount) {
@@ -72,5 +72,33 @@ export const getCalendarYearExpenses = async (req, res) => {
     return res.status(200).json(yearlyExpenses);
   } catch (err) {
     return res.status(500).json({ message: 'Error fetchin expenses.' });
+  }
+};
+
+export const editExpense = async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    return res.status(401).json({ error: 'Unauthorised. Please log in.' });
+  }
+
+  const { userId } = req.user;
+  const { expenseId } = req.params;
+  const { amount, description, category, date } = req.body;
+
+  try {
+    const updatedExpense = await updateExpense(
+      expenseId,
+      userId,
+      amount,
+      description,
+      category,
+      date
+    );
+    if (!updatedExpense) {
+      return res.status(404).json({ error: 'Expense not found.' });
+    }
+    return res.status(200).json(updateExpense);
+  } catch (err) {
+    console.error('Error updating expense.');
+    return res.status(500).json({ message: 'Error updating expense.' });
   }
 };

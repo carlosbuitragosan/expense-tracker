@@ -6,6 +6,7 @@ import {
   getMonthlyExpenses,
   getRangeExpenses,
   getCalendarYearExpenses,
+  editExpense,
 } from '../controllers/expensesController.js';
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get(
   authenticateJWT,
   getRangeExpenses
 );
+router.put('/:expenseId', authenticateJWT, editExpense);
 
 export default router;
