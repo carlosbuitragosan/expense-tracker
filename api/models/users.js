@@ -2,7 +2,6 @@ import query from '../utils/db.js';
 
 export const createUser = async (email, passwordHash) => {
   try {
-    await query('BEGIN');
     // CREATE USER IN THE USERS TABLE
     const result = await query(
       `INSERT INTO users (email, password_hash, created_at)
@@ -12,12 +11,8 @@ export const createUser = async (email, passwordHash) => {
     );
 
     const newUser = result.rows[0];
-    const userId = newUser.id;
 
-    // COMMIT THE TRASACTION
-    await query('COMMIT');
-
-    console.log(`Created user ${email} with ID ${userId}`);
+    console.log(`Created user ${email} with ID ${newUser.id}`);
 
     return newUser;
   } catch (err) {

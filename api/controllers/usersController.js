@@ -5,18 +5,25 @@ import { createUser, getUserByEmail } from '../models/users.js';
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required.' });
+    return res.status(400).json({ error: 'Invalid credentials.' });
   }
   try {
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists.' });
+      return res.status(400).json({ error: 'Invalid credentials.' });
     }
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = await createUser(email, passwordHash);
-    res.status(201).json(newUser);
+
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRATION }
+    );
+
+    res.status(201).json(token);
   } catch (err) {
-    res.status(500).json({ message: 'Error creating user.', error: err });
+    res.status(500).json({ message: 'Something went wrong.', error: err });
   }
 };
 

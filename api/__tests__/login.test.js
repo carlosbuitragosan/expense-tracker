@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../server.js';
 
-describe('Users routes', () => {
+describe('POST /login', () => {
   it('Should log in a user and return a token.', async () => {
     const res = await request(app).post('/users/login').send({
       email: 'test3@email.com',
