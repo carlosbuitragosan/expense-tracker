@@ -7,7 +7,7 @@ import expensesRoutes from './routes/expensesRoutes.js';
 
 dotenv.config();
 
-export const app = express();
+const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
@@ -17,6 +17,20 @@ app.use('/expenses', expensesRoutes);
 
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+const closeServer = async () => {
+  return new Promise((res, rej) => {
+    server.close((err) => {
+      if (err) {
+        rej(err);
+      } else {
+        console.log('Server closed.');
+        res();
+      }
+    });
+  });
+};
+export { app, server, closeServer };

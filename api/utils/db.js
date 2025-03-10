@@ -40,4 +40,9 @@ const query = async (text, params, userId = null) => {
   }
 };
 
+export const closeDataBase = async () => {
+  await pool.end();
+  console.log('Database connection closed.');
+};
+
 export default query;

@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRATION }
     );
 
-    res.status(201).json(token);
+    res.status(201).json({ token });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.', error: err });
   }
@@ -44,31 +44,31 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   // verify input
   if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required.' });
+    return res.status(400).json({ error: 'Invalid credentials.' });
   }
   try {
     // check if user exists
-    const user = await getUserByEmail(email);
-    if (!user) {
+    const existingUser = await getUserByEmail(email);
+    if (!existingUser) {
       return res.status(401).json({ error: 'Invalid credentials.' });
     }
 
     // check if password matches
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    const passwordMatch = await bcrypt.compare(
+      password,
+      existingUser.password_hash
+    );
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid credentials.' });
     }
     // create a JWT token including the user id and email
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: existingUser.id, email: existingUser.email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRATION }
     );
     // return the token
-    return res.status(200).json({
-      message: 'Login successful.',
-      user: { email: user.email, id: user.id, token },
-    });
+    return res.status(200).json({ token });
   } catch (err) {
     console.error('Error logging in user: ', err);
     res.status(500).json({ message: 'Error logging in user', error: err });
