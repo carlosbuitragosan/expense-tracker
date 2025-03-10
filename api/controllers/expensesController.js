@@ -6,7 +6,12 @@ import {
 } from '../models/expenses.js';
 
 export const addExpense = async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    return res.status(401).json({ error: 'Unauthorised. Please log in.' });
+  }
+
   const { userId } = req.user;
+  console.log(userId);
   const { amount, description, category, date } = req.body;
 
   if (!amount) {

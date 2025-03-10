@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
     const newUser = await createUser(email, passwordHash);
 
     const token = jwt.sign(
-      { id: newUser.id, email: newUser.email },
+      { UserId: newUser.id, email: newUser.email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRATION }
     );

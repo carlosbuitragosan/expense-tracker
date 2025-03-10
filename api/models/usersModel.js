@@ -9,7 +9,6 @@ export const createUser = async (email, passwordHash) => {
     RETURNING *`,
       [email, passwordHash]
     );
-
     const newUser = result.rows[0];
 
     console.log(`Created user ${email} with ID ${newUser.id}`);
