@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { registerUser } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
-export const Register = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -21,7 +20,7 @@ export const Register = () => {
 
   return (
     <div>
-      <h2>Register</h2>
+      <h2>Log In</h2>
 
       {error && <p>{error}</p>}
 
@@ -41,10 +40,10 @@ export const Register = () => {
           onChange={handleChange}
         />
 
-        <button type="submit">Register</button>
+        <button type="submit">Log In</button>
         <div>
           <p>Not a user?</p>
-          <button type="button" onClick={navigate('/users/register')}>
+          <button type="button" onClick={() => navigate('/users/register')}>
             Register
           </button>
         </div>

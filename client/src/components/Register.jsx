@@ -29,6 +29,7 @@ export const Register = () => {
       setError(err);
     }
   };
+
   return (
     <div>
       <h2>Register</h2>
@@ -60,7 +61,7 @@ export const Register = () => {
         <button type="submit">Register</button>
         <div>
           <p>Already a user?</p>
-          <button type="button" onClick={navigate('/users/login')}>
+          <button type="button" onClick={() => navigate('/users/login')}>
             Log In
           </button>
         </div>
