@@ -17,20 +17,6 @@ app.use('/expenses', expensesRoutes);
 
 const PORT = process.env.PORT || 5001;
 
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-const closeServer = async () => {
-  return new Promise((res, rej) => {
-    server.close((err) => {
-      if (err) {
-        rej(err);
-      } else {
-        console.log('Server closed.');
-        res();
-      }
-    });
-  });
-};
-export { app, server, closeServer };

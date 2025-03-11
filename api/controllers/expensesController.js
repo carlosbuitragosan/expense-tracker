@@ -84,6 +84,9 @@ export const editExpense = async (req, res) => {
   const { expenseId } = req.params;
   const { amount, description, category, date } = req.body;
 
+  if (!amount || !description || !category || !date) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
   try {
     const updatedExpense = await updateExpense(
       expenseId,
@@ -96,7 +99,7 @@ export const editExpense = async (req, res) => {
     if (!updatedExpense) {
       return res.status(404).json({ error: 'Expense not found.' });
     }
-    return res.status(200).json(updateExpense);
+    return res.status(200).json(updatedExpense);
   } catch (err) {
     console.error('Error updating expense.');
     return res.status(500).json({ message: 'Error updating expense.' });
