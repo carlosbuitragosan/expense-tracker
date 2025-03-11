@@ -1,4 +1,4 @@
-import query from '../utils/db.js';
+import query from '../config/db.js';
 
 export const insertExpense = async (
   userId,
