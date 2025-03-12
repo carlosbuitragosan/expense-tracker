@@ -1,6 +1,9 @@
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { createUser, getUserByEmail } from '../models/usersModel.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -36,14 +39,15 @@ export const registerUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
   const { email } = req.user;
+
   try {
     const user = await getUserByEmail(email);
     if (user) {
-      res.status(200).json(user);
+      return res.status(200).json({ userId: user.id });
     }
-    res.status(404).json({ message: 'User not found' });
+    return res.status(404).json({ message: 'Unauthorized.' });
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching user.' });
+    return res.status(500).json({ message: 'Error fetching user.' });
   }
 };
 
