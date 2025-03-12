@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export const authenticateJWT = async (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.cookies.token;
 
   if (!token) {
     return res
@@ -14,6 +14,6 @@ export const authenticateJWT = async (req, res, next) => {
     next();
   } catch (err) {
     console.error('Error verifying token: ', err);
-    return res.status(403).json({ message: 'Invalide or expired token.' });
+    return res.status(403).json({ message: 'Invalid or expired token.' });
   }
 };

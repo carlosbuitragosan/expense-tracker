@@ -21,7 +21,14 @@ export const registerUser = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRATION }
     );
 
-    res.status(201).json({ token });
+    //Store the token in a http-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 48,
+    });
+
+    res.status(201).json({ message: 'User registered succesfully.' });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.', error: err });
   }
@@ -67,8 +74,15 @@ export const loginUser = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRATION }
     );
-    // return the token
-    return res.status(200).json({ token });
+
+    //Store the token in a http-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 48,
+    });
+
+    return res.status(200).json({ message: 'Login successful.' });
   } catch (err) {
     console.error('Error logging in user: ', err);
     res.status(500).json({ message: 'Error logging in user', error: err });
