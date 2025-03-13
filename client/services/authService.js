@@ -7,6 +7,21 @@ export const registerUser = async (formData) => {
     const response = await axios.post(`${API_URL}/users/register`, formData);
     return response.data;
   } catch (err) {
-    throw err.response?.data?.error || 'Something went wrong.';
+    const errorMesage =
+      err.response?.data?.error || err.message || 'Something went wrong.';
+    throw new Error(errorMesage);
+  }
+};
+
+export const loginUser = async (formData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/login`, formData, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(
+      err.response?.data?.error || err.message || 'Login failed.'
+    );
   }
 };

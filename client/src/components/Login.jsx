@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { loginUser } from '../../services/authService';
 export const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -16,6 +16,14 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    try {
+      const user = await loginUser(formData);
+      console.log('Login successful.', user);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
