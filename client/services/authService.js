@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API_URL = 'http://localhost:5001';
 
@@ -24,4 +25,15 @@ export const loginUser = async (formData) => {
       err.response?.data?.error || err.message || 'Login failed.'
     );
   }
+};
+
+export const getUserProfile = async () => {
+  const response = await axios.get(`${API_URL}/users/profile`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const logoutUser = () => {
+  Cookies.remove('token');
 };
