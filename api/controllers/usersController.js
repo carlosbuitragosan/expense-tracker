@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Register new user
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -27,8 +28,11 @@ export const registerUser = async (req, res) => {
     //Store the token in a http-only cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false,
+      sameSite: 'Lax',
+      path: '/',
       maxAge: 1000 * 60 * 60 * 48,
+      domain: req.hostname,
     });
 
     res.status(201).json({ message: 'User registered succesfully.' });
@@ -37,6 +41,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
+// get user by email
 export const getUser = async (req, res) => {
   const { email } = req.user;
 
@@ -51,6 +56,7 @@ export const getUser = async (req, res) => {
   }
 };
 
+// login user
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   // verify input
@@ -82,8 +88,11 @@ export const loginUser = async (req, res) => {
     //Store the token in a http-only cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false,
+      sameSite: 'Lax',
+      path: '/',
       maxAge: 1000 * 60 * 60 * 48,
+      domain: req.hostname,
     });
 
     return res.status(200).json({ message: 'Login successful.' });
@@ -91,4 +100,10 @@ export const loginUser = async (req, res) => {
     console.error('Error logging in user: ', err);
     res.status(500).json({ message: 'Error logging in user', error: err });
   }
+};
+
+// logout user
+export const logoutUser = (req, res) => {
+  res.clearCookie('token');
+  return res.status(200).json({ message: 'Logged out successfully.' });
 };

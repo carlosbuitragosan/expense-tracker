@@ -19,5 +19,5 @@ export const ProtectedRoutes = ({ children }) => {
   }, []);
 
   if (isAuthenticated === null) return <p>Loading..</p>;
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return isAuthenticated ? children : <Navigate to="/users/login" replace />;
 };

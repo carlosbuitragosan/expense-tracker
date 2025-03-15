@@ -34,6 +34,11 @@ export const getUserProfile = async () => {
   return response.data;
 };
 
-export const logoutUser = () => {
-  Cookies.remove('token');
+export const logoutUser = async () => {
+  try {
+    // withCredentials: true ensures the cookie is sent with the request
+    await axios.post(`${API_URL}/users/logout`, {}, { withCredentials: true });
+  } catch (err) {
+    console.error('Error during logout: ', err);
+  }
 };
