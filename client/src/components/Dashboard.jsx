@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../services/authService';
+import { CurrentMonthExpenses } from './CurrentMonthExpenses';
 
 export const DashBoard = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export const DashBoard = () => {
     <div>
       <h1>Expense Tracker</h1>
       <button onClick={handleLogout}>Logout</button>
+      <CurrentMonthExpenses />
     </div>
   );
 };
