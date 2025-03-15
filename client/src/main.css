@@ -1,0 +1,15 @@
+:root {
+  /* colors */
+  --primary-color: #034c53;
+  --secondary-color: #f38c79;
+}
+
+body {
+  background-color: var(--primary-color);
+  font-family: 'Open Sans', sans-serif;
+  color: var(--secondary-color);
+}
+
+ul {
+  list-style-type: none;
+}

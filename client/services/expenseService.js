@@ -11,7 +11,6 @@ export const getCurentMonthExpenses = async () => {
     const response = await axios.get(`${API_URL}/expenses/${year}/${month}`, {
       withCredentials: true,
     });
-    console.log(response.data);
     return response.data.total;
   } catch (err) {
     console.error('Error fetching expenses:', err);

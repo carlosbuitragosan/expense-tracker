@@ -17,7 +17,6 @@ export const DashBoard = () => {
 
   return (
     <div>
-      <h1>Expense Tracker</h1>
       <button onClick={handleLogout}>Logout</button>
       <CurrentMonthExpenses />
     </div>
