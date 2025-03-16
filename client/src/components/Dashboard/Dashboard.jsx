@@ -5,7 +5,7 @@ import { AddExpense } from '../AddExpense/AddExpense';
 export const DashBoard = () => {
   return (
     <div>
-      {/* <AddExpense /> */}
+      <AddExpense />
       <CurrentMonthExpenses />
     </div>
   );

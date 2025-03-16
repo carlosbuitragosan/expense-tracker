@@ -9,7 +9,7 @@ export const insetCategory = async (name) => {
       RETURNING *`,
       [name]
     );
-    return res.status(201).json(result.rows[0]);
+    return result.rows[0];
   } catch (err) {
     console.log('Error inserting a category: ', err);
     throw new Error('Error inserting a category.');
@@ -20,8 +20,9 @@ export const insetCategory = async (name) => {
 export const selectCategories = async () => {
   try {
     const result = await query(`SELECT * FROM categories`);
-    return res.status(200).json(result.rows);
+    return result.rows;
   } catch (err) {
+    console.error('Error selecting categories: ', err);
     throw new Error('Error selecting categories.');
   }
 };
