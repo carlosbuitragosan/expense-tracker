@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getCurentMonthExpenses } from '../../services/expenseService';
+import { getCurentMonthExpenses } from '../../../services/expenseService';
 
 export const CurrentMonthExpenses = () => {
   const [totalExpenses, setTotalExpenses] = useState(null);

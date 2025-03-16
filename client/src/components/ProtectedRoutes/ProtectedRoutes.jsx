@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getUserProfile } from '../../services/authService';
+import { getUserProfile } from '../../../services/authService';
 
 export const ProtectedRoutes = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);

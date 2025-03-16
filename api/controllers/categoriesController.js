@@ -1,4 +1,4 @@
-import { insetCategory, selectCategories } from '../models/categoriesModel';
+import { insetCategory, selectCategories } from '../models/categoriesModel.js';
 
 // add new category
 export const addCategory = async (req, res) => {

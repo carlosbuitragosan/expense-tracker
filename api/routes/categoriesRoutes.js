@@ -1,9 +1,9 @@
 import express from 'express';
-import { authenticateJWT } from '../middleware/authMiddleware';
+import { authenticateJWT } from '../middleware/authMiddleware.js';
 import {
   addCategory,
   getCategories,
-} from '../controllers/categoriesController';
+} from '../controllers/categoriesController.js';
 
 const router = express.Router();
 

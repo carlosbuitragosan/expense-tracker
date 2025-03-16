@@ -1,8 +1,8 @@
-import { Register } from './components/Register';
+import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { DashBoard } from './components/Dashboard';
-import { ProtectedRoutes } from './components/ProtectedRoutes';
+import { DashBoard } from './components/Dashboard/Dashboard';
+import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
 import { Navbar } from './components/Navbar/Navbar';
 import { AuthProvider } from './context/AuthProvider';
 

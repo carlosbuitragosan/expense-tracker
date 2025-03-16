@@ -10,9 +10,15 @@
 
 body {
   background-color: var(--color-1);
-
+  box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
   color: var(--color-3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 ul {
@@ -24,6 +30,7 @@ ul {
   border-radius: 0.2rem;
   padding: 0.4rem 0.6rem;
   background-color: var(--color-5);
+  border: 1px solid var(--color-5);
   color: var(--color-3);
   font-size: 0.9rem;
 }
