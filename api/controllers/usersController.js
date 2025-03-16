@@ -95,7 +95,9 @@ export const loginUser = async (req, res) => {
       domain: req.hostname,
     });
 
-    return res.status(200).json({ message: 'Login successful.' });
+    return res
+      .status(200)
+      .json({ userId: existingUser.id, message: 'Login successful.' });
   } catch (err) {
     console.error('Error logging in user: ', err);
     res.status(500).json({ message: 'Error logging in user', error: err });

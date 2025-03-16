@@ -4,15 +4,15 @@ export const insertExpense = async (
   userId,
   amount,
   description,
-  category,
+  categoryId,
   date
 ) => {
   try {
     const result = await query(
-      `INSERT INTO expenses (user_id, amount, description, category, date)
+      `INSERT INTO expenses (user_id, amount, description, category_id, date)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *`,
-      [userId, amount, description, category, date]
+      [userId, amount, description, categoryId, date]
     );
     return result.rows[0];
   } catch (err) {
@@ -33,9 +33,6 @@ export const getExpensesByMonth = async (userId, year, month) => {
   const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
 
   try {
-    console.log('calling getExpensesByMonth');
-    console.log(`Start Date: ${startDate}, End Date: ${endDate}`);
-
     const result = await query(
       `SELECT SUM(amount) AS total 
       FROM expenses 
@@ -61,8 +58,6 @@ export const getExpensesByRange = async (
   const startDate = `${startYear}-${String(startMonth).padStart(2, '0')}-01`;
   const endDate = `${endYear}-${String(endMonth).padStart(2, '0')}-${new Date(endYear, endMonth, 0).getDate()}`;
 
-  console.log('startDate: ', startDate, 'endDate: ', endDate);
-
   try {
     const result = await query(
       `SELECT SUM(amount) AS total
@@ -81,8 +76,6 @@ export const getExpensesByRange = async (
 export const getExpensesByCalendarYear = async (userId, year) => {
   const startDate = `${year}-01-01`;
   const endDate = `${year}-12-31`;
-
-  console.log('startDate: ', startDate, 'endDate: ', endDate);
 
   try {
     const result = await query(

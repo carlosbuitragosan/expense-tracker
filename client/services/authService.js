@@ -14,11 +14,14 @@ export const registerUser = async (formData) => {
   }
 };
 
-export const loginUser = async (formData) => {
+export const loginUser = async (formData, setIsAuthenticated) => {
   try {
     const response = await axios.post(`${API_URL}/users/login`, formData, {
       withCredentials: true,
     });
+    if (response.data.userId) {
+      setIsAuthenticated(true);
+    }
     return response.data;
   } catch (err) {
     throw new Error(
@@ -28,10 +31,15 @@ export const loginUser = async (formData) => {
 };
 
 export const getUserProfile = async () => {
-  const response = await axios.get(`${API_URL}/users/profile`, {
-    withCredentials: true,
-  });
-  return response.data;
+  try {
+    const response = await axios.get(`${API_URL}/users/profile`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw new Error('Unauthorized.');
+  }
 };
 
 export const logoutUser = async () => {

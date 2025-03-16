@@ -14,9 +14,8 @@ export const CurrentMonthExpenses = () => {
 
   return (
     <div>
-      <h3>Expenses this month</h3>
       {totalExpenses !== null ? (
-        <p>Total: ${totalExpenses}</p>
+        <p>Total spent this month: ${totalExpenses}</p>
       ) : (
         <p>Loading...</p>
       )}

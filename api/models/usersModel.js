@@ -11,8 +11,6 @@ export const createUser = async (email, passwordHash) => {
     );
     const newUser = result.rows[0];
 
-    console.log(`Created user ${email} with ID ${newUser.id}`);
-
     return newUser;
   } catch (err) {
     await query('ROLLBACK');

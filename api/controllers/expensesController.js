@@ -12,7 +12,7 @@ export const addExpense = async (req, res) => {
   }
 
   const { userId } = req.user;
-  const { amount, description, category, date } = req.body;
+  const { amount, description, categoryId, date } = req.body;
 
   if (!amount) {
     return res.status(400).json({ error: 'amount is required.' });
@@ -22,7 +22,7 @@ export const addExpense = async (req, res) => {
       userId,
       amount,
       description,
-      category,
+      categoryId,
       date
     );
     return res.status(201).json(expense);
