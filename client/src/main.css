@@ -5,6 +5,7 @@
   --color-2: #6eacda;
   --color-3: #ecfbff;
   --color-4: #009ef7;
+  --color-5: #f37145;
 }
 
 body {
@@ -22,7 +23,12 @@ ul {
   border: none;
   border-radius: 0.2rem;
   padding: 0.4rem 0.6rem;
-  background-color: var(--color-2);
-  color: var(--color-1);
+  background-color: var(--color-5);
+  color: var(--color-3);
   font-size: 0.9rem;
+}
+
+.button:hover {
+  cursor: pointer;
+  border: 1px solid var(--color-3);
 }

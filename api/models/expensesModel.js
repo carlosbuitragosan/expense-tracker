@@ -1,5 +1,6 @@
 import query from '../config/db.js';
 
+//add expense
 export const insertExpense = async (
   userId,
   amount,

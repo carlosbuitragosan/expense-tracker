@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import usersRoutes from './routes/usersRoutes.js';
 import expensesRoutes from './routes/expensesRoutes.js';
+import categoriesRouter from './routes/categoriesRoutes.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(morgan('dev'));
 
 app.use('/users', usersRoutes);
 app.use('/expenses', expensesRoutes);
+app.use('/categories', categoriesRouter);
 
 const PORT = process.env.PORT || 5001;
 

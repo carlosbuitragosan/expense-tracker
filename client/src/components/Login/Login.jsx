@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/authService';
-import { AuthContext } from '../context/AuthContext';
+import { loginUser } from '../../../services/authService';
+import { AuthContext } from '../../context/AuthContext';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -50,10 +50,16 @@ export const Login = () => {
           onChange={handleChange}
         />
 
-        <button type="submit">Log In</button>
+        <button className="button" type="submit">
+          Log In
+        </button>
         <div>
           <p>Not a user?</p>
-          <button type="button" onClick={() => navigate('/users/register')}>
+          <button
+            className="button"
+            type="button"
+            onClick={() => navigate('/users/register')}
+          >
             Register
           </button>
         </div>

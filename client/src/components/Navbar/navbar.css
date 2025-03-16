@@ -3,18 +3,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
+  color: var(--color-4);
 }
 
-.navbar {
-  /* margin-left: auto; */
-}
 .navbar__list {
   display: flex;
   align-items: center;
   padding: 0;
   gap: 2rem;
-}
-
-.header__title {
-  color: var(--color-4);
 }
