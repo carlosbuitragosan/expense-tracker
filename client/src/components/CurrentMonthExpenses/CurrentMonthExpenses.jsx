@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCurentMonthExpenses } from '../../../services/expenseService';
 
-export const CurrentMonthExpenses = () => {
+export const CurrentMonthExpenses = ({ reload }) => {
   const [totalExpenses, setTotalExpenses] = useState(null);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export const CurrentMonthExpenses = () => {
       setTotalExpenses(total);
     };
     fetchExpenses();
-  }, []);
+  }, [reload]);
 
   return (
     <div>

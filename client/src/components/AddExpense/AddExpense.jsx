@@ -5,17 +5,28 @@ import {
   addCategory,
 } from '../../../services/expenseService';
 
-export const AddExpense = () => {
+export const AddExpense = ({ onExpenseAdded }) => {
   const [formData, settFormData] = useState({
     amount: '',
     description: '',
     categoryId: undefined,
-    date: '',
+    date: new Date().toISOString().split('T')[0],
   });
 
-  console.log(formData);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error('Error fetching categories: ', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     settFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,22 +53,28 @@ export const AddExpense = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (err) {
-        console.error('Error fetching categories: ', err);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await addExpense(formData);
+      settFormData({
+        amount: '',
+        description: '',
+        categoryId: '',
+        date: new Date().toISOString().split('T')[0],
+      });
+      // notify dashboard a new expense was added
+      onExpenseAdded();
+    } catch (err) {
+      console.error('Erorr adding expense: ', err);
+    }
+  };
 
   return (
     <div className="Addexpense__container">
       <h2>Add new expense</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="number"
           name="amount"
@@ -100,6 +117,13 @@ export const AddExpense = () => {
             </button>
           </div>
         )}
+        <input
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+        />
+        <button type="submit">Add Expense</button>
       </form>
     </div>
   );

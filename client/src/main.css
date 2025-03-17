@@ -39,3 +39,15 @@ ul {
   cursor: pointer;
   border: 1px solid var(--color-3);
 }
+
+/* Hide number input arrows in Webkit browsers (Chrome, Safari, Edge) */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide number input arrows in Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
