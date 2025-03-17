@@ -13,6 +13,7 @@ export const AddExpense = () => {
     date: '',
   });
 
+  console.log(formData);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
 
@@ -23,7 +24,7 @@ export const AddExpense = () => {
   const handleCategoryChange = (e) => {
     const selectedValue = e.target.value;
     if (selectedValue === 'new') {
-      settFormData({ ...formData, categoryId: '' });
+      settFormData({ ...formData, categoryId: 'new' });
     } else {
       settFormData({ ...formData, categoryId: selectedValue });
     }
@@ -82,9 +83,11 @@ export const AddExpense = () => {
               {category.name}
             </option>
           ))}
-          <option value="new">Add new category</option>
+          <option name="categoryId" value="new">
+            Add new category
+          </option>
         </select>
-        {formData.categoryId === '' && (
+        {formData.categoryId === 'new' && (
           <div>
             <input
               type="text"
