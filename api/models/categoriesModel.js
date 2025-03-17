@@ -6,10 +6,19 @@ export const insetCategory = async (name) => {
     const result = await query(
       `INSERT INTO categories (name)
       VALUES ($1)
+      ON CONFLICT (name) DO NOTHING
       RETURNING *`,
       [name]
     );
-    return result.rows[0];
+    if (result.rows.length > 0) {
+      return result.rows[0];
+    }
+    const existingCategory = await query(
+      `SELECT * FROM categories
+      WHERE name = $1;`,
+      [name]
+    );
+    return existingCategory.rows[0];
   } catch (err) {
     console.log('Error inserting a category: ', err);
     throw new Error('Error inserting a category.');

@@ -4,6 +4,7 @@ import {
   getCategories,
   addCategory,
 } from '../../../services/expenseService';
+import './addExpense.css';
 
 export const AddExpense = ({ onExpenseAdded }) => {
   const [formData, settFormData] = useState({
@@ -12,7 +13,6 @@ export const AddExpense = ({ onExpenseAdded }) => {
     categoryId: undefined,
     date: new Date().toISOString().split('T')[0],
   });
-
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
 
@@ -43,6 +43,14 @@ export const AddExpense = ({ onExpenseAdded }) => {
 
   const handleAddCategory = async () => {
     if (!newCategory) return;
+
+    const existingCategory = categories.find((cat) => cat.name === newCategory);
+
+    if (existingCategory) {
+      settFormData({ ...formData, categoryId: existingCategory.id });
+      setNewCategory('');
+      return;
+    }
     try {
       const category = await addCategory(newCategory);
       setCategories([...categories, category]);
@@ -74,7 +82,7 @@ export const AddExpense = ({ onExpenseAdded }) => {
   return (
     <div className="Addexpense__container">
       <h2>Add new expense</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="expense__form" onSubmit={handleSubmit}>
         <input
           type="number"
           name="amount"
@@ -112,8 +120,12 @@ export const AddExpense = ({ onExpenseAdded }) => {
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             />
-            <button type="button" onClick={handleAddCategory}>
-              Add category
+            <button
+              className="button"
+              type="button"
+              onClick={handleAddCategory}
+            >
+              +
             </button>
           </div>
         )}
@@ -123,7 +135,9 @@ export const AddExpense = ({ onExpenseAdded }) => {
           value={formData.date}
           onChange={handleChange}
         />
-        <button type="submit">Add Expense</button>
+        <button className="button" type="submit">
+          Add Expense
+        </button>
       </form>
     </div>
   );
