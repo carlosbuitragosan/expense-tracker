@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CurrentMonthExpenses } from '../CurrentMonthExpenses/CurrentMonthExpenses';
 import { AddExpense } from '../AddExpense/AddExpense';
-
+import './dashboard.css';
 export const DashBoard = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
 
@@ -9,7 +9,7 @@ export const DashBoard = () => {
     setReloadExpenses((prev) => !prev);
   };
   return (
-    <div>
+    <div className="dashboard__container">
       <AddExpense onExpenseAdded={handleExpensesAdded} />
       <CurrentMonthExpenses reload={reloadExpenses} />
     </div>

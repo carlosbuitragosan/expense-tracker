@@ -1,6 +1,27 @@
+.expense__container {
+  padding: 4rem 0;
+  width: 70%;
+  margin: auto;
+}
+
 .expense__form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  align-items: center;
+  /* align-items: center; */
+}
+
+.newCategory__container {
+  display: flex;
+  gap: 1rem;
+}
+
+.newCategory__input {
+  width: 100%;
+}
+
+.button__add {
+  display: flex;
+  align-self: center;
+  padding: 0.3rem;
 }

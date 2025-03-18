@@ -80,8 +80,8 @@ export const AddExpense = ({ onExpenseAdded }) => {
   };
 
   return (
-    <div className="Addexpense__container">
-      <h2>Add new expense</h2>
+    <div className="expense__container">
+      {/* <h2>Add new expense</h2> */}
       <form className="expense__form" onSubmit={handleSubmit}>
         <input
           type="number"
@@ -93,7 +93,7 @@ export const AddExpense = ({ onExpenseAdded }) => {
         <input
           type="text"
           name="description"
-          placeholder="Description"
+          placeholder="Description (optional)"
           value={formData.description}
           onChange={handleChange}
         />
@@ -113,19 +113,20 @@ export const AddExpense = ({ onExpenseAdded }) => {
           </option>
         </select>
         {formData.categoryId === 'new' && (
-          <div>
+          <div className="newCategory__container">
             <input
+              className="newCategory__input"
               type="text"
               placeholder="New category name"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
             />
             <button
-              className="button"
+              className="button button__add"
               type="button"
               onClick={handleAddCategory}
             >
-              +
+              <span class="material-symbols-outlined">add</span>
             </button>
           </div>
         )}

@@ -2,13 +2,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 1rem 2rem;
   color: var(--color-4);
 }
 
+.navbar {
+  align-self: center;
+}
 .navbar__list {
   display: flex;
   align-items: center;
   padding: 0;
+  margin: 0;
   gap: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.header__title {
+  margin: 0;
+  padding-bottom: 0.3rem;
+}
+
+.navbar__logout_button {
+  background-color: var(--color-1);
+  color: var(--color-4);
+  border: 1px solid var(--color-1);
 }
