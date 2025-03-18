@@ -119,3 +119,32 @@ export const updateExpense = async (
     throw new Error('Error updating expenses.');
   }
 };
+
+// get all user's data by month
+export const getMonthlyExpenseDetails = async (userId, year, month) => {
+  console.log(userId, year, month);
+  if (!userId || !year || !month) {
+    throw new Error('User ID, year, and month are required.');
+  }
+  // handle month increment and year change
+  const nextMonth = +month === 12 ? 1 : +month + 1;
+  const nextYear = +month === 12 ? +year + 1 : year;
+  // format dates
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
+  try {
+    const result = await query(
+      `SELECT id, amount, description, category_id, date
+      FROM expenses
+      WHERE user_id = $1
+      AND date BETWEEN $2 AND $3
+      ORDER BY date DESC`,
+      [userId, startDate, endDate]
+    );
+    return result.rows;
+  } catch (err) {
+    console.error('Error fetching monthly expenses: ', err);
+    throw new Error('Error fetching monthly expenses.');
+  }
+};

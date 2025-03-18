@@ -4,6 +4,7 @@ import {
   getExpensesByRange,
   getExpensesByCalendarYear,
   updateExpense,
+  getMonthlyExpenseDetails,
 } from '../models/expensesModel.js';
 
 export const addExpense = async (req, res) => {
@@ -103,5 +104,18 @@ export const editExpense = async (req, res) => {
   } catch (err) {
     console.error('Error updating expense.');
     return res.status(500).json({ message: 'Error updating expense.' });
+  }
+};
+
+// get all user's data by month
+export const getMonthlyExpenseList = async (req, res) => {
+  const { userId } = req.user;
+  const { year, month } = req.params;
+  try {
+    const expenses = await getMonthlyExpenseDetails(userId, year, month);
+    return res.status(200).json(expenses);
+  } catch (err) {
+    console.error('Error fetching expenses: ', err);
+    return res.status(500).json({ message: 'Error fetching expenses.' });
   }
 };
