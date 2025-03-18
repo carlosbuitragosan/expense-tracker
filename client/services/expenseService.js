@@ -18,6 +18,18 @@ export const getCurentMonthExpenses = async () => {
   }
 };
 
+export const getExpensesByMonth = async (year, month) => {
+  try {
+    const response = await axios.get(`${API_URL}/expenses/${year}/${month}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching expenses: ', err);
+    return [];
+  }
+};
+
 export const getCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/categories`, {

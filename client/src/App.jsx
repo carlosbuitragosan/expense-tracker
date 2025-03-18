@@ -1,10 +1,11 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Register } from './components/Register/Register';
 import { Login } from './components/Login/Login';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DashBoard } from './components/Dashboard/Dashboard';
 import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
 import { Navbar } from './components/Navbar/Navbar';
 import { AuthProvider } from './context/AuthProvider';
+import { Expenses } from './components/expenses/expenses';
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <DashBoard />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/expenses"
+            element={
+              <ProtectedRoutes>
+                <Expenses />
               </ProtectedRoutes>
             }
           />

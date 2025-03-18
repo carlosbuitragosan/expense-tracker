@@ -15,7 +15,7 @@ export const CurrentMonthExpenses = ({ reload }) => {
   return (
     <div>
       {totalExpenses !== null ? (
-        <p>Total spent this month: £{totalExpenses}</p>
+        <p>Total spent this month: £{totalExpenses.replace(/\.00$/, '')}</p>
       ) : (
         <p>Loading...</p>
       )}

@@ -64,3 +64,9 @@ select {
   font-size: 1rem;
   font-family: inherit;
 }
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
