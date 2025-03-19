@@ -22,7 +22,7 @@ export const Navbar = () => {
       <div className="logo__container">
         <div className="logo">
           <Link className="link" to="/dashboard">
-            <span class="material-symbols-outlined wallet__icon">
+            <span className="material-symbols-outlined wallet__icon">
               account_balance_wallet
             </span>
           </Link>

@@ -126,7 +126,7 @@ export const AddExpense = ({ onExpenseAdded }) => {
               type="button"
               onClick={handleAddCategory}
             >
-              <span class="material-symbols-outlined">add</span>
+              <span className="material-symbols-outlined">add</span>
             </button>
           </div>
         )}

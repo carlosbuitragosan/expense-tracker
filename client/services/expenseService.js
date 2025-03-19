@@ -18,14 +18,18 @@ export const getCurentMonthExpenses = async () => {
   }
 };
 
-export const getExpensesByMonth = async (year, month) => {
+// get all user's data by month
+export const getExpenseListByMonth = async (year, month) => {
   try {
-    const response = await axios.get(`${API_URL}/expenses/${year}/${month}`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${API_URL}/expenses/${year}/${month}/details`,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (err) {
-    console.error('Error fetching expenses: ', err);
+    console.error('Error fetching expense list: ', err);
     return [];
   }
 };
@@ -70,5 +74,17 @@ export const addExpense = async (expenseData) => {
   } catch (err) {
     console.error('Error adding a new expense:', err);
     throw new Error(err);
+  }
+};
+
+export const getTotalMonthExpenses = async (year, month) => {
+  try {
+    const response = await axios.get(`${API_URL}/expenses/${year}/${month}`, {
+      withCredentials: true,
+    });
+    return response.data.total;
+  } catch (err) {
+    console.error('Error fetching total monthly expenses: ', err);
+    return 0;
   }
 };
