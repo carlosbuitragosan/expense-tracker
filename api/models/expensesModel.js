@@ -135,11 +135,18 @@ export const getMonthlyExpenseDetails = async (userId, year, month) => {
 
   try {
     const result = await query(
-      `SELECT id, amount, description, category_id, date
+      `SELECT 
+        expenses.id, 
+        expenses.amount, 
+        expenses.description, 
+        expenses.date,
+        categories.name AS category_name 
       FROM expenses
-      WHERE user_id = $1
-      AND date BETWEEN $2 AND $3
-      ORDER BY date DESC`,
+      LEFT JOIN categories
+      ON expenses.category_id = categories.id
+      WHERE expenses.user_id = $1
+      AND expenses.date BETWEEN $2 AND $3
+      ORDER BY expenses.date DESC`,
       [userId, startDate, endDate]
     );
     return result.rows;
