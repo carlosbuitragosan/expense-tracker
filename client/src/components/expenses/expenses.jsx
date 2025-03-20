@@ -58,16 +58,23 @@ export const Expenses = () => {
         </button>
       </div>
       <p>
-        total Spent: <span>£{totalExpenses || 0}</span>
+        total Spent:{' '}
+        <span>£{totalExpenses ? totalExpenses.replace(/\.00$/, '') : 0}</span>
       </p>
       <ul className="expenses__list">
         {expenses.length > 0 ? (
           expenses.map((expense) => (
-            <li key={expense.id}>
-              <p>£{expense.amount}</p>
-              <p>{expense.category_name || 'No category'}</p>
-              <p>{expense.description}</p>
-              <p>{new Date(expense.date).toLocaleDateString()}</p>
+            <li key={expense.id} className="expenses__list_item">
+              <div className="list__item_description">
+                <p className="item__date">
+                  {new Date(expense.date).toLocaleDateString()}
+                </p>
+                <p className="item__category">
+                  {expense.category_name || 'No category'}
+                </p>
+              </div>
+              <p className="item__description">{expense.description}</p>
+              <p className="item__amount">£{expense.amount}</p>
             </li>
           ))
         ) : (

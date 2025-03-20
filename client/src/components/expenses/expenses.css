@@ -4,3 +4,36 @@
   align-items: center;
   gap: 0.5rem;
 }
+.expenses__list p {
+  margin: 0;
+}
+
+.expenses__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.expenses__list_item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid #607999;
+  padding-bottom: 0.6rem;
+}
+
+.list__item_description {
+  display: flex;
+  flex-direction: column;
+}
+.item__category {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 100;
+  background-color: #a356b1;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.3rem;
+}
+
+.item__amount {
+  align-self: flex-end;
+}

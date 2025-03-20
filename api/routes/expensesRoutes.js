@@ -8,6 +8,7 @@ import {
   getCalendarYearExpenses,
   editExpense,
   getMonthlyExpenseList,
+  getExpensesByCategory,
 } from '../controllers/expensesController.js';
 
 const router = express.Router();
@@ -16,6 +17,7 @@ router.post('/', authenticateJWT, addExpense);
 router.get('/:year', authenticateJWT, getCalendarYearExpenses);
 router.get('/:year/:month', authenticateJWT, getMonthlyExpenses);
 router.get('/:year/:month/details', authenticateJWT, getMonthlyExpenseList);
+router.get('/:year/:month/categories', authenticateJWT, getExpensesByCategory);
 router.get(
   '/:startYear/:startMonth/:endYear/:endMonth',
   authenticateJWT,

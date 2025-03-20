@@ -155,3 +155,36 @@ export const getMonthlyExpenseDetails = async (userId, year, month) => {
     throw new Error('Error fetching monthly expenses.');
   }
 };
+
+export const getMonthlyExpensesByCategory = async (userId, year, month) => {
+  if (!userId || !year || !month) {
+    throw new Error('User ID, year, and month are required.');
+  }
+
+  // handle month increment and year change
+  const nextMonth = +month === 12 ? 1 : +month + 1;
+  const nextYear = +month === 12 ? +year + 1 : year;
+  // format dates
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
+  try {
+    const result = await query(
+      `SELECT
+        categories.name AS category_name,
+        SUM(expenses.amount) AS total_amount
+      FROM expenses
+      LEFT JOIN categories
+      ON expenses.category_id = categories.id
+      WHERE expenses.user_id = $1
+      AND expenses.date BETWEEN $2 AND $3
+      GROUP BY categories.name
+      ORDER BY total_amount DESC`,
+      [userId, startDate, endDate]
+    );
+    return result.rows;
+  } catch (err) {
+    console.error('Error fetching monthly expenses by category: ', err);
+    throw new Error('Error fetching monthly expenses by category.');
+  }
+};

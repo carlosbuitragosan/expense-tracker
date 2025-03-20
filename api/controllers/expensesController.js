@@ -5,6 +5,7 @@ import {
   getExpensesByCalendarYear,
   updateExpense,
   getMonthlyExpenseDetails,
+  getMonthlyExpensesByCategory,
 } from '../models/expensesModel.js';
 
 export const addExpense = async (req, res) => {
@@ -117,5 +118,25 @@ export const getMonthlyExpenseList = async (req, res) => {
   } catch (err) {
     console.error('Error fetching expenses: ', err);
     return res.status(500).json({ message: 'Error fetching expenses.' });
+  }
+};
+
+// get monthly expenses grouped by categories
+export const getExpensesByCategory = async (req, res) => {
+  const { userId } = req.user;
+  const { year, month } = req.params;
+
+  try {
+    const categoryExpenses = await getMonthlyExpensesByCategory(
+      userId,
+      year,
+      month
+    );
+    return res.status(200).json(categoryExpenses);
+  } catch (err) {
+    console.error('Error fetching expenses by category: ', err);
+    return res
+      .status(500)
+      .json({ message: 'Error fetching expenses by category.' });
   }
 };
