@@ -34,6 +34,22 @@ export const getExpenseListByMonth = async (year, month) => {
   }
 };
 
+// get monthly user expenses grouped by categories
+export const getExpensesByCategory = async (year, month) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/expenses/${year}/${month}/categories`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching expenses by category: ', err);
+    throw err;
+  }
+};
+
 export const getCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/categories`, {

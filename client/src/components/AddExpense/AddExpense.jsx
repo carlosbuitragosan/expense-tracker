@@ -80,7 +80,7 @@ export const AddExpense = ({ onExpenseAdded }) => {
   };
 
   return (
-    <div className="expense__container">
+    <div className="addExpense__container">
       {/* <h2>Add new expense</h2> */}
       <form className="expense__form" onSubmit={handleSubmit}>
         <input

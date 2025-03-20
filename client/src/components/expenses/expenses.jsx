@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
-  getExpenseListByMonth,
+  getExpensesByCategory,
   getTotalMonthExpenses,
+  getExpenseListByMonth,
 } from '../../../services/expenseService';
 import './expenses.css';
 
@@ -9,8 +10,10 @@ export const Expenses = () => {
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
-  const [expenses, setExpenses] = useState([]);
+  const [categoryExpenses, setCategoryExpenses] = useState([]);
+  const [detailedExpenses, setDetailedExpenses] = useState([]);
   const [totalExpenses, setTotalExpenses] = useState(0);
+  const [showFullList, setShowFullList] = useState(false);
 
   const formattedMonthYear = new Intl.DateTimeFormat('en-GB', {
     year: 'numeric',
@@ -34,8 +37,13 @@ export const Expenses = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const expenseList = await getExpenseListByMonth(year, month);
-        setExpenses(expenseList);
+        if (showFullList) {
+          const detailedData = await getExpenseListByMonth(year, month);
+          setDetailedExpenses(detailedData);
+        } else {
+          const expensesByCategory = await getExpensesByCategory(year, month);
+          setCategoryExpenses(expensesByCategory);
+        }
 
         const total = await getTotalMonthExpenses(year, month);
         setTotalExpenses(total);
@@ -44,43 +52,66 @@ export const Expenses = () => {
       }
     };
     fetchExpenses();
-  }, [year, month]);
+  }, [year, month, showFullList]);
 
   return (
-    <div className="expenses__container">
-      <div className="expenses__navigation">
-        <button onClick={() => handleMonthChange(-1)}>
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
-        <p>{formattedMonthYear}</p>
-        <button onClick={() => handleMonthChange(1)}>
-          <span className="material-symbols-outlined">arrow_forward</span>
+    <div className="expense__container">
+      <div className="expenses__navigation_container">
+        <div className="expenses__navigation">
+          <button onClick={() => handleMonthChange(-1)}>
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <p>{formattedMonthYear}</p>
+          <button onClick={() => handleMonthChange(1)}>
+            <span className="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+        <button type="button" onClick={() => setShowFullList((prev) => !prev)}>
+          {showFullList ? 'Back to category view' : 'View full list'}
         </button>
       </div>
-      <p>
-        total Spent:{' '}
-        <span>£{totalExpenses ? totalExpenses.replace(/\.00$/, '') : 0}</span>
-      </p>
-      <ul className="expenses__list">
-        {expenses.length > 0 ? (
-          expenses.map((expense) => (
-            <li key={expense.id} className="expenses__list_item">
-              <div className="list__item_description">
-                <p className="item__date">
-                  {new Date(expense.date).toLocaleDateString()}
-                </p>
-                <p className="item__category">
-                  {expense.category_name || 'No category'}
-                </p>
-              </div>
-              <p className="item__description">{expense.description}</p>
-              <p className="item__amount">£{expense.amount}</p>
-            </li>
-          ))
+
+      <div className="expenses__container">
+        <p className="totalSpent">
+          {`Total Spent: £${totalExpenses ? totalExpenses.toString().replace(/\.00$/, '') : 0}`}
+        </p>
+
+        {!showFullList ? (
+          <ul className="expenses__list">
+            {categoryExpenses.length > 0 ? (
+              categoryExpenses.map((expense) => (
+                <li key={expense.id} className="expenses__list_item">
+                  <div className="item__category_container">
+                    <p className="item__category">
+                      {expense.category_name || 'No category'}
+                    </p>
+                  </div>
+                  <p className="item__amount">£{expense.total_amount}</p>
+                </li>
+              ))
+            ) : (
+              <p>No expenses found for this month</p>
+            )}
+          </ul>
         ) : (
-          <p>No expenses found for this month</p>
+          <ul>
+            {detailedExpenses.length > 0 ? (
+              detailedExpenses.map((expense) => (
+                <li key={expense.id}>
+                  <div>
+                    <p>{expense.date}</p>
+                    <p>{expense.category_name}</p>
+                  </div>
+                  <p>{expense.description}</p>
+                  <p>{expense.amount}</p>
+                </li>
+              ))
+            ) : (
+              <p>No expenses found for this month</p>
+            )}
+          </ul>
         )}
-      </ul>
+      </div>
     </div>
   );
 };
