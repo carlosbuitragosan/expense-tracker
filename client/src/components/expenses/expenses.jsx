@@ -4,7 +4,9 @@ import {
   getTotalMonthExpenses,
   getExpenseListByMonth,
 } from '../../../services/expenseService';
+import { ExpensesByCategory } from '../expensesByCategory/ExpensesByCategory';
 import './expenses.css';
+import { DetailedExpenses } from '../detailedExpenses/DetailedExpenses';
 
 export const Expenses = () => {
   const today = new Date();
@@ -61,11 +63,12 @@ export const Expenses = () => {
           <button onClick={() => handleMonthChange(-1)}>
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
-          <p>{formattedMonthYear}</p>
+          <p className="expenses__navigation_date">{formattedMonthYear}</p>
           <button onClick={() => handleMonthChange(1)}>
             <span className="material-symbols-outlined">arrow_forward</span>
           </button>
         </div>
+
         <button type="button" onClick={() => setShowFullList((prev) => !prev)}>
           {showFullList ? 'Back to category view' : 'View full list'}
         </button>
@@ -75,41 +78,10 @@ export const Expenses = () => {
         <p className="totalSpent">
           {`Total Spent: £${totalExpenses ? totalExpenses.toString().replace(/\.00$/, '') : 0}`}
         </p>
-
         {!showFullList ? (
-          <ul className="expenses__list">
-            {categoryExpenses.length > 0 ? (
-              categoryExpenses.map((expense) => (
-                <li key={expense.id} className="expenses__list_item">
-                  <div className="item__category_container">
-                    <p className="item__category">
-                      {expense.category_name || 'No category'}
-                    </p>
-                  </div>
-                  <p className="item__amount">£{expense.total_amount}</p>
-                </li>
-              ))
-            ) : (
-              <p>No expenses found for this month</p>
-            )}
-          </ul>
+          <ExpensesByCategory categoryExpenses={categoryExpenses} />
         ) : (
-          <ul>
-            {detailedExpenses.length > 0 ? (
-              detailedExpenses.map((expense) => (
-                <li key={expense.id}>
-                  <div>
-                    <p>{expense.date}</p>
-                    <p>{expense.category_name}</p>
-                  </div>
-                  <p>{expense.description}</p>
-                  <p>{expense.amount}</p>
-                </li>
-              ))
-            ) : (
-              <p>No expenses found for this month</p>
-            )}
-          </ul>
+          <DetailedExpenses detailedExpenses={detailedExpenses} />
         )}
       </div>
     </div>

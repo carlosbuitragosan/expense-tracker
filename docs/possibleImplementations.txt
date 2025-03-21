@@ -1,0 +1,42 @@
+Summary & Breakdown
+
+✔️ Total Monthly Expenses → Already implemented.
+✔️ Expenses by Category → Already implemented.
+✔️ Daily Average Spending → (totalExpenses / daysInMonth).toFixed(2)
+✔️ Biggest Expense → Show the highest single expense.
+✔️ Most Frequent Category → Which category is used most often?
+✔️ Spending Trends → Compare current spending to the previous month.
+
+⸻
+
+📈 Visual Insights
+
+✔️ Pie Chart of Expenses by Category → Helps users see where their money goes.
+✔️ Bar Chart of Monthly Spending Trends → How much was spent each month?
+✔️ Line Chart for Daily Spending Over Time → Detect unusual spending patterns.
+
+⸻
+
+⏳ Comparisons & Predictions
+
+✔️ Compare This Month vs. Last Month → “You spent 10% more this month.”
+✔️ Compare This Year vs. Last Year → Yearly spending trends.
+✔️ Projected End-of-Month Spending → Predict spending based on past trends.
+✔️ Compare Spending to Budget → If users set budgets per category.
+
+⸻
+
+🔍 Detailed Expense Insights
+
+✔️ Recurring Expenses → Highlight subscriptions or repeating expenses.
+✔️ Highest Spending Day → Which day of the month do they spend the most?
+✔️ Category Over Time → Example: “Food expenses increased by 15%.”
+✔️ Spending Heatmap → Which days have the highest spending activity?
+
+⸻
+
+🚀 Actions & Features
+
+✔️ Set Monthly Budgets → Allow users to set limits for categories.
+✔️ Notifications for Overspending → Alert users when they exceed budgets.
+✔️ Export Data → Let users download their expenses as CSV.

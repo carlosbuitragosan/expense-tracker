@@ -1,3 +1,9 @@
+.expense__container {
+  width: 70vw;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+
 .expenses__navigation_container {
   display: flex;
   justify-content: space-between;
@@ -16,41 +22,9 @@
   padding: 0.1rem 0.2rem;
 }
 
-.expenses__list p {
-  margin: 0;
-}
-
-.expenses__list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 70%;
-  margin: 0 auto;
-}
-.expenses__list_item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px solid #607999;
-  padding-bottom: 0.6rem;
-}
-
-.item__category_container {
-  width: 30%;
-}
-
-.item__category {
-  text-overflow: clip;
-  background-color: var(--color-2);
-  color: var(--color-1);
-  padding: 0.3rem 0.3rem;
-  border-radius: 0.3rem;
+.expenses__navigation_date {
+  width: 8rem;
   text-align: center;
-}
-
-.item__amount {
-  padding: 0.3rem 0.3rem;
 }
 
 .totalSpent {
