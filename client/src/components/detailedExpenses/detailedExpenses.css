@@ -1,0 +1,31 @@
+.detailedExpenses__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detailedExpenses__list_item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 0.1px solid var(--color-2);
+  padding-bottom: 0.2rem;
+}
+
+.detailedExpenses__list p {
+  margin: 0;
+}
+
+.detailedExpenses__category {
+  background-color: var(--color-2);
+  padding: 0.1rem;
+  border-radius: 4px;
+  text-align: center;
+  color: var(--color-1);
+  font-size: 0.7rem;
+}
+.detailedExpenses__amount {
+  min-width: 4rem;
+  display: flex;
+  justify-content: flex-end;
+}

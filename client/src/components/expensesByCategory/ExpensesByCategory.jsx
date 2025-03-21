@@ -5,7 +5,7 @@ export const ExpensesByCategory = ({ categoryExpenses }) => {
     <ul className="expenses__list">
       {categoryExpenses.length > 0 ? (
         categoryExpenses.map((expense) => (
-          <li key={expense.id} className="expenses__list_item">
+          <li key={expense.category_name} className="expenses__list_item">
             <div className="item__category_container">
               <p className="item__category">
                 {expense.category_name || 'No category'}

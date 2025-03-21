@@ -86,7 +86,7 @@ export const AddExpense = ({ onExpenseAdded }) => {
         <input
           type="number"
           name="amount"
-          placeholder="Amount"
+          placeholder="Add amount"
           value={formData.amount}
           onChange={handleChange}
         />
