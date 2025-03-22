@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import {
-  addExpense,
+  editExpense,
   getCategories,
   addCategory,
 } from '../../../services/expenseService';
-import './addExpense.css';
 
-export const AddExpense = ({ onExpenseAdded }) => {
+export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
   const [formData, setFormData] = useState({
-    amount: '',
-    description: '',
-    categoryId: undefined,
-    date: new Date().toISOString().split('T')[0],
+    amount: expense.amount,
+    description: expense.description,
+    categoryId: expense.category_id,
+    date: expense.date.split('T')[0],
   });
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
@@ -30,15 +29,6 @@ export const AddExpense = ({ onExpenseAdded }) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleCategoryChange = (e) => {
-    const selectedValue = e.target.value;
-    if (selectedValue === 'new') {
-      setFormData({ ...formData, categoryId: 'new' });
-    } else {
-      setFormData({ ...formData, categoryId: selectedValue });
-    }
   };
 
   const handleAddCategory = async () => {
@@ -61,41 +51,45 @@ export const AddExpense = ({ onExpenseAdded }) => {
     }
   };
 
+  const handleCategoryChange = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === 'new') {
+      setFormData({ ...formData, categoryId: 'new' });
+    } else {
+      setFormData({ ...formData, categoryId: selectedValue });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const currentTime = new Date().toISOString().split('T')[1];
     const fullDate = `${formData.date}T${currentTime}`;
     const updatedFormData = { ...formData, date: fullDate };
     try {
-      await addExpense(updatedFormData);
-      setFormData({
-        amount: '',
-        description: '',
-        categoryId: '',
-        date: new Date().toISOString().split('T')[0],
-      });
+      await editExpense(updatedFormData);
       // notify dashboard a new expense was added
-      onExpenseAdded();
+      onExpenseUpdated();
+      // close edit form
+      onClose();
     } catch (err) {
-      console.error('Erorr adding expense: ', err);
+      console.error('Erorr updating expense: ', err);
     }
   };
 
   return (
     <div className="addExpense__container">
+      <h2>Edit Expense</h2>
       {/* <h2>Add new expense</h2> */}
       <form className="expense__form" onSubmit={handleSubmit}>
         <input
           type="number"
           name="amount"
-          placeholder="Add amount"
           value={formData.amount}
           onChange={handleChange}
         />
         <input
           type="text"
           name="description"
-          placeholder="Description (optional)"
           value={formData.description}
           onChange={handleChange}
         />
@@ -139,7 +133,10 @@ export const AddExpense = ({ onExpenseAdded }) => {
           onChange={handleChange}
         />
         <button className="button" type="submit">
-          Add Expense
+          Save
+        </button>
+        <button type="button" onClick={onClose}>
+          Cancel
         </button>
       </form>
     </div>

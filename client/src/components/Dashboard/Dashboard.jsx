@@ -13,7 +13,7 @@ export const DashBoard = () => {
     <div className="dashboard__container">
       <AddExpense onExpenseAdded={handleExpensesAdded} />
       <CurrentMonthExpenses reload={reloadExpenses} />
-      <DailyExpenses reload={handleExpensesAdded} />
+      <DailyExpenses reload={reloadExpenses} />
     </div>
   );
 };

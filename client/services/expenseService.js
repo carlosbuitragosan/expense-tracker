@@ -121,3 +121,20 @@ export const getDailyExpenses = async (year, month, day) => {
     return [];
   }
 };
+
+// edit expense
+export const editExpense = async (expenseId, updatedExpense) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/expenses/${expenseId}`,
+      updatedExpense,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error updating expense: ', err);
+    throw new Error(err);
+  }
+};

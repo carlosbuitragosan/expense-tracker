@@ -36,24 +36,25 @@ export const Expenses = () => {
     setYear(newYear);
   };
 
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        if (showFullList) {
-          const detailedData = await getExpenseListByMonth(year, month);
-          setDetailedExpenses(detailedData);
-        } else {
-          const expensesByCategory = await getExpensesByCategory(year, month);
-          setCategoryExpenses(expensesByCategory);
-        }
-
-        const total = await getTotalMonthExpenses(year, month);
-        setTotalExpenses(total);
-      } catch (err) {
-        console.error('Error fetching expenses: ', err);
+  const fetchExpenses = async (year, month, showFullList) => {
+    try {
+      if (showFullList) {
+        const detailedData = await getExpenseListByMonth(year, month);
+        setDetailedExpenses(detailedData);
+      } else {
+        const expensesByCategory = await getExpensesByCategory(year, month);
+        setCategoryExpenses(expensesByCategory);
       }
-    };
-    fetchExpenses();
+
+      const total = await getTotalMonthExpenses(year, month);
+      setTotalExpenses(total);
+    } catch (err) {
+      console.error('Error fetching expenses: ', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses(year, month, showFullList);
   }, [year, month, showFullList]);
 
   return (
@@ -81,7 +82,10 @@ export const Expenses = () => {
         {!showFullList ? (
           <ExpensesByCategory categoryExpenses={categoryExpenses} />
         ) : (
-          <DetailedExpenses detailedExpenses={detailedExpenses} />
+          <DetailedExpenses
+            detailedExpenses={detailedExpenses}
+            onExpenseUpdated={fetchExpenses}
+          />
         )}
       </div>
     </div>
