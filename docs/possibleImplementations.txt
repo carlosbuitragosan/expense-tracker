@@ -14,6 +14,7 @@ Summary & Breakdown
 ✔️ Pie Chart of Expenses by Category → Helps users see where their money goes.
 ✔️ Bar Chart of Monthly Spending Trends → How much was spent each month?
 ✔️ Line Chart for Daily Spending Over Time → Detect unusual spending patterns.
+✔️ dont show the form on dashboard
 
 ⸻
 

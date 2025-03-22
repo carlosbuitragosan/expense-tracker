@@ -10,6 +10,9 @@ export default [
   prettierConfig,
   {
     plugins: [prettierPlugin],
-    rules: { 'prettier/prettier': 'warn' },
+    rules: {
+      'prettier/prettier': 'warn',
+      'no-unused-vars': 'warn',
+    },
   },
 ];

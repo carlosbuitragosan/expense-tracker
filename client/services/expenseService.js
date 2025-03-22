@@ -85,9 +85,12 @@ export const addCategory = async (name) => {
 
 export const addExpense = async (expenseData) => {
   try {
-    await axios.post(`${API_URL}/expenses`, expenseData, {
+    const response = await axios.post(`${API_URL}/expenses`, expenseData, {
       withCredentials: true,
     });
+    return response;
+    // .status(201)
+    // .json({ message: 'Expense added successfully.' });
   } catch (err) {
     console.error('Error adding a new expense:', err);
     throw new Error(err);

@@ -13,17 +13,18 @@ import {
 
 const router = express.Router();
 
-router.post('/', authenticateJWT, addExpense);
-router.put('/:expenseId', authenticateJWT, editExpense);
-router.get('/:year', authenticateJWT, getCalendarYearExpenses);
-router.get('/:year/:month/categories', authenticateJWT, getExpensesByCategory);
-router.get('/:year/:month/details', authenticateJWT, getMonthlyExpenseList);
-router.get('/:year/:month/:day', authenticateJWT, getExpensesByDay);
-router.get('/:year/:month', authenticateJWT, getMonthlyExpenses);
+// the more specific routes should come first
 router.get(
   '/:startYear/:startMonth/:endYear/:endMonth',
   authenticateJWT,
   getRangeExpenses
 );
+router.get('/:year/:month/categories', authenticateJWT, getExpensesByCategory);
+router.get('/:year/:month/details', authenticateJWT, getMonthlyExpenseList);
+router.get('/:year/:month/:day', authenticateJWT, getExpensesByDay);
+router.get('/:year/:month', authenticateJWT, getMonthlyExpenses);
+router.get('/:year', authenticateJWT, getCalendarYearExpenses);
+router.put('/:expenseId', authenticateJWT, editExpense);
+router.post('/', authenticateJWT, addExpense);
 
 export default router;
