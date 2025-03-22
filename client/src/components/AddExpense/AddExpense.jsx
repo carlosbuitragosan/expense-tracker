@@ -63,9 +63,11 @@ export const AddExpense = ({ onExpenseAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const currentTime = new Date().toISOString().split('T')[1];
+    const fullDate = `${formData.date}T${currentTime}`;
+    const updatedFormData = { ...formData, date: fullDate };
     try {
-      await addExpense(formData);
+      await addExpense(updatedFormData);
       settFormData({
         amount: '',
         description: '',

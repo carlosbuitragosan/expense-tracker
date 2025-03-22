@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5001';
 
+// get the current month's expenses
 export const getCurentMonthExpenses = async () => {
   try {
     const now = new Date();
@@ -49,7 +50,7 @@ export const getExpensesByCategory = async (year, month) => {
     throw err;
   }
 };
-
+// get all categories
 export const getCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/categories`, {
@@ -102,5 +103,21 @@ export const getTotalMonthExpenses = async (year, month) => {
   } catch (err) {
     console.error('Error fetching total monthly expenses: ', err);
     return 0;
+  }
+};
+
+// get all user's data by day
+export const getDailyExpenses = async (year, month, day) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/expenses/${year}/${month}/${day}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching daily expenses: ', err);
+    return [];
   }
 };

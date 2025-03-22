@@ -6,6 +6,7 @@ import {
   updateExpense,
   getMonthlyExpenseDetails,
   getMonthlyExpensesByCategory,
+  getDailyExpenses,
 } from '../models/expensesModel.js';
 
 export const addExpense = async (req, res) => {
@@ -138,5 +139,19 @@ export const getExpensesByCategory = async (req, res) => {
     return res
       .status(500)
       .json({ message: 'Error fetching expenses by category.' });
+  }
+};
+
+// get user's data by day
+
+export const getExpensesByDay = async (req, res) => {
+  const { userId } = req.user;
+  const { year, month, day } = req.params;
+  try {
+    const expenses = await getDailyExpenses(userId, year, month, day);
+    return res.status(200).json(expenses);
+  } catch (err) {
+    console.error('Error fetching expenses by day: ', err);
+    return res.status(500).json({ message: 'Error fetching expenses by day.' });
   }
 };

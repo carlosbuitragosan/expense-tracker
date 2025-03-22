@@ -188,3 +188,34 @@ export const getMonthlyExpensesByCategory = async (userId, year, month) => {
     throw new Error('Error fetching monthly expenses by category.');
   }
 };
+
+// get list of daily expenses
+export const getDailyExpenses = async (userId, year, month, day) => {
+  if (!userId || !year || !month || !day) {
+    throw new Error('User ID, year, month, and day are required.');
+  }
+  try {
+    const startDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} 00:00:00`;
+    const endDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} 23:59:59`;
+
+    const result = await query(
+      `SELECT
+        expenses.id,
+        expenses.amount,
+        expenses.description,
+        expenses.date,
+        categories.name AS category_name
+      FROM expenses
+      LEFT JOIN categories
+      ON expenses.category_id = categories.id
+      WHERE expenses.user_id = $1
+      AND expenses.date BETWEEN $2 AND $3
+      ORDER BY expenses.date DESC`,
+      [userId, startDate, endDate]
+    );
+    return result.rows;
+  } catch (err) {
+    console.error('Error fetching daily expenses: ', err);
+    throw new Error('Error fetching daily expenses.');
+  }
+};
