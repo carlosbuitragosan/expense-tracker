@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useExpenseStore } from '../../store/useExpenseStore';
 import {
   addExpense,
   getCategories,
@@ -10,12 +10,14 @@ import {
 } from '../../../services/expenseService';
 import './addExpense.css';
 
-export const AddExpense = ({ onExpenseAdded, setNewExpenseId }) => {
+export const AddExpense = () => {
+  const { fetchExpenses, setNewExpenseId } = useExpenseStore();
   const formRef = useRef(null);
+  const timeoutRef = useRef(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
-  const timeoutRef = useRef(null);
+
   const [formData, setFormData] = useState({
     amount: '',
     description: '',
@@ -33,6 +35,12 @@ export const AddExpense = ({ onExpenseAdded, setNewExpenseId }) => {
       }
     };
     fetchCategories();
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, []);
 
   const handleChange = (e) => {
@@ -83,15 +91,16 @@ export const AddExpense = ({ onExpenseAdded, setNewExpenseId }) => {
         categoryId: undefined,
         date: new Date().toISOString().split('T')[0],
       });
-      // notify dashboard a new expense was added
-      onExpenseAdded(newExpense.id);
-      toast.success('Expense added successfully.');
 
+      setNewExpenseId(newExpense.id);
+      fetchExpenses();
+      toast.success('Expense added successfully.');
       setIsFormVisible(false);
 
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+
       timeoutRef.current = setTimeout(() => {
         setNewExpenseId(null);
       }, 3000);

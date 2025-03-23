@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useExpenseStore } from '../../store/useExpenseStore';
 import { formattedDate } from '../../../utils/dateUtils';
 import { EditExpense } from '../editExpense/EditExpense';
 import './detailedExpenses.css';
 
-export const DetailedExpenses = ({ detailedExpenses, onExpenseUpdated }) => {
+export const DetailedExpenses = ({ onExpenseUpdated }) => {
+  const { detailedExpenses } = useExpenseStore();
   const [editingExpense, setEditingExpense] = useState(null);
 
   const handleEditClick = (expense) => {

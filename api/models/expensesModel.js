@@ -101,15 +101,6 @@ export const updateExpense = async (
   categoryId,
   date
 ) => {
-  // console.log(
-  //   'updateExpense log: ',
-  //   expenseId,
-  //   userId,
-  //   amount,
-  //   description,
-  //   categoryId,
-  //   date
-  // );
   try {
     const result = await query(
       `UPDATE expenses
@@ -131,7 +122,6 @@ export const updateExpense = async (
 
 // get all user's data by month
 export const getMonthlyExpenseDetails = async (userId, year, month) => {
-  console.log(userId, year, month);
   if (!userId || !year || !month) {
     throw new Error('User ID, year, and month are required.');
   }

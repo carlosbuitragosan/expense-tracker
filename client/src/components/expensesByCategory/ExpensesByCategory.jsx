@@ -1,6 +1,9 @@
+import { useExpenseStore } from '../../store/useExpenseStore';
 import './expensesByCategory.css';
 
-export const ExpensesByCategory = ({ categoryExpenses }) => {
+export const ExpensesByCategory = () => {
+  const { categoryExpenses } = useExpenseStore();
+
   return (
     <ul className="expenses__list">
       {categoryExpenses.length > 0 ? (

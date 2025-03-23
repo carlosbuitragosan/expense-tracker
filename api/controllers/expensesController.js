@@ -79,7 +79,6 @@ export const getCalendarYearExpenses = async (req, res) => {
 };
 
 export const editExpense = async (req, res) => {
-  console.log('received request body: ', req.body);
   if (!req.user || !req.user.userId) {
     return res.status(401).json({ error: 'Unauthorised. Please log in.' });
   }
@@ -88,7 +87,6 @@ export const editExpense = async (req, res) => {
   const { expenseId } = req.params;
   const { amount, description, categoryId, date } = req.body;
 
-  console.log(amount, categoryId, description, date);
   if (!amount || !categoryId || !date) {
     return res
       .status(400)
@@ -130,15 +128,7 @@ export const getMonthlyExpenseList = async (req, res) => {
 export const getExpensesByCategory = async (req, res) => {
   const { userId } = req.user;
   const { year, month } = req.params;
-  console.log(
-    'Fetching expenses for: ',
-    'userId: ',
-    userId,
-    'year: ',
-    year,
-    'month: ',
-    month
-  );
+
   try {
     const categoryExpenses = await getMonthlyExpensesByCategory(
       userId,

@@ -7,7 +7,6 @@ import {
 } from '../../../services/expenseService';
 
 export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
-  console.log('expense: ', expense);
   const [formData, setFormData] = useState({
     amount: expense.amount,
     description: expense.description,

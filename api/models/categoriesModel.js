@@ -20,7 +20,7 @@ export const insetCategory = async (name) => {
     );
     return existingCategory.rows[0];
   } catch (err) {
-    console.log('Error inserting a category: ', err);
+    console.error('Error inserting a category: ', err);
     throw new Error('Error inserting a category.');
   }
 };

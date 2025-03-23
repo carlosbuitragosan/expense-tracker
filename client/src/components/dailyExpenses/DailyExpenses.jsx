@@ -1,29 +1,36 @@
 import { useEffect, useState } from 'react';
+import { useExpenseStore } from '../../store/useExpenseStore';
 import { getDailyExpenses } from '../../../services/expenseService';
-import './dailyExpenses.css';
 import { formattedDate } from '../../../utils/dateUtils';
+import './dailyExpenses.css';
 
-export const DailyExpenses = ({ reload, newExpenseId }) => {
+export const DailyExpenses = () => {
+  const { newExpenseId } = useExpenseStore();
   const today = new Date();
-  const [year] = useState(today.getFullYear());
-  const [month] = useState(today.getMonth() + 1);
-  const [day] = useState(today.getDate());
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
   const [dailyExpenses, setDailyExpenses] = useState([]);
   const [totalDailyExpenses, setTotalDailyExpenses] = useState(0);
 
   useEffect(() => {
     const fetchExpenses = async () => {
-      const expenses = await getDailyExpenses(year, month, day);
-      setDailyExpenses(expenses);
+      try {
+        const expenses = await getDailyExpenses(year, month, day);
+        setDailyExpenses(expenses);
 
-      const total = expenses.reduce(
-        (sum, expense) => sum + parseFloat(expense.amount),
-        0
-      );
-      setTotalDailyExpenses(total);
+        const total = expenses.reduce(
+          (sum, expense) => sum + parseFloat(expense.amount),
+          0
+        );
+        setTotalDailyExpenses(total);
+      } catch (err) {
+        console.error('Error fetching daily expenses: ', err);
+      }
     };
     fetchExpenses();
-  }, [year, month, day, reload]);
+  }, [year, month, day, newExpenseId]);
+
   return (
     <div>
       {dailyExpenses.length > 0 ? (
@@ -40,7 +47,9 @@ export const DailyExpenses = ({ reload, newExpenseId }) => {
                 </p>
               </div>
               <p>{expense.description}</p>
-              <p>£ {expense.amount.toString().replace(/\.00$/, '')}</p>
+              <p>
+                £ {parseFloat(expense.amount).toString().replace(/\.00$/, '')}
+              </p>
             </li>
           ))}
         </ul>
