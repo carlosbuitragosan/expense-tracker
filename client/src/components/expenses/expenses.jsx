@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import { ExpensesByCategory } from '../expensesByCategory/ExpensesByCategory';
 import { DetailedExpenses } from '../detailedExpenses/DetailedExpenses';
@@ -60,11 +60,7 @@ export const Expenses = () => {
         <p className="totalSpent">
           {`Total Spent: £${totalExpenses ? totalExpenses.toString().replace(/\.00$/, '') : 0}`}
         </p>
-        {!showFullList ? (
-          <ExpensesByCategory />
-        ) : (
-          <DetailedExpenses onExpenseUpdated={fetchExpenses} />
-        )}
+        {!showFullList ? <ExpensesByCategory /> : <DetailedExpenses />}
       </div>
     </div>
   );

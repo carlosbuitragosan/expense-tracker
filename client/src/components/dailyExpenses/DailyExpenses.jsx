@@ -36,21 +36,25 @@ export const DailyExpenses = () => {
       {dailyExpenses.length > 0 ? (
         <ul className="detailedExpenses__list">
           {dailyExpenses.map((expense) => (
-            <li
+            <div
+              className="detailedExpenses__list_item_container"
               key={expense.id}
-              className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
             >
-              <div>
-                <p>{formattedDate(expense.date)}</p>
-                <p className="detailedExpenses__category">
-                  {expense.category_name || 'No category'}
+              <li
+                className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
+              >
+                <div>
+                  <p>{formattedDate(expense.date)}</p>
+                  <p className="detailedExpenses__category">
+                    {expense.category_name || 'No category'}
+                  </p>
+                </div>
+                <p>{expense.description}</p>
+                <p>
+                  £ {parseFloat(expense.amount).toString().replace(/\.00$/, '')}
                 </p>
-              </div>
-              <p>{expense.description}</p>
-              <p>
-                £ {parseFloat(expense.amount).toString().replace(/\.00$/, '')}
-              </p>
-            </li>
+              </li>
+            </div>
           ))}
         </ul>
       ) : (

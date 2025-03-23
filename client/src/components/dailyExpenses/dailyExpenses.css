@@ -3,10 +3,6 @@
   justify-content: flex-end;
 }
 
-.new-expense {
-  transition: background-color 0.5s ease-out;
-}
-
 .new-expense-highlight {
   background-color: #2f3b67;
 }

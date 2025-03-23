@@ -4,13 +4,17 @@
   gap: 1rem;
 }
 
+.detailedExpenses__list_item_container {
+  border-bottom: 0.1px solid var(--color-2);
+}
+
 .detailedExpenses__list_item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  border-bottom: 0.1px solid var(--color-2);
-  padding-bottom: 0.2rem;
+  padding: 0.6rem;
+  border-radius: 8px;
 }
 
 .detailedExpenses__list p {

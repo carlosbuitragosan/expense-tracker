@@ -1,0 +1,9 @@
+.button__cancel {
+  background-color: #c55065;
+  border: 1px solid #c55065;
+}
+
+.button__save {
+  background-color: #00b99d;
+  border: 1px solid #00b99d;
+}

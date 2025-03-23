@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
+import { useExpenseStore } from '../../store/useExpenseStore';
 import { toast } from 'react-toastify';
 import {
   editExpense,
   getCategories,
   addCategory,
 } from '../../../services/expenseService';
+import './editExpense.css';
 
-export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
+export const EditExpense = ({ handleClose }) => {
+  const { editingExpense, setEditingExpense, fetchExpenses } =
+    useExpenseStore();
+  const editingExpenseTime = editingExpense.date.split('T')[1];
+
   const [formData, setFormData] = useState({
-    amount: expense.amount,
-    description: expense.description,
+    amount: editingExpense.amount,
+    description: editingExpense.description,
     categoryId: '',
-    date: expense.date.split('T')[0],
+    date: editingExpense.date.split('T')[0],
   });
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
@@ -22,7 +28,7 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
         const data = await getCategories();
         setCategories(data);
         const selectedCategory = data.find(
-          (category) => category.name === expense.category_name
+          (category) => category.name === editingExpense.category_name
         );
         if (selectedCategory) {
           setFormData((prevData) => ({
@@ -35,7 +41,7 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
       }
     };
     fetchCategories();
-  }, [expense.category_name]);
+  }, [editingExpense.category_name]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,17 +78,17 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const currentTime = new Date().toISOString().split('T')[1];
-    const fullDate = `${formData.date}T${currentTime}`;
+    const fullDate = `${formData.date}T${editingExpenseTime} `;
     const updatedFormData = { ...formData, date: fullDate };
 
     try {
-      await editExpense(expense.id, updatedFormData);
+      await editExpense(editingExpense.id, updatedFormData);
+
       toast.success('Expense updated successfully.');
-      // notify dashboard a new expense was added
-      onExpenseUpdated();
-      // close edit form
-      onClose();
+
+      fetchExpenses();
+
+      handleClose();
     } catch (err) {
       console.error('Erorr updating expense: ', err);
     }
@@ -144,10 +150,14 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
           value={formData.date}
           onChange={handleChange}
         />
-        <button className="button" type="submit">
+        <button className="button button__save" type="submit">
           Save
         </button>
-        <button type="button" onClick={onClose}>
+        <button
+          className="button__cancel"
+          type="button"
+          onClick={() => handleClose()}
+        >
           Cancel
         </button>
       </form>
