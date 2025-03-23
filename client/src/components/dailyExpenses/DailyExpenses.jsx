@@ -3,7 +3,7 @@ import { getDailyExpenses } from '../../../services/expenseService';
 import './dailyExpenses.css';
 import { formattedDate } from '../../../utils/dateUtils';
 
-export const DailyExpenses = ({ reload }) => {
+export const DailyExpenses = ({ reload, newExpenseId }) => {
   const today = new Date();
   const [year] = useState(today.getFullYear());
   const [month] = useState(today.getMonth() + 1);
@@ -29,7 +29,10 @@ export const DailyExpenses = ({ reload }) => {
       {dailyExpenses.length > 0 ? (
         <ul className="detailedExpenses__list">
           {dailyExpenses.map((expense) => (
-            <li key={expense.id} className="detailedExpenses__list_item">
+            <li
+              key={expense.id}
+              className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
+            >
               <div>
                 <p>{formattedDate(expense.date)}</p>
                 <p className="detailedExpenses__category">

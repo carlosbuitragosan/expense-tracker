@@ -10,17 +10,18 @@ import {
 } from '../../../services/expenseService';
 import './addExpense.css';
 
-export const AddExpense = ({ onExpenseAdded }) => {
+export const AddExpense = ({ onExpenseAdded, setNewExpenseId }) => {
   const formRef = useRef(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState('');
+  const timeoutRef = useRef(null);
   const [formData, setFormData] = useState({
     amount: '',
     description: '',
     categoryId: undefined,
     date: new Date().toISOString().split('T')[0],
   });
-  const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -73,7 +74,8 @@ export const AddExpense = ({ onExpenseAdded }) => {
     const fullDate = `${formData.date}T${currentTime}`;
     const updatedFormData = { ...formData, date: fullDate };
     try {
-      await addExpense(updatedFormData);
+      const response = await addExpense(updatedFormData);
+      const newExpense = response.data;
 
       setFormData({
         amount: '',
@@ -82,10 +84,17 @@ export const AddExpense = ({ onExpenseAdded }) => {
         date: new Date().toISOString().split('T')[0],
       });
       // notify dashboard a new expense was added
-      onExpenseAdded();
+      onExpenseAdded(newExpense.id);
       toast.success('Expense added successfully.');
 
       setIsFormVisible(false);
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        setNewExpenseId(null);
+      }, 3000);
     } catch (err) {
       console.error('Erorr adding expense: ', err);
       toast.error('Failed to add expense.');

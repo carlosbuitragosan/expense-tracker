@@ -89,8 +89,6 @@ export const addExpense = async (expenseData) => {
       withCredentials: true,
     });
     return response;
-    // .status(201)
-    // .json({ message: 'Expense added successfully.' });
   } catch (err) {
     console.error('Error adding a new expense:', err);
     throw new Error(err);

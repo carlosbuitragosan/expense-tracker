@@ -3,17 +3,23 @@ import { CurrentMonthExpenses } from '../CurrentMonthExpenses/CurrentMonthExpens
 import { AddExpense } from '../AddExpense/AddExpense';
 import './dashboard.css';
 import { DailyExpenses } from '../dailyExpenses/DailyExpenses';
+
 export const DashBoard = () => {
   const [reloadExpenses, setReloadExpenses] = useState(false);
+  const [newExpenseId, setNewExpenseId] = useState(null);
 
-  const handleExpensesAdded = () => {
+  const handleExpensesAdded = (id) => {
     setReloadExpenses((prev) => !prev);
+    setNewExpenseId(id);
   };
   return (
     <div className="dashboard__container">
-      <AddExpense onExpenseAdded={handleExpensesAdded} />
+      <AddExpense
+        onExpenseAdded={handleExpensesAdded}
+        setNewExpenseId={setNewExpenseId}
+      />
       <CurrentMonthExpenses reload={reloadExpenses} />
-      <DailyExpenses reload={reloadExpenses} />
+      <DailyExpenses reload={reloadExpenses} newExpenseId={newExpenseId} />
     </div>
   );
 };
