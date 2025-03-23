@@ -6,10 +6,11 @@ import {
 } from '../../../services/expenseService';
 
 export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
+  console.log('expense: ', expense);
   const [formData, setFormData] = useState({
     amount: expense.amount,
     description: expense.description,
-    categoryId: expense.category_id,
+    categoryId: '',
     date: expense.date.split('T')[0],
   });
   const [categories, setCategories] = useState([]);
@@ -20,12 +21,21 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
       try {
         const data = await getCategories();
         setCategories(data);
+        const selectedCategory = data.find(
+          (category) => category.name === expense.category_name
+        );
+        if (selectedCategory) {
+          setFormData((prevData) => ({
+            ...prevData,
+            categoryId: selectedCategory.id,
+          }));
+        }
       } catch (err) {
         console.error('Error fetching categories: ', err);
       }
     };
     fetchCategories();
-  }, []);
+  }, [expense.category_name]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -65,8 +75,9 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
     const currentTime = new Date().toISOString().split('T')[1];
     const fullDate = `${formData.date}T${currentTime}`;
     const updatedFormData = { ...formData, date: fullDate };
+
     try {
-      await editExpense(updatedFormData);
+      await editExpense(expense.id, updatedFormData);
       // notify dashboard a new expense was added
       onExpenseUpdated();
       // close edit form
@@ -79,7 +90,6 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
   return (
     <div className="addExpense__container">
       <h2>Edit Expense</h2>
-      {/* <h2>Add new expense</h2> */}
       <form className="expense__form" onSubmit={handleSubmit}>
         <input
           type="number"
@@ -89,13 +99,14 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
         />
         <input
           type="text"
+          placeholder={formData.description ? '' : 'Description (optional)'}
           name="description"
           value={formData.description}
           onChange={handleChange}
         />
         <select
           name="categoryId"
-          value={formData.categoryId}
+          value={formData.categoryId || ''}
           onChange={handleCategoryChange}
         >
           <option>Select Category</option>

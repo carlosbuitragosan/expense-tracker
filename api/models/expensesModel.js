@@ -98,20 +98,29 @@ export const updateExpense = async (
   userId,
   amount,
   description,
-  category,
+  categoryId,
   date
 ) => {
+  // console.log(
+  //   'updateExpense log: ',
+  //   expenseId,
+  //   userId,
+  //   amount,
+  //   description,
+  //   categoryId,
+  //   date
+  // );
   try {
     const result = await query(
       `UPDATE expenses
       SET amount = $1, 
       description = $2,
-      category = $3,
+      category_id = $3,
       date = $4
       WHERE id = $5
       AND user_id = $6
       RETURNING *`,
-      [amount, description, category, date, expenseId, userId]
+      [amount, description, categoryId, date, expenseId, userId]
     );
     return result.rows[0];
   } catch (err) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   getExpensesByCategory,
   getTotalMonthExpenses,
@@ -36,7 +36,7 @@ export const Expenses = () => {
     setYear(newYear);
   };
 
-  const fetchExpenses = async (year, month, showFullList) => {
+  const fetchExpenses = useCallback(async () => {
     try {
       if (showFullList) {
         const detailedData = await getExpenseListByMonth(year, month);
@@ -51,11 +51,11 @@ export const Expenses = () => {
     } catch (err) {
       console.error('Error fetching expenses: ', err);
     }
-  };
+  }, [year, month, showFullList]);
 
   useEffect(() => {
-    fetchExpenses(year, month, showFullList);
-  }, [year, month, showFullList]);
+    fetchExpenses();
+  }, [year, month, showFullList, fetchExpenses]);
 
   return (
     <div className="expense__container">

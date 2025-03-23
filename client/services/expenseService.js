@@ -127,6 +127,7 @@ export const getDailyExpenses = async (year, month, day) => {
 
 // edit expense
 export const editExpense = async (expenseId, updatedExpense) => {
+  console.log('updatedExpense: ', updatedExpense);
   try {
     const response = await axios.put(
       `${API_URL}/expenses/${expenseId}`,

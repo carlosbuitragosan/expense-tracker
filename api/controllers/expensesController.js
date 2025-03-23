@@ -79,16 +79,20 @@ export const getCalendarYearExpenses = async (req, res) => {
 };
 
 export const editExpense = async (req, res) => {
+  console.log('received request body: ', req.body);
   if (!req.user || !req.user.userId) {
     return res.status(401).json({ error: 'Unauthorised. Please log in.' });
   }
 
   const { userId } = req.user;
   const { expenseId } = req.params;
-  const { amount, description, category, date } = req.body;
+  const { amount, description, categoryId, date } = req.body;
 
-  if (!amount || !description || !category || !date) {
-    return res.status(400).json({ error: 'All fields are required.' });
+  console.log(amount, categoryId, description, date);
+  if (!amount || !categoryId || !date) {
+    return res
+      .status(400)
+      .json({ error: 'Amount, category ID, and date are required.' });
   }
   try {
     const updatedExpense = await updateExpense(
@@ -96,7 +100,7 @@ export const editExpense = async (req, res) => {
       userId,
       amount,
       description,
-      category,
+      categoryId,
       date
     );
     if (!updatedExpense) {
@@ -126,7 +130,15 @@ export const getMonthlyExpenseList = async (req, res) => {
 export const getExpensesByCategory = async (req, res) => {
   const { userId } = req.user;
   const { year, month } = req.params;
-
+  console.log(
+    'Fetching expenses for: ',
+    'userId: ',
+    userId,
+    'year: ',
+    year,
+    'month: ',
+    month
+  );
   try {
     const categoryExpenses = await getMonthlyExpensesByCategory(
       userId,

@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   addExpense,
   getCategories,
@@ -8,6 +11,7 @@ import {
 import './addExpense.css';
 
 export const AddExpense = ({ onExpenseAdded }) => {
+  const timerRef = useRef(null);
   const formRef = useRef(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -30,10 +34,6 @@ export const AddExpense = ({ onExpenseAdded }) => {
     };
     fetchCategories();
   }, []);
-
-  const showForm = () => {
-    setIsFormVisible(true);
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -84,13 +84,13 @@ export const AddExpense = ({ onExpenseAdded }) => {
         });
         // notify dashboard a new expense was added
         onExpenseAdded();
-        const timerId = setTimeout(() => {
-          setIsFormVisible(false);
-        }, 5000);
-        return () => clearTimeout(timerId);
+        toast.success('Expense added successfully.');
+
+        setIsFormVisible(false);
       }
     } catch (err) {
       console.error('Erorr adding expense: ', err);
+      toast.error('Failed to add expense.');
     }
   };
 
