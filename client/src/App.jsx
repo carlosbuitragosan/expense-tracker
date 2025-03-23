@@ -18,6 +18,7 @@ function App() {
           position="top-center"
           hideProgressBar={true}
           pauseOnHover={false}
+          theme="dark"
           closeOnClick
         />
         <Navbar />

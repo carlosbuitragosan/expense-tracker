@@ -11,7 +11,6 @@ import {
 import './addExpense.css';
 
 export const AddExpense = ({ onExpenseAdded }) => {
-  const timerRef = useRef(null);
   const formRef = useRef(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -74,20 +73,19 @@ export const AddExpense = ({ onExpenseAdded }) => {
     const fullDate = `${formData.date}T${currentTime}`;
     const updatedFormData = { ...formData, date: fullDate };
     try {
-      const response = await addExpense(updatedFormData);
-      if (response.status === 201) {
-        setFormData({
-          amount: '',
-          description: '',
-          categoryId: undefined,
-          date: new Date().toISOString().split('T')[0],
-        });
-        // notify dashboard a new expense was added
-        onExpenseAdded();
-        toast.success('Expense added successfully.');
+      await addExpense(updatedFormData);
 
-        setIsFormVisible(false);
-      }
+      setFormData({
+        amount: '',
+        description: '',
+        categoryId: undefined,
+        date: new Date().toISOString().split('T')[0],
+      });
+      // notify dashboard a new expense was added
+      onExpenseAdded();
+      toast.success('Expense added successfully.');
+
+      setIsFormVisible(false);
     } catch (err) {
       console.error('Erorr adding expense: ', err);
       toast.error('Failed to add expense.');

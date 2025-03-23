@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   editExpense,
   getCategories,
@@ -78,6 +79,7 @@ export const EditExpense = ({ expense, onExpenseUpdated, onClose }) => {
 
     try {
       await editExpense(expense.id, updatedFormData);
+      toast.success('Expense updated successfully.');
       // notify dashboard a new expense was added
       onExpenseUpdated();
       // close edit form
