@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useExpenseStore } from '../../store/useExpenseStore';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   editExpense,
@@ -8,10 +8,10 @@ import {
 } from '../../../services/expenseService';
 import './editExpense.css';
 
-export const EditExpense = ({ handleClose }) => {
-  const { editingExpense, setEditingExpense, fetchExpenses } =
-    useExpenseStore();
-  const editingExpenseTime = editingExpense.date.split('T')[1];
+export const EditExpense = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  // const editingExpenseTime = editingExpense.date.split('T')[1];
 
   const [formData, setFormData] = useState({
     amount: editingExpense.amount,
@@ -21,6 +21,10 @@ export const EditExpense = ({ handleClose }) => {
   });
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
+
+  useEffect(() => {
+    const fetchExpense = await;
+  });
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -88,7 +92,7 @@ export const EditExpense = ({ handleClose }) => {
 
       fetchExpenses();
 
-      handleClose();
+      navigate(`/expenses`);
     } catch (err) {
       console.error('Erorr updating expense: ', err);
     }
@@ -156,7 +160,7 @@ export const EditExpense = ({ handleClose }) => {
         <button
           className="button__cancel"
           type="button"
-          onClick={() => handleClose()}
+          onClick={() => navigate(`/expenses`)}
         >
           Cancel
         </button>

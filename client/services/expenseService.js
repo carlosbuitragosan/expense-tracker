@@ -140,3 +140,15 @@ export const editExpense = async (expenseId, updatedExpense) => {
     throw new Error(err);
   }
 };
+
+// get a single expense
+export const getExpenseById = async (expenseId) => {
+  try {
+    const response = await axios.get(`${API_URL}/expenses/${expenseId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    throw new Error(err);
+  }
+};

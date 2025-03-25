@@ -218,3 +218,26 @@ export const getDailyExpenses = async (userId, year, month, day) => {
     throw new Error('Error fetching daily expenses.');
   }
 };
+
+// get user's data by expense id
+export const findExpenseById = async (expenseId, userId) => {
+  if (!expenseId || !userId) {
+    throw new Error('Expense ID and user ID are required.');
+  }
+  try {
+    const result = await query(
+      `SELECT * FROM expenses
+      WHERE id = $1
+      AND user_id = $2`,
+      [expenseId, userId]
+    );
+
+    if (!result.rows[0]) {
+      throw new Error('Expense not found.');
+    }
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error fetching expense by id: ', err);
+    throw new Error('Error fetching expense by id.');
+  }
+};

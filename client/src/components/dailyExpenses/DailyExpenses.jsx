@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import { getDailyExpenses } from '../../../services/expenseService';
 import { formattedDate } from '../../../utils/dateUtils';
+import { displayAmount } from '../../../utils/amountUtils';
 import './dailyExpenses.css';
 
 export const DailyExpenses = () => {
@@ -50,9 +51,7 @@ export const DailyExpenses = () => {
                   </p>
                 </div>
                 <p>{expense.description}</p>
-                <p>
-                  £ {parseFloat(expense.amount).toString().replace(/\.00$/, '')}
-                </p>
+                <p>£ {displayAmount(expense.amount)}</p>
               </li>
             </div>
           ))}

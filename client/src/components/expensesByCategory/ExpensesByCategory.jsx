@@ -1,3 +1,4 @@
+import { displayAmount } from '../../../utils/amountUtils';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import './expensesByCategory.css';
 
@@ -14,7 +15,9 @@ export const ExpensesByCategory = () => {
                 {expense.category_name || 'No category'}
               </p>
             </div>
-            <p className="item__amount">£{expense.total_amount}</p>
+            <p className="item__amount">
+              £{displayAmount(expense.total_amount)}
+            </p>
           </li>
         ))
       ) : (

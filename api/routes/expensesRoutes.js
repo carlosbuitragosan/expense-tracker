@@ -9,11 +9,13 @@ import {
   getMonthlyExpenseList,
   getExpensesByCategory,
   getExpensesByDay,
+  getExpenseById,
 } from '../controllers/expensesController.js';
 
 const router = express.Router();
 
 // the more specific routes should come first
+router.get('/edit/:expenseId', authenticateJWT, getExpenseById);
 router.get(
   '/:startYear/:startMonth/:endYear/:endMonth',
   authenticateJWT,
