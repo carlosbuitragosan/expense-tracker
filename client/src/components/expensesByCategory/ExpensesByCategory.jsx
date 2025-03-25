@@ -1,14 +1,11 @@
 import { displayAmount } from '../../../utils/amountUtils';
-import { useExpenseStore } from '../../store/useExpenseStore';
 import './expensesByCategory.css';
 
-export const ExpensesByCategory = () => {
-  const { categoryExpenses } = useExpenseStore();
-
+export const ExpensesByCategory = ({ expenses }) => {
   return (
     <ul className="expenses__list">
-      {categoryExpenses.length > 0 ? (
-        categoryExpenses.map((expense) => (
+      {expenses.length > 0 ? (
+        expenses.map((expense) => (
           <li key={expense.category_name} className="expenses__list_item">
             <div className="item__category_container">
               <p className="item__category">
@@ -16,7 +13,7 @@ export const ExpensesByCategory = () => {
               </p>
             </div>
             <p className="item__amount">
-              £{displayAmount(expense.total_amount)}
+              {displayAmount(expense.total_amount)}
             </p>
           </li>
         ))

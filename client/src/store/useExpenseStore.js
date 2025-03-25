@@ -11,8 +11,6 @@ export const useExpenseStore = create((set, get) => ({
   showFullList: false,
   categoryExpenses: [],
   detailedExpenses: [],
-  editingExpense: null,
-  setEditingExpense: (expense) => set({ editingExpense: expense }),
   totalExpenses: 0,
   newExpenseId: null,
 

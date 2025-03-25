@@ -51,7 +51,7 @@ export const DailyExpenses = () => {
                   </p>
                 </div>
                 <p>{expense.description}</p>
-                <p>£ {displayAmount(expense.amount)}</p>
+                <p>{displayAmount(expense.amount)}</p>
               </li>
             </div>
           ))}

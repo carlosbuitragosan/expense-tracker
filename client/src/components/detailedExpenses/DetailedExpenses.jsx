@@ -1,13 +1,9 @@
-import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useExpenseStore } from '../../store/useExpenseStore';
 import { formattedDate } from '../../../utils/dateUtils';
-import { EditExpense } from '../editExpense/EditExpense';
 import { displayAmount } from '../../../utils/amountUtils';
 import './detailedExpenses.css';
 
-export const DetailedExpenses = () => {
-  const { detailedExpenses, editingExpense } = useExpenseStore();
+export const DetailedExpenses = ({ expenses }) => {
   const navigate = useNavigate();
 
   const handleEditClick = (expense) => {
@@ -17,15 +13,13 @@ export const DetailedExpenses = () => {
   return (
     <div>
       <ul className="detailedExpenses__list">
-        {detailedExpenses.length > 0 ? (
-          detailedExpenses.map((expense) => (
+        {expenses.length > 0 ? (
+          expenses.map((expense) => (
             <div
               className="detailedExpenses__list_item_container"
               key={expense.id}
             >
-              <li
-                className={`detailedExpenses__list_item ${editingExpense?.id === expense.id ? 'new-expense-highlight' : ''}`}
-              >
+              <li className={`detailedExpenses__list_item`}>
                 <div className="detailedExpenses__date-category_container">
                   <p>{formattedDate(expense.date)}</p>
                   <p className="detailedExpenses__category">
@@ -34,7 +28,7 @@ export const DetailedExpenses = () => {
                 </div>
                 <p>{expense.description}</p>
                 <p className="detailedExpenses__amount">
-                  £ {displayAmount(expense.amount)}
+                  {displayAmount(expense.amount)}
                 </p>
                 <button onClick={() => handleEditClick(expense)}>Edit</button>
               </li>

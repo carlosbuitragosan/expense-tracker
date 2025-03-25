@@ -8,6 +8,8 @@ import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
 import { Navbar } from './components/Navbar/Navbar';
 import { Expenses } from './components/expenses/expenses';
 import { EditExpense } from './components/editExpense/EditExpense';
+import { ExpensesByCategory } from './components/expensesByCategory/ExpensesByCategory';
+import { DetailedExpenses } from './components/detailedExpenses/DetailedExpenses';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -48,6 +50,22 @@ function App() {
             element={
               <ProtectedRoutes>
                 <EditExpense />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/category-expenses"
+            element={
+              <ProtectedRoutes>
+                <ExpensesByCategory />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/detailed-expenses"
+            element={
+              <ProtectedRoutes>
+                <DetailedExpenses />
               </ProtectedRoutes>
             }
           />

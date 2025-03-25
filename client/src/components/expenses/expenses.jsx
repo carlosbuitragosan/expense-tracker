@@ -1,27 +1,40 @@
-import { useEffect } from 'react';
-import { useExpenseStore } from '../../store/useExpenseStore';
+import { useState, useEffect } from 'react';
+import {
+  getExpensesByCategory,
+  getExpenseListByMonth,
+  getTotalMonthExpenses,
+} from '../../../services/expenseService';
 import { ExpensesByCategory } from '../expensesByCategory/ExpensesByCategory';
 import { DetailedExpenses } from '../detailedExpenses/DetailedExpenses';
 import './expenses.css';
+import { displayAmount } from '../../../utils/amountUtils';
+import { useExpenseStore } from '../../store/useExpenseStore';
 
 export const Expenses = () => {
-  const {
-    year,
-    month,
-    showFullList,
-    totalExpenses,
-    categoryExpenses,
-    detailedExpenses,
-    fetchExpenses,
-    toggleFullList,
-    setMonthYear,
-  } = useExpenseStore();
-  const today = new Date();
+  const { showFullList, toggleFullList } = useExpenseStore();
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  const [categoryExpenses, setCategoryExpenses] = useState([]);
+  const [detailedExpenses, setDetailedExpenses] = useState([]);
 
-  const formattedMonthYear = new Intl.DateTimeFormat('en-GB', {
-    year: 'numeric',
-    month: 'long',
-  }).format(new Date(year, month - 1));
+  console.log('show full list: ', showFullList);
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const categoryData = await getExpensesByCategory(year, month);
+        const detailedData = await getExpenseListByMonth(year, month);
+        const total = await getTotalMonthExpenses(year, month);
+
+        setCategoryExpenses(categoryData);
+        setDetailedExpenses(detailedData);
+        setTotalExpenses(total);
+      } catch (err) {
+        console.error('Error fetching expenses: ', err);
+      }
+    };
+    fetchExpenses();
+  }, [year, month]);
 
   const handleMonthChange = (direction) => {
     const newYear =
@@ -31,12 +44,17 @@ export const Expenses = () => {
           ? year + 1
           : year;
     const newMonth = ((month - 1 + direction + 12) % 12) + 1;
-    setMonthYear(newYear, newMonth);
+    setYear(newYear);
+    setMonth(newMonth);
   };
 
-  useEffect(() => {
-    fetchExpenses();
-  }, [year, month, showFullList, fetchExpenses]);
+  const handleViewToggle = () => {
+    toggleFullList();
+  };
+  const formattedMonthYear = new Intl.DateTimeFormat('en-GB', {
+    year: 'numeric',
+    month: 'long',
+  }).format(new Date(year, month - 1));
 
   return (
     <div className="expense__container">
@@ -51,16 +69,20 @@ export const Expenses = () => {
           </button>
         </div>
 
-        <button type="button" onClick={toggleFullList}>
+        <button type="button" onClick={handleViewToggle}>
           {showFullList ? 'Back to category view' : 'View full list'}
         </button>
       </div>
 
       <div className="expenses__container">
         <p className="totalSpent">
-          {`Total Spent: £${totalExpenses ? totalExpenses.toString().replace(/\.00$/, '') : 0}`}
+          {`Total Spent: ${totalExpenses ? displayAmount(totalExpenses) : 0}`}
         </p>
-        {!showFullList ? <ExpensesByCategory /> : <DetailedExpenses />}
+        {!showFullList ? (
+          <ExpensesByCategory expenses={categoryExpenses} />
+        ) : (
+          <DetailedExpenses expenses={detailedExpenses} />
+        )}
       </div>
     </div>
   );

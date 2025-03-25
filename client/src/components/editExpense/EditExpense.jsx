@@ -5,54 +5,61 @@ import {
   editExpense,
   getCategories,
   addCategory,
+  getExpenseById,
 } from '../../../services/expenseService';
 import './editExpense.css';
 
 export const EditExpense = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  // const editingExpenseTime = editingExpense.date.split('T')[1];
 
   const [formData, setFormData] = useState({
-    amount: editingExpense.amount,
-    description: editingExpense.description,
+    amount: '',
+    description: '',
     categoryId: '',
-    date: editingExpense.date.split('T')[0],
+    date: '',
   });
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
 
   useEffect(() => {
-    const fetchExpense = await;
-  });
+    const fetchExpense = async () => {
+      try {
+        const expense = await getExpenseById(id);
+        setFormData({
+          amount: expense.amount,
+          description: expense.description,
+          categoryId: expense.category_id,
+          date: expense.date.split('T')[0],
+        });
+      } catch (err) {
+        console.error('Error fetching expense: ', err);
+      }
+    };
+    fetchExpense();
+  }, [id]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const data = await getCategories();
         setCategories(data);
-        const selectedCategory = data.find(
-          (category) => category.name === editingExpense.category_name
-        );
-        if (selectedCategory) {
-          setFormData((prevData) => ({
-            ...prevData,
-            categoryId: selectedCategory.id,
-          }));
-        }
       } catch (err) {
         console.error('Error fetching categories: ', err);
       }
     };
     fetchCategories();
-  }, [editingExpense.category_name]);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleAddCategory = async () => {
-    if (!newCategory) return;
+    if (!newCategory) {
+      toast.error('Please add a category');
+      return;
+    }
 
     const existingCategory = categories.find((cat) => cat.name === newCategory);
 
@@ -65,10 +72,10 @@ export const EditExpense = () => {
       const category = await addCategory(newCategory);
       setCategories([...categories, category]);
       setFormData({ ...formData, categoryId: category.id });
-      setNewCategory('');
     } catch (err) {
       console.error('Error adding a category: ', err);
     }
+    setNewCategory('');
   };
 
   const handleCategoryChange = (e) => {
@@ -82,15 +89,12 @@ export const EditExpense = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const fullDate = `${formData.date}T${editingExpenseTime} `;
-    const updatedFormData = { ...formData, date: fullDate };
 
+    console.log('data to update: ', formData);
     try {
-      await editExpense(editingExpense.id, updatedFormData);
+      await editExpense(id, formData);
 
       toast.success('Expense updated successfully.');
-
-      fetchExpenses();
 
       navigate(`/expenses`);
     } catch (err) {
@@ -108,7 +112,7 @@ export const EditExpense = () => {
           value={formData.amount}
           onChange={handleChange}
         />
-        <input
+        <textarea
           type="text"
           placeholder={formData.description ? '' : 'Description (optional)'}
           name="description"
@@ -160,7 +164,7 @@ export const EditExpense = () => {
         <button
           className="button__cancel"
           type="button"
-          onClick={() => navigate(`/expenses`)}
+          onClick={() => navigate(-1)}
         >
           Cancel
         </button>

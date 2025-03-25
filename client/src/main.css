@@ -55,7 +55,8 @@ input[type='number'] {
 
 input,
 input:focus,
-select {
+select,
+textarea {
   border: none;
   outline: none;
   background-color: var(--color-1);
