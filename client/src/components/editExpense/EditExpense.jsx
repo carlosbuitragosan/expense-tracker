@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useExpenseStore } from '../../store/useExpenseStore';
 import {
   editExpense,
   getCategories,
@@ -10,9 +11,10 @@ import {
 import './editExpense.css';
 
 export const EditExpense = () => {
+  const { setNewExpenseId } = useExpenseStore();
+  const timeoutRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     amount: '',
     description: '',
@@ -21,6 +23,9 @@ export const EditExpense = () => {
   });
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
+  const [expenseTime, setExpenseTime] = useState('00:00:00.000Z');
+
+  console.log('time created: ', expenseTime);
 
   useEffect(() => {
     const fetchExpense = async () => {
@@ -32,6 +37,7 @@ export const EditExpense = () => {
           categoryId: expense.category_id,
           date: expense.date.split('T')[0],
         });
+        setExpenseTime(expense.date.split('T')[1]);
       } catch (err) {
         console.error('Error fetching expense: ', err);
       }
@@ -89,14 +95,20 @@ export const EditExpense = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('data to update: ', formData);
+    const fullDate = `${formData.date}T${expenseTime}`;
+    const updatedFormData = { ...formData, date: fullDate };
     try {
-      await editExpense(id, formData);
-
+      await editExpense(id, updatedFormData);
+      setNewExpenseId(id);
       toast.success('Expense updated successfully.');
-
       navigate(`/expenses`);
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        setNewExpenseId(null);
+      }, 3000);
     } catch (err) {
       console.error('Erorr updating expense: ', err);
     }

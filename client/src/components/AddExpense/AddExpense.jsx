@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import {
   addExpense,
   getCategories,
   addCategory,
 } from '../../../services/expenseService';
+import 'react-toastify/dist/ReactToastify.css';
 import './addExpense.css';
 
 export const AddExpense = () => {
-  const { fetchExpenses, setNewExpenseId } = useExpenseStore();
+  const { setNewExpenseId } = useExpenseStore();
   const formRef = useRef(null);
   const timeoutRef = useRef(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -93,7 +93,6 @@ export const AddExpense = () => {
       });
 
       setNewExpenseId(newExpense.id);
-      fetchExpenses();
       toast.success('Expense added successfully.');
       setIsFormVisible(false);
 

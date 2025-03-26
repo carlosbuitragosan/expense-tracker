@@ -18,7 +18,6 @@ export const Expenses = () => {
   const [categoryExpenses, setCategoryExpenses] = useState([]);
   const [detailedExpenses, setDetailedExpenses] = useState([]);
 
-  console.log('show full list: ', showFullList);
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
