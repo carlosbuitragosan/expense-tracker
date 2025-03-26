@@ -164,7 +164,7 @@ export const EditExpense = () => {
         <button
           className="button__cancel"
           type="button"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/expenses`)}
         >
           Cancel
         </button>

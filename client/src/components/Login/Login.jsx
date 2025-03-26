@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../../services/authService';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useExpenseStore';
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { login } = useAuthStore();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -21,7 +21,8 @@ export const Login = () => {
     e.preventDefault();
     setError(null);
     try {
-      await loginUser(formData, setIsAuthenticated);
+      await loginUser(formData);
+      login();
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);

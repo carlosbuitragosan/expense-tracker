@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useAuthStore } from '../src/store/useExpenseStore';
 
 const API_URL = 'http://localhost:5001';
 
@@ -14,13 +15,13 @@ export const registerUser = async (formData) => {
   }
 };
 
-export const loginUser = async (formData, setIsAuthenticated) => {
+export const loginUser = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/users/login`, formData, {
       withCredentials: true,
     });
     if (response.data.userId) {
-      setIsAuthenticated(true);
+      useAuthStore.getState().login();
     }
     return response.data;
   } catch (err) {

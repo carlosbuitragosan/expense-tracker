@@ -1,16 +1,17 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../../services/authService';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useExpenseStore';
 import './navbar.css';
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, logout } = useAuthStore();
+
   const handleLogout = async () => {
     try {
       logoutUser();
-      setIsAuthenticated(false);
+      logout();
       navigate('/users/login');
     } catch (err) {
       console.error('Error logging out: ', err);

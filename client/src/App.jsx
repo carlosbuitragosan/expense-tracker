@@ -53,22 +53,6 @@ function App() {
               </ProtectedRoutes>
             }
           />
-          <Route
-            path="/category-expenses"
-            element={
-              <ProtectedRoutes>
-                <ExpensesByCategory />
-              </ProtectedRoutes>
-            }
-          />
-          <Route
-            path="/detailed-expenses"
-            element={
-              <ProtectedRoutes>
-                <DetailedExpenses />
-              </ProtectedRoutes>
-            }
-          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
