@@ -25,17 +25,10 @@
   margin-right: auto;
 }
 
-.navbar__logout_button {
-  background-color: var(--color-1);
-  color: var(--color-4);
-  border: 1px solid var(--color-1);
-}
-
-.navbar__logout_button:hover {
-  border: 1px solid var(--color-1);
-  color: var(--color-3);
-}
-
 .navbar__link:hover {
   color: var(--color-3);
+}
+
+.navbar__link.active {
+  text-decoration: underline;
 }

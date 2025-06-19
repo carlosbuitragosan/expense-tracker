@@ -31,3 +31,17 @@
   display: flex;
   justify-content: center;
 }
+
+.view-toggle {
+  display: flex;
+  align-content: center;
+  gap: 1rem;
+}
+
+.view-toggle button {
+}
+
+.view-toggle button.active {
+  background-color: transparent;
+  color: var(--color-5);
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { registerUser } from '../../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import './register.css';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -31,12 +32,12 @@ export const Register = () => {
   };
 
   return (
-    <div>
+    <div className="register__container">
       <h2>Register</h2>
 
       {error && <p>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form className="register__form" onSubmit={handleSubmit}>
         <input
           type="email"
           name="email"
@@ -59,13 +60,14 @@ export const Register = () => {
           onChange={handleChange}
         />
         <button type="submit">Register</button>
-        <div>
-          <p>Already a user?</p>
-          <button type="button" onClick={() => navigate('/users/login')}>
-            Log In
-          </button>
-        </div>
       </form>
+
+      <div className="register__login_container">
+        <p>Already a user?</p>
+        <button type="button" onClick={() => navigate('/users/login')}>
+          Log In
+        </button>
+      </div>
     </div>
   );
 };

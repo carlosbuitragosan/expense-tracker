@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:5001';
 
 // get the current month's expenses
-export const getCurentMonthExpenses = async () => {
+export const getCurrentMonthExpenses = async () => {
   try {
     const now = new Date();
     const year = now.getFullYear();

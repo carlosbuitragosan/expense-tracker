@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../../services/authService';
 import { useAuthStore } from '../../store/useExpenseStore';
 import './navbar.css';
@@ -34,20 +33,35 @@ export const Navbar = () => {
       </Link>
       <nav className="navbar">
         <ul className="navbar__list">
-          <li className="navbar__item">
-            <Link className="navbar__link link" to="/expenses">
-              Expenses
-            </Link>
-          </li>
-          <li className="navbar__item">
-            <Link className="navbar__link link">Settings</Link>
-          </li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? 'navbar__link link active' : 'navbar__link link'
+            }
+            to="/dashboard"
+          >
+            Today
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? 'navbar__link link active' : 'navbar__link link'
+            }
+            to="/expenses"
+          >
+            Breakdown
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? 'navbar__link link active' : 'navbar__link link'
+            }
+            to="/settings"
+          >
+            Settings
+          </NavLink>
           {isAuthenticated && (
             <li className="navbar__item">
-              <button
-                className="navbar__logout_button button"
-                onClick={handleLogout}
-              >
+              <button className="button" onClick={handleLogout}>
                 Logout
               </button>
             </li>

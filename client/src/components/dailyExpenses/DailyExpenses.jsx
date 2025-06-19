@@ -32,33 +32,32 @@ export const DailyExpenses = () => {
     fetchExpenses();
   }, [year, month, day, newExpenseId]);
 
+  if (dailyExpenses.length === 0) return null;
+
   return (
     <div>
-      {dailyExpenses.length > 0 ? (
-        <ul className="detailedExpenses__list">
-          {dailyExpenses.map((expense) => (
-            <div
-              className="detailedExpenses__list_item_container"
-              key={expense.id}
+      <ul className="detailedExpenses__list">
+        {dailyExpenses.map((expense) => (
+          <div
+            className="detailedExpenses__list_item_container"
+            key={expense.id}
+          >
+            <li
+              className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
             >
-              <li
-                className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
-              >
-                <div>
-                  <p>{formattedDate(expense.date)}</p>
-                  <p className="detailedExpenses__category">
-                    {expense.category_name || 'No category'}
-                  </p>
-                </div>
-                <p>{expense.description}</p>
-                <p>{displayAmount(expense.amount)}</p>
-              </li>
-            </div>
-          ))}
-        </ul>
-      ) : (
-        <p>No expenses for today</p>
-      )}
+              <div>
+                <p>{formattedDate(expense.date)}</p>
+                <p className="detailedExpenses__category">
+                  {expense.category_name || 'No category'}
+                </p>
+              </div>
+              <p>{expense.description}</p>
+              <p>{displayAmount(expense.amount)}</p>
+            </li>
+          </div>
+        ))}
+      </ul>
+
       <p className="dailyTotal">
         Total for today: £
         {totalDailyExpenses.toFixed(2).toString().replace(/\.00$/, '')}

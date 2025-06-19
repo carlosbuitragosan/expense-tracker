@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../../services/authService';
 import { useAuthStore } from '../../store/useExpenseStore';
+import './login.css';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -30,12 +31,12 @@ export const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login__container">
       <h2>Log In</h2>
 
       {error && <p>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form className="login__form" onSubmit={handleSubmit}>
         <input
           type="email"
           name="email"
@@ -54,17 +55,18 @@ export const Login = () => {
         <button className="button" type="submit">
           Log In
         </button>
-        <div>
-          <p>Not a user?</p>
-          <button
-            className="button"
-            type="button"
-            onClick={() => navigate('/users/register')}
-          >
-            Register
-          </button>
-        </div>
       </form>
+
+      <div className="login__register_container">
+        <p>Not a user?</p>
+        <button
+          className="button"
+          type="button"
+          onClick={() => navigate('/users/register')}
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 };

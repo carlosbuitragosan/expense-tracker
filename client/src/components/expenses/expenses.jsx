@@ -68,9 +68,20 @@ export const Expenses = () => {
           </button>
         </div>
 
-        <button type="button" onClick={handleViewToggle}>
-          {showFullList ? 'Back to category view' : 'View full list'}
-        </button>
+        <div className="view-toggle">
+          <button
+            className={!showFullList ? 'active' : ''}
+            onClick={() => toggleFullList(false)}
+          >
+            Category View
+          </button>
+          <button
+            className={showFullList ? 'active' : ''}
+            onClick={() => toggleFullList(true)}
+          >
+            Full List
+          </button>
+        </div>
       </div>
 
       <div className="expenses__container">
