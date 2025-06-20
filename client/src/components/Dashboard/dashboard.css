@@ -1,6 +1,6 @@
 .dashboard__container {
-  padding: 0 2rem;
-  width: 60%;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
   padding-bottom: 3rem;
 }

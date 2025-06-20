@@ -6,9 +6,9 @@ import {
 } from '../../../services/expenseService';
 import { ExpensesByCategory } from '../expensesByCategory/ExpensesByCategory';
 import { DetailedExpenses } from '../detailedExpenses/DetailedExpenses';
-import './expenses.css';
 import { displayAmount } from '../../../utils/amountUtils';
 import { useExpenseStore } from '../../store/useExpenseStore';
+import './expenses.css';
 
 export const Expenses = () => {
   const { showFullList, toggleFullList } = useExpenseStore();
@@ -47,9 +47,9 @@ export const Expenses = () => {
     setMonth(newMonth);
   };
 
-  const handleViewToggle = () => {
-    toggleFullList();
-  };
+  // const handleViewToggle = () => {
+  //   toggleFullList();
+  // };
   const formattedMonthYear = new Intl.DateTimeFormat('en-GB', {
     year: 'numeric',
     month: 'long',

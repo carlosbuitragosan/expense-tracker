@@ -38,10 +38,14 @@
   gap: 1rem;
 }
 
-.view-toggle button {
-}
-
 .view-toggle button.active {
   background-color: transparent;
   color: var(--color-5);
+}
+
+@media (max-width: 700px) {
+  .expenses__navigation_container {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
