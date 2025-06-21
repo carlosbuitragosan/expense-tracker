@@ -1,9 +1,4 @@
 import { create } from 'zustand';
-import {
-  getExpensesByCategory,
-  getTotalMonthExpenses,
-  getExpenseListByMonth,
-} from '../../services/expenseService';
 import { getUserProfile } from '../../services/authService';
 
 export const useExpenseStore = create((set, get) => ({
@@ -20,17 +15,22 @@ export const useExpenseStore = create((set, get) => ({
 }));
 
 export const useAuthStore = create((set) => ({
-  isAuthenticated: false,
+  isAuthenticated: null,
+  user: null,
+  isLoading: true,
   checkAuth: async () => {
+    set({ isLoading: true });
     try {
-      await getUserProfile();
-      set({ isAuthenticated: true });
+      const profile = await getUserProfile();
+      console.log('✅ Authenticated user:', profile);
+      set({ isAuthenticated: true, user: profile, isLoading: false });
     } catch {
-      set({ isAuthenticated: false });
+      console.log('❌ Not authenticated');
+      set({ isAuthenticated: false, user: null, isLoading: false });
     }
   },
   login: () => set({ isAuthenticated: true }),
   logout: () => {
-    set({ isAuthenticated: false });
+    set({ isAuthenticated: false, user: null });
   },
 }));

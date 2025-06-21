@@ -6,7 +6,8 @@ import './navbar.css';
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuthStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
+  console.log('user: ', user);
 
   useEffect(() => {
     const links = document.querySelectorAll('.navbar-collapse .nav-action');
@@ -51,47 +52,54 @@ export const Navbar = () => {
         <span className="material-symbols-outlined me-2">
           account_balance_wallet
         </span>
+      </Link>
+      <Link className="navbar-brand" to="/dashboard">
         <span>Expense Tracker</span>
       </Link>
-
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarCollapse"
-        aria-controls="navbarCollapse"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+      {isAuthenticated && user && (
+        <>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        </>
+      )}
 
       <div className="collapse navbar-collapse" id="navbarCollapse">
         <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
-            <NavLink className="nav-link nav-action" to="/dashboard">
-              Today
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link nav-action" to="/expenses">
-              Breakdown
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link nav-action" to="/settings">
-              Settings
-            </NavLink>
-          </li>
-          {isAuthenticated && (
-            <li className="nav-item">
-              <button
-                className="nav-action btn btn-outline-danger ms-md-3"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </li>
+          {isAuthenticated && user && (
+            <>
+              <li className="nav-item">
+                <NavLink className="nav-link nav-action" to="/dashboard">
+                  Today
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link nav-action" to="/expenses">
+                  Breakdown
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link nav-action" to="/settings">
+                  Settings
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-action custom-nav-button"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </div>

@@ -48,7 +48,7 @@ export const getUser = async (req, res) => {
   try {
     const user = await getUserByEmail(email);
     if (user) {
-      return res.status(200).json({ userId: user.id });
+      return res.status(200).json({ userId: user.id, email: user.email });
     }
     return res.status(404).json({ message: 'Unauthorized.' });
   } catch (err) {

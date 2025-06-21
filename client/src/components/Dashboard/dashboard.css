@@ -1,6 +1,12 @@
 .dashboard__container {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 1rem auto 0 auto;
   padding-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard__container {
+    padding: 0 1rem;
+  }
 }
