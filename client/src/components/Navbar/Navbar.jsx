@@ -10,6 +10,8 @@ export const Navbar = () => {
   console.log('user: ', user);
 
   useEffect(() => {
+    if (!isAuthenticated) return;
+
     const links = document.querySelectorAll('.navbar-collapse .nav-action');
     const collapseElement = document.getElementById('navbarCollapse');
 
@@ -29,7 +31,7 @@ export const Navbar = () => {
         link.removeEventListener('click', handleNavLinkClick);
       });
     };
-  }, []);
+  }, [isAuthenticated]); // ✅ rerun when auth state changes
 
   const handleLogout = async () => {
     try {
