@@ -32,36 +32,40 @@ export const DailyExpenses = () => {
     fetchExpenses();
   }, [year, month, day, newExpenseId]);
 
-  if (dailyExpenses.length === 0) return null;
-
   return (
     <div>
-      <ul className="detailedExpenses__list">
-        {dailyExpenses.map((expense) => (
-          <div
-            className="detailedExpenses__list_item_container"
-            key={expense.id}
-          >
-            <li
-              className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
-            >
-              <div>
-                <p>{formattedDate(expense.date)}</p>
-                <p className="detailedExpenses__category">
-                  {expense.category_name || 'No category'}
-                </p>
+      {dailyExpenses.length === 0 ? (
+        <p className="dailyTotal">No expenses for today</p>
+      ) : (
+        <>
+          <ul className="detailedExpenses__list">
+            {dailyExpenses.map((expense) => (
+              <div
+                className="detailedExpenses__list_item_container"
+                key={expense.id}
+              >
+                <li
+                  className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
+                >
+                  <div>
+                    <p>{formattedDate(expense.date)}</p>
+                    <p className="detailedExpenses__category">
+                      {expense.category_name || 'No category'}
+                    </p>
+                  </div>
+                  <p>{expense.description}</p>
+                  <p>{displayAmount(expense.amount)}</p>
+                </li>
               </div>
-              <p>{expense.description}</p>
-              <p>{displayAmount(expense.amount)}</p>
-            </li>
-          </div>
-        ))}
-      </ul>
+            ))}
+          </ul>
 
-      <p className="dailyTotal">
-        Total for today: £
-        {totalDailyExpenses.toFixed(2).toString().replace(/\.00$/, '')}
-      </p>
+          <p className="dailyTotal">
+            Total for today: £
+            {totalDailyExpenses.toFixed(2).toString().replace(/\.00$/, '')}
+          </p>
+        </>
+      )}
     </div>
   );
 };
