@@ -33,7 +33,12 @@ export const DetailedExpenses = ({ expenses }) => {
                 <p className="detailedExpenses__amount">
                   {displayAmount(expense.amount)}
                 </p>
-                <button onClick={() => handleEditClick(expense)}>Edit</button>
+                <button
+                  className="button__edit"
+                  onClick={() => handleEditClick(expense)}
+                >
+                  Edit
+                </button>
               </li>
             </div>
           ))

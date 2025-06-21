@@ -28,3 +28,20 @@
 .showForm__button {
   width: 100%;
 }
+
+.expense__description_container {
+  position: relative;
+}
+
+.expense__description {
+  width: 100%;
+  resize: none;
+}
+
+.char-counter {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  color: var(--color-2);
+  font-size: 0.8rem;
+}

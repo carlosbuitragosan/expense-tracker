@@ -24,8 +24,7 @@ export const EditExpense = () => {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
   const [expenseTime, setExpenseTime] = useState('00:00:00.000Z');
-
-  console.log('time created: ', expenseTime);
+  const maxDescriptionLength = 200;
 
   useEffect(() => {
     const fetchExpense = async () => {
@@ -124,13 +123,21 @@ export const EditExpense = () => {
           value={formData.amount}
           onChange={handleChange}
         />
-        <textarea
-          type="text"
-          placeholder={formData.description ? '' : 'Description (optional)'}
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+        <div className="expense__description_container">
+          <textarea
+            className="expense__description"
+            type="text"
+            placeholder={formData.description ? '' : 'Description (optional)'}
+            name="description"
+            rows={3}
+            maxLength={maxDescriptionLength}
+            value={formData.description}
+            onChange={handleChange}
+          />
+          <span className="char-counter">
+            {maxDescriptionLength - formData.description.length}
+          </span>
+        </div>
         <select
           name="categoryId"
           value={formData.categoryId || ''}

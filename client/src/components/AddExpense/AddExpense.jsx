@@ -17,6 +17,7 @@ export const AddExpense = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
+  const maxDescriptionLength = 200;
 
   const [formData, setFormData] = useState({
     amount: '',
@@ -145,13 +146,21 @@ export const AddExpense = () => {
                 value={formData.amount}
                 onChange={handleChange}
               />
-              <input
-                type="text"
-                name="description"
-                placeholder="Description (optional)"
-                value={formData.description}
-                onChange={handleChange}
-              />
+              <div className="expense__description_container">
+                <textarea
+                  className="expense__description"
+                  type="text"
+                  name="description"
+                  placeholder="Description (optional)"
+                  rows={3}
+                  maxLength={maxDescriptionLength}
+                  value={formData.description}
+                  onChange={handleChange}
+                />
+                <span className="char-counter">
+                  {maxDescriptionLength - formData.description.length}
+                </span>
+              </div>
               <select
                 name="categoryId"
                 value={formData.categoryId}
