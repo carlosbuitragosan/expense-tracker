@@ -21,7 +21,7 @@ export const loginUser = async (formData) => {
       withCredentials: true,
     });
     if (response.data.userId) {
-      useAuthStore.getState().login();
+      await useAuthStore.getState().checkAuth();
     }
     return response.data;
   } catch (err) {

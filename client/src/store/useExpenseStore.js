@@ -18,14 +18,13 @@ export const useAuthStore = create((set) => ({
   isAuthenticated: null,
   user: null,
   isLoading: true,
+
   checkAuth: async () => {
     set({ isLoading: true });
     try {
       const profile = await getUserProfile();
-      console.log('✅ Authenticated user:', profile);
       set({ isAuthenticated: true, user: profile, isLoading: false });
     } catch {
-      console.log('❌ Not authenticated');
       set({ isAuthenticated: false, user: null, isLoading: false });
     }
   },

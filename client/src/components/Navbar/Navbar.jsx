@@ -13,19 +13,20 @@ export const Navbar = () => {
     const links = document.querySelectorAll('.navbar-collapse .nav-action');
     const collapseElement = document.getElementById('navbarCollapse');
 
+    const handleNavLinkClick = () => {
+      const isShown = collapseElement?.classList.contains('show');
+      if (isShown) {
+        document.querySelector('.navbar-toggler')?.click();
+      }
+    };
+
     links.forEach((link) => {
-      link.addEventListener('click', () => {
-        const isShown = collapseElement.classList.contains('show');
-        if (isShown) {
-          // Simulate Bootstrap toggle by clicking the toggler again
-          document.querySelector('.navbar-toggler').click();
-        }
-      });
+      link.addEventListener('click', handleNavLinkClick);
     });
 
     return () => {
       links.forEach((link) => {
-        link.removeEventListener('click', () => {});
+        link.removeEventListener('click', handleNavLinkClick);
       });
     };
   }, []);
@@ -56,7 +57,7 @@ export const Navbar = () => {
       <Link className="navbar-brand" to="/dashboard">
         <span>Expense Tracker</span>
       </Link>
-      {isAuthenticated && user && (
+      {isAuthenticated && (
         <>
           <button
             className="navbar-toggler"
@@ -74,7 +75,7 @@ export const Navbar = () => {
 
       <div className="collapse navbar-collapse" id="navbarCollapse">
         <ul className="navbar-nav ms-auto">
-          {isAuthenticated && user && (
+          {isAuthenticated && (
             <>
               <li className="nav-item">
                 <NavLink className="nav-link nav-action" to="/dashboard">

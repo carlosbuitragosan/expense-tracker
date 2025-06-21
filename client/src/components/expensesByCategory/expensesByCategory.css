@@ -25,6 +25,7 @@
 }
 
 .item__category {
+  font-size: 0.8rem;
   text-overflow: clip;
   background-color: var(--color-2);
   color: var(--color-1);

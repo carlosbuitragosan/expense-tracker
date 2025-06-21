@@ -29,7 +29,9 @@ export const DetailedExpenses = ({ expenses }) => {
                     {expense.category_name || 'No category'}
                   </p>
                 </div>
-                <p>{expense.description}</p>
+                <p className="detailedExpenses__description">
+                  {expense.description}
+                </p>
                 <p className="detailedExpenses__amount">
                   {displayAmount(expense.amount)}
                 </p>

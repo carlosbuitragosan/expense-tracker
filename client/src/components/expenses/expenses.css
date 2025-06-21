@@ -31,7 +31,9 @@
 
 .totalSpent {
   display: flex;
-  justify-content: center;
+  max-width: 600px;
+  margin: 4rem auto 1rem auto;
+  /* justify-content: center; */
 }
 
 .view-toggle {
@@ -52,6 +54,6 @@
   }
 
   .expense__container {
-    padding: 0 1rem;
+    padding: 4rem 1rem;
   }
 }

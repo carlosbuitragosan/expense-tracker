@@ -114,80 +114,82 @@ export const EditExpense = () => {
   };
 
   return (
-    <div className="addExpense__container">
-      <h2>Edit Expense</h2>
-      <form className="expense__form" onSubmit={handleSubmit}>
-        <input
-          type="number"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-        />
-        <div className="expense__description_container">
-          <textarea
-            className="expense__description"
-            type="text"
-            placeholder={formData.description ? '' : 'Description (optional)'}
-            name="description"
-            rows={3}
-            maxLength={maxDescriptionLength}
-            value={formData.description}
+    <div className="editExpense__container">
+      <div className="addExpense__container">
+        <h2>Edit Expense</h2>
+        <form className="expense__form" onSubmit={handleSubmit}>
+          <input
+            type="number"
+            name="amount"
+            value={formData.amount}
             onChange={handleChange}
           />
-          <span className="char-counter">
-            {maxDescriptionLength - formData.description.length}
-          </span>
-        </div>
-        <select
-          name="categoryId"
-          value={formData.categoryId || ''}
-          onChange={handleCategoryChange}
-        >
-          <option>Select Category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-          <option name="categoryId" value="new">
-            Add new category
-          </option>
-        </select>
-        {formData.categoryId === 'new' && (
-          <div className="newCategory__container">
-            <input
-              className="newCategory__input"
+          <div className="expense__description_container">
+            <textarea
+              className="expense__description"
               type="text"
-              placeholder="New category name"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
+              placeholder={formData.description ? '' : 'Description (optional)'}
+              name="description"
+              rows={3}
+              maxLength={maxDescriptionLength}
+              value={formData.description}
+              onChange={handleChange}
             />
-            <button
-              className="button button__add"
-              type="button"
-              onClick={handleAddCategory}
-            >
-              <span className="material-symbols-outlined">add</span>
-            </button>
+            <span className="char-counter">
+              {maxDescriptionLength - formData.description.length}
+            </span>
           </div>
-        )}
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-        />
-        <button className="button button__save" type="submit">
-          Save
-        </button>
-        <button
-          className="button__cancel"
-          type="button"
-          onClick={() => navigate(`/expenses`)}
-        >
-          Cancel
-        </button>
-      </form>
+          <select
+            name="categoryId"
+            value={formData.categoryId || ''}
+            onChange={handleCategoryChange}
+          >
+            <option>Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+            <option name="categoryId" value="new">
+              Add new category
+            </option>
+          </select>
+          {formData.categoryId === 'new' && (
+            <div className="newCategory__container">
+              <input
+                className="newCategory__input"
+                type="text"
+                placeholder="New category name"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+              />
+              <button
+                className="button button__add"
+                type="button"
+                onClick={handleAddCategory}
+              >
+                <span className="material-symbols-outlined">add</span>
+              </button>
+            </div>
+          )}
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+          />
+          <button className="button button__save" type="submit">
+            Save
+          </button>
+          <button
+            className="button__cancel"
+            type="button"
+            onClick={() => navigate(`/expenses`)}
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

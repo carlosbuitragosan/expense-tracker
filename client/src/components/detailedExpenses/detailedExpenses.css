@@ -38,3 +38,11 @@
   color: var(--color-1);
   font-size: 0.7rem;
 }
+
+@media (max-width: 768px) {
+  .detailedExpenses__description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
