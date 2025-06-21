@@ -44,6 +44,21 @@ export const AddExpense = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (formRef.current && !formRef.current.contains(e.target)) {
+        setIsFormVisible(false);
+      }
+    };
+    if (isFormVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isFormVisible]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -129,6 +144,7 @@ export const AddExpense = () => {
       <AnimatePresence>
         {isFormVisible && (
           <motion.div
+            ref={formRef}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{

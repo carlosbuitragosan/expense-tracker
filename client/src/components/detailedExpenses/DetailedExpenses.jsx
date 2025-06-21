@@ -7,8 +7,11 @@ import './detailedExpenses.css';
 export const DetailedExpenses = ({ expenses }) => {
   const { newExpenseId } = useExpenseStore();
   const navigate = useNavigate();
+
   const handleEditClick = (expense) => {
-    navigate(`/expenses/edit/${expense.id}`);
+    navigate(`/expenses/edit/${expense.id}`, {
+      state: { from: 'expenses' },
+    });
   };
 
   return (

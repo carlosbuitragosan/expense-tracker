@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import {
@@ -15,6 +15,9 @@ export const EditExpense = () => {
   const timeoutRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPage =
+    location.state?.from === 'dashboard' ? '/dashboard' : '/expenses';
   const [formData, setFormData] = useState({
     amount: '',
     description: '',
@@ -100,7 +103,7 @@ export const EditExpense = () => {
       await editExpense(id, updatedFormData);
       setNewExpenseId(id);
       toast.success('Expense updated successfully.');
-      navigate(`/expenses`);
+      navigate(fromPage);
 
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -184,7 +187,7 @@ export const EditExpense = () => {
           <button
             className="button__cancel"
             type="button"
-            onClick={() => navigate(`/expenses`)}
+            onClick={() => navigate(fromPage)}
           >
             Cancel
           </button>

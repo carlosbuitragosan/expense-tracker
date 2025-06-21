@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import { getDailyExpenses } from '../../../services/expenseService';
 import { formattedDate } from '../../../utils/dateUtils';
@@ -6,6 +7,7 @@ import { displayAmount } from '../../../utils/amountUtils';
 import './dailyExpenses.css';
 
 export const DailyExpenses = () => {
+  const navigate = useNavigate();
   const { newExpenseId } = useExpenseStore();
   const today = new Date();
   const year = today.getFullYear();
@@ -32,6 +34,12 @@ export const DailyExpenses = () => {
     fetchExpenses();
   }, [year, month, day, newExpenseId]);
 
+  const handleEdit = (expenseId) => {
+    navigate(`/expenses/edit/${expenseId}`, {
+      state: { from: 'dashboard' },
+    });
+  };
+
   return (
     <div>
       {dailyExpenses.length === 0 ? (
@@ -45,7 +53,7 @@ export const DailyExpenses = () => {
                 key={expense.id}
               >
                 <li
-                  className={`detailedExpenses__list_item ${expense.id === newExpenseId ? 'new-expense-highlight' : ''}`}
+                  className={`detailedExpenses__list_item ${expense.id === +newExpenseId ? 'new-expense-highlight' : ''}`}
                 >
                   <div>
                     <p>{formattedDate(expense.date)}</p>
@@ -55,6 +63,12 @@ export const DailyExpenses = () => {
                   </div>
                   <p>{expense.description}</p>
                   <p>{displayAmount(expense.amount)}</p>
+                  <button
+                    className="button__edit"
+                    onClick={() => handleEdit(expense.id)}
+                  >
+                    Edit
+                  </button>
                 </li>
               </div>
             ))}
