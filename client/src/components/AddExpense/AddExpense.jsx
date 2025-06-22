@@ -29,7 +29,7 @@ export const AddExpense = () => {
     const fetchCategories = async () => {
       try {
         const data = await getCategories();
-        data;
+        setCategories(data);
       } catch (err) {
         console.error('Error fetching categories: ', err);
       }

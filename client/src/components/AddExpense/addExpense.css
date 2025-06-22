@@ -45,3 +45,18 @@
   color: var(--color-2);
   font-size: 0.8rem;
 }
+
+.button__edit,
+.button__delete {
+  padding: 0.1rem 0.3rem;
+}
+
+.button__edit img,
+.button__delete img {
+  width: 1rem;
+}
+
+.button__delete {
+  background-color: #c55065;
+  border: 1px solid #c55065;
+}
