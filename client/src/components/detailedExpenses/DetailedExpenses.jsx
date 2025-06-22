@@ -56,20 +56,22 @@ export const DetailedExpenses = ({ expenses }) => {
                 <p className="detailedExpenses__amount">
                   {displayAmount(expense.amount)}
                 </p>
-                <button
-                  className="button__edit"
-                  onClick={() => handleEditClick(expense)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="button__delete"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteModal"
-                  onClick={() => setExpenseToDelete(expense.id)}
-                >
-                  Delete
-                </button>
+                <div className="detailedExpenses__buttons_container">
+                  <button
+                    className="button__edit"
+                    onClick={() => handleEditClick(expense)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="button__delete"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"
+                    onClick={() => setExpenseToDelete(expense.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             </div>
           ))

@@ -95,20 +95,22 @@ export const DailyExpenses = () => {
                   </div>
                   <p>{expense.description}</p>
                   <p>{displayAmount(expense.amount)}</p>
-                  <button
-                    className="button__edit"
-                    onClick={() => handleEdit(expense.id)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="button__delete"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal"
-                    onClick={() => setExpenseToDelete(expense.id)}
-                  >
-                    Delete
-                  </button>
+                  <div className="detailedExpenses__buttons_container">
+                    <button
+                      className="button__edit"
+                      onClick={() => handleEdit(expense.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="button__delete"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal"
+                      onClick={() => setExpenseToDelete(expense.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </li>
               </div>
             ))}

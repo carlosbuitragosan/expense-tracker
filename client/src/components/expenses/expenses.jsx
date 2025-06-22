@@ -87,7 +87,7 @@ export const Expenses = () => {
 
       <div className="expenses__container">
         <p className="totalSpent">
-          {`Total Spent: ${totalExpenses ? displayAmount(totalExpenses) : 0}`}
+          {`This month: ${totalExpenses ? displayAmount(totalExpenses) : 0}`}
         </p>
         {!showFullList ? (
           <ExpensesByCategory expenses={categoryExpenses} />

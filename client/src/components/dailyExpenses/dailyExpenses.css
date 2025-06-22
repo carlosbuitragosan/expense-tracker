@@ -13,6 +13,11 @@
   /* color: var(--color-3); */
 }
 
+.detailedExpenses__buttons_container {
+  display: flex;
+  gap: 1rem;
+}
+
 @media (max-width: 768px) {
   .custom-modal {
     max-width: 90vw;
