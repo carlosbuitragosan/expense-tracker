@@ -8,6 +8,8 @@ import {
 } from '../../../services/expenseService';
 import { formattedDate } from '../../../utils/dateUtils';
 import { displayAmount } from '../../../utils/amountUtils';
+import editIcon from '../../assets/edit.svg';
+import deleteIcon from '../../assets/delete.svg';
 import './dailyExpenses.css';
 
 export const DailyExpenses = () => {
@@ -100,7 +102,7 @@ export const DailyExpenses = () => {
                       className="button__edit"
                       onClick={() => handleEdit(expense.id)}
                     >
-                      Edit
+                      <img src={editIcon} alt="edit" />
                     </button>
                     <button
                       className="button__delete"
@@ -108,7 +110,7 @@ export const DailyExpenses = () => {
                       data-bs-target="#deleteModal"
                       onClick={() => setExpenseToDelete(expense.id)}
                     >
-                      Delete
+                      <img src={deleteIcon} alt="delete" />
                     </button>
                   </div>
                 </li>

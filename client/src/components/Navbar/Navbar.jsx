@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/useExpenseStore';
 import { logoutUser } from '../../../services/authService';
+import logo from '../../assets/logo.svg';
 import './navbar.css';
 
 export const Navbar = () => {
@@ -52,9 +53,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light px-3">
       <Link className="navbar-brand" to="/dashboard">
-        <span className="material-symbols-outlined me-2">
-          account_balance_wallet
-        </span>
+        <img src={logo} alt="Logo" className="navbar-logo" />
       </Link>
       <Link className="navbar-brand" to="/dashboard">
         <span>Expense Tracker</span>

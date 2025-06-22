@@ -5,6 +5,8 @@ import { formattedDate } from '../../../utils/dateUtils';
 import { displayAmount } from '../../../utils/amountUtils';
 import { deleteExpense } from '../../../services/expenseService';
 import { useExpenseStore } from '../../store/useExpenseStore';
+import editIcon from '../../assets/edit.svg';
+import deleteIcon from '../../assets/delete.svg';
 import './detailedExpenses.css';
 
 export const DetailedExpenses = ({ expenses }) => {
@@ -61,7 +63,7 @@ export const DetailedExpenses = ({ expenses }) => {
                     className="button__edit"
                     onClick={() => handleEditClick(expense)}
                   >
-                    Edit
+                    <img src={editIcon} alt="edit" />
                   </button>
                   <button
                     className="button__delete"
@@ -69,7 +71,7 @@ export const DetailedExpenses = ({ expenses }) => {
                     data-bs-target="#deleteModal"
                     onClick={() => setExpenseToDelete(expense.id)}
                   >
-                    Delete
+                    <img src={deleteIcon} alt="delete" />
                   </button>
                 </div>
               </li>
