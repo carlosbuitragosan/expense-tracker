@@ -12,6 +12,7 @@ import './expenses.css';
 
 export const Expenses = () => {
   const { showFullList, toggleFullList } = useExpenseStore();
+  const { refreshMonthKey } = useExpenseStore();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [totalExpenses, setTotalExpenses] = useState(0);
@@ -33,7 +34,7 @@ export const Expenses = () => {
       }
     };
     fetchExpenses();
-  }, [year, month]);
+  }, [year, month, refreshMonthKey]);
 
   const handleMonthChange = (direction) => {
     const newYear =

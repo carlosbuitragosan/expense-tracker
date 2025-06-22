@@ -114,8 +114,7 @@ export const DailyExpenses = () => {
             ))}
           </ul>
           <p className="dailyTotal">
-            Total for today: £
-            {totalDailyExpenses.toFixed(2).toString().replace(/\.00$/, '')}
+            Today: {displayAmount(totalDailyExpenses)}
           </p>
 
           {/* Modal for delete confirmation */}
