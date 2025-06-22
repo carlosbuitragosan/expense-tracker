@@ -89,7 +89,7 @@ export const editExpense = async (req, res) => {
   const { expenseId } = req.params;
   const { amount, description, categoryId, date } = req.body;
 
-  if (!amount || !categoryId || !date) {
+  if (!amount || !date) {
     return res
       .status(400)
       .json({ error: 'Amount, category ID, and date are required.' });
