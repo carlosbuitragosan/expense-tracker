@@ -11,6 +11,8 @@ import { EditExpense } from './components/editExpense/EditExpense';
 import { ExpensesByCategory } from './components/expensesByCategory/ExpensesByCategory';
 import { DetailedExpenses } from './components/detailedExpenses/DetailedExpenses';
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
   return (
