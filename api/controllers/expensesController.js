@@ -8,6 +8,7 @@ import {
   getMonthlyExpensesByCategory,
   getDailyExpenses,
   findExpenseById,
+  deleteExpenseById,
 } from '../models/expensesModel.js';
 
 export const addExpense = async (req, res) => {
@@ -168,5 +169,17 @@ export const getExpenseById = async (req, res) => {
   } catch (err) {
     console.error('Error fetching expense by id: ', err);
     return res.status(500).json({ message: 'Error fetching expense by id.' });
+  }
+};
+
+export const deleteExpense = async (req, res) => {
+  const { userId } = req.user;
+  const { expenseId } = req.params;
+  try {
+    await deleteExpenseById(expenseId, userId);
+    return res.status(204).json({ message: 'Expense deleted successfully.' });
+  } catch (err) {
+    console.error('Error deleting expense: ', err);
+    return res.status(500).json({ message: 'Error deleting expense.' });
   }
 };

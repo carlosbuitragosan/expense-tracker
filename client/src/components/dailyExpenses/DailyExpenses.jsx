@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useExpenseStore } from '../../store/useExpenseStore';
-import { getDailyExpenses } from '../../../services/expenseService';
+import {
+  getDailyExpenses,
+  deleteExpense,
+} from '../../../services/expenseService';
 import { formattedDate } from '../../../utils/dateUtils';
 import { displayAmount } from '../../../utils/amountUtils';
 import './dailyExpenses.css';
@@ -9,12 +13,14 @@ import './dailyExpenses.css';
 export const DailyExpenses = () => {
   const navigate = useNavigate();
   const { newExpenseId } = useExpenseStore();
+  const { triggerRefreshMonthlyExpenses } = useExpenseStore();
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
   const [dailyExpenses, setDailyExpenses] = useState([]);
   const [totalDailyExpenses, setTotalDailyExpenses] = useState(0);
+  const [expenseToDelete, setExpenseToDelete] = useState(null);
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -38,6 +44,32 @@ export const DailyExpenses = () => {
     navigate(`/expenses/edit/${expenseId}`, {
       state: { from: 'dashboard' },
     });
+  };
+
+  const handleDeleteConfirmed = async () => {
+    try {
+      await deleteExpense(expenseToDelete);
+
+      setDailyExpenses((prev) => {
+        const updatedExpenses = prev.filter(
+          (expense) => expense.id !== expenseToDelete
+        );
+        const updatedTotal = updatedExpenses.reduce(
+          (sum, expense) => sum + parseFloat(expense.amount),
+          0
+        );
+        setTotalDailyExpenses(updatedTotal);
+        return updatedExpenses;
+      });
+
+      toast.success('Expense deleted');
+      triggerRefreshMonthlyExpenses();
+    } catch (err) {
+      console.error('Error deleting expense: ', err);
+      toast.error('Delete failed');
+    } finally {
+      setExpenseToDelete(null);
+    }
   };
 
   return (
@@ -69,15 +101,47 @@ export const DailyExpenses = () => {
                   >
                     Edit
                   </button>
+                  <button
+                    className="button__delete"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"
+                    onClick={() => setExpenseToDelete(expense.id)}
+                  >
+                    Delete
+                  </button>
                 </li>
               </div>
             ))}
           </ul>
-
           <p className="dailyTotal">
             Total for today: £
             {totalDailyExpenses.toFixed(2).toString().replace(/\.00$/, '')}
           </p>
+
+          {/* Modal for delete confirmation */}
+          <div
+            className="modal fade custom-delete-modal"
+            id="deleteModal"
+            tabIndex="-1"
+          >
+            <div className="modal-dialog custom-modal modal-sm modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-body">Delete expense?</div>
+                <div className="modal-footer">
+                  <button className="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    data-bs-dismiss="modal"
+                    onClick={handleDeleteConfirmed}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>

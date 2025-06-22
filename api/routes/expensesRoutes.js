@@ -10,6 +10,7 @@ import {
   getExpensesByCategory,
   getExpensesByDay,
   getExpenseById,
+  deleteExpense,
 } from '../controllers/expensesController.js';
 
 const router = express.Router();
@@ -28,5 +29,6 @@ router.get('/:year/:month', authenticateJWT, getMonthlyExpenses);
 router.get('/:year', authenticateJWT, getCalendarYearExpenses);
 router.put('/:expenseId', authenticateJWT, editExpense);
 router.post('/', authenticateJWT, addExpense);
+router.delete('/:expenseId', authenticateJWT, deleteExpense);
 
 export default router;

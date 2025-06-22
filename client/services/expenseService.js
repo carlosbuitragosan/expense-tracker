@@ -152,3 +152,16 @@ export const getExpenseById = async (expenseId) => {
     throw new Error(err);
   }
 };
+
+// delete expense by id
+export const deleteExpense = async (expenseId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/expenses/${expenseId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error deleting expense: ', err);
+    throw new Error(err);
+  }
+};

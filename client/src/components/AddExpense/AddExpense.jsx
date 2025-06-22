@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './addExpense.css';
 
 export const AddExpense = () => {
-  const { setNewExpenseId } = useExpenseStore();
+  const { setNewExpenseId, triggerRefreshMonthlyExpenses } = useExpenseStore();
   const formRef = useRef(null);
   const timeoutRef = useRef(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -109,6 +109,7 @@ export const AddExpense = () => {
       });
 
       setNewExpenseId(newExpense.id);
+      triggerRefreshMonthlyExpenses();
       toast.success('Expense added successfully.');
       setIsFormVisible(false);
 

@@ -241,3 +241,20 @@ export const findExpenseById = async (expenseId, userId) => {
     throw new Error('Error fetching expense by id.');
   }
 };
+
+export const deleteExpenseById = async (expenseId, userId) => {
+  if (!expenseId || !userId) {
+    throw new Error('Expense ID and user ID are required.');
+  }
+  try {
+    const result = await query(
+      `DELETE FROM expenses
+      WHERE id = $1
+      AND user_id = $2`,
+      [expenseId, userId]
+    );
+  } catch (err) {
+    console.error('Error deleting expense: ', err);
+    throw new Error('Error deleting expense.');
+  }
+};

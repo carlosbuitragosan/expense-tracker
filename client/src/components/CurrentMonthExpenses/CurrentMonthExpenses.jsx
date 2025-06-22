@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useExpenseStore } from '../../store/useExpenseStore';
 import { getCurrentMonthExpenses } from '../../../services/expenseService';
 
 export const CurrentMonthExpenses = ({ reload }) => {
   const [totalExpenses, setTotalExpenses] = useState(null);
+  const { refreshMonthKey } = useExpenseStore();
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -19,7 +21,7 @@ export const CurrentMonthExpenses = ({ reload }) => {
       }
     };
     fetchExpenses();
-  }, [reload]);
+  }, [reload, refreshMonthKey]);
 
   if (totalExpenses === null) {
     return null;

@@ -7,3 +7,15 @@
 .new-expense-highlight {
   background-color: #2f3b67;
 }
+
+.custom-delete-modal .modal-content {
+  background-color: var(--color-3);
+  /* color: var(--color-3); */
+}
+
+@media (max-width: 768px) {
+  .custom-modal {
+    max-width: 90vw;
+    margin-left: 1rem;
+  }
+}
