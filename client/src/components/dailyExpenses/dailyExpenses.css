@@ -2,6 +2,7 @@
   display: flex;
   justify-content: flex-start;
   margin-top: 1rem;
+  color: var(--color-2);
 }
 
 .new-expense-highlight {

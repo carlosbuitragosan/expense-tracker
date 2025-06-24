@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import { getCurrentMonthExpenses } from '../../../services/expenseService';
+import { displayAmount } from '../../../utils/amountUtils';
+import './currentMonthExpenses.css';
 
 export const CurrentMonthExpenses = ({ reload }) => {
   const [totalExpenses, setTotalExpenses] = useState(null);
@@ -29,7 +31,9 @@ export const CurrentMonthExpenses = ({ reload }) => {
 
   return (
     <div>
-      <p>This month: £{totalExpenses.replace(/\.00$/, '')}</p>
+      <p className="currentMonth__total">
+        This month: {displayAmount(totalExpenses)}
+      </p>
     </div>
   );
 };

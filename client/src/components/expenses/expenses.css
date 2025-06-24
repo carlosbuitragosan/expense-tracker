@@ -33,7 +33,7 @@
   display: flex;
   max-width: 600px;
   margin: 4rem auto 1rem auto;
-  /* justify-content: center; */
+  color: var(--color-2);
 }
 
 .view-toggle {
