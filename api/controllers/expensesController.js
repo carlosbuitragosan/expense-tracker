@@ -1,16 +1,18 @@
 import {
   insertExpense,
-  getExpensesByMonth,
-  getExpensesByRange,
-  getExpensesByCalendarYear,
+  getTotalExpensesByMonth,
+  getTotalExpensesByRange,
+  getTotalExpensesByCalendarYear,
   updateExpense,
   getMonthlyExpenseDetails,
-  getMonthlyExpensesByCategory,
+  getTotalMonthlyExpensesByCategory,
   getDailyExpenses,
   findExpenseById,
   deleteExpenseById,
+  findExpensesByCategoryRange,
 } from '../models/expensesModel.js';
 
+// Add a new expense
 export const addExpense = async (req, res) => {
   if (!req.user || !req.user.userId) {
     return res.status(401).json({ error: 'Unauthorised. Please log in.' });
@@ -39,11 +41,12 @@ export const addExpense = async (req, res) => {
   }
 };
 
-export const getMonthlyExpenses = async (req, res) => {
+// Get all expenses by month
+export const getTotalMonthlyExpenses = async (req, res) => {
   const { userId } = req.user;
   const { year, month } = req.params;
   try {
-    const monthlyExpenses = await getExpensesByMonth(userId, year, month);
+    const monthlyExpenses = await getTotalExpensesByMonth(userId, year, month);
     return res.status(200).json(monthlyExpenses);
   } catch (err) {
     console.error('Error getting monthly expenses: ', err);
@@ -51,11 +54,12 @@ export const getMonthlyExpenses = async (req, res) => {
   }
 };
 
-export const getRangeExpenses = async (req, res) => {
+// Get all expenses by range
+export const getTotalRangeExpenses = async (req, res) => {
   const { userId } = req.user;
   const { startYear, startMonth, endYear, endMonth } = req.params;
   try {
-    const yearlyExpenses = await getExpensesByRange(
+    const yearlyExpenses = await getTotalExpensesByRange(
       userId,
       startYear,
       startMonth,
@@ -68,18 +72,20 @@ export const getRangeExpenses = async (req, res) => {
   }
 };
 
-export const getCalendarYearExpenses = async (req, res) => {
+// Get all expenses by calendar year
+export const getTotalCalendarYearExpenses = async (req, res) => {
   const { userId } = req.user;
   const { year } = req.params;
 
   try {
-    const yearlyExpenses = await getExpensesByCalendarYear(userId, year);
+    const yearlyExpenses = await getTotalExpensesByCalendarYear(userId, year);
     return res.status(200).json(yearlyExpenses);
   } catch (err) {
     return res.status(500).json({ message: 'Error fetchin expenses.' });
   }
 };
 
+// Edit an existing expense
 export const editExpense = async (req, res) => {
   if (!req.user || !req.user.userId) {
     return res.status(401).json({ error: 'Unauthorised. Please log in.' });
@@ -127,12 +133,12 @@ export const getMonthlyExpenseList = async (req, res) => {
 };
 
 // get monthly expenses grouped by categories
-export const getExpensesByCategory = async (req, res) => {
+export const getTotalExpensesByCategory = async (req, res) => {
   const { userId } = req.user;
   const { year, month } = req.params;
 
   try {
-    const categoryExpenses = await getMonthlyExpensesByCategory(
+    const categoryExpenses = await getTotalMonthlyExpensesByCategory(
       userId,
       year,
       month
@@ -172,6 +178,7 @@ export const getExpenseById = async (req, res) => {
   }
 };
 
+// Delete an expense
 export const deleteExpense = async (req, res) => {
   const { userId } = req.user;
   const { expenseId } = req.params;
@@ -181,5 +188,27 @@ export const deleteExpense = async (req, res) => {
   } catch (err) {
     console.error('Error deleting expense: ', err);
     return res.status(500).json({ message: 'Error deleting expense.' });
+  }
+};
+
+// Get expenses by category  within a date range
+export const getExpensesByCategoryRange = async (req, res) => {
+  const { userId } = req.user;
+  const { startYear, startMonth, endYear, endMonth } = req.params;
+
+  try {
+    const result = await findExpensesByCategoryRange(
+      userId,
+      startYear,
+      startMonth,
+      endYear,
+      endMonth
+    );
+    return res.status(200).json(result);
+  } catch (err) {
+    console.error('Error fetching expenses by category range: ', err);
+    return res
+      .status(500)
+      .json({ message: 'Error fetching expenses by category range.' });
   }
 };

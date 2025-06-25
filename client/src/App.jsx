@@ -8,8 +8,7 @@ import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
 import { Navbar } from './components/Navbar/Navbar';
 import { Expenses } from './components/expenses/expenses';
 import { EditExpense } from './components/editExpense/EditExpense';
-import { ExpensesByCategory } from './components/expensesByCategory/ExpensesByCategory';
-import { DetailedExpenses } from './components/detailedExpenses/DetailedExpenses';
+import { YearlyExpenses } from './components/YearlyExpenses/YearlyExpenses';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -52,6 +51,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <EditExpense />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoutes>
+                <YearlyExpenses />
               </ProtectedRoutes>
             }
           />

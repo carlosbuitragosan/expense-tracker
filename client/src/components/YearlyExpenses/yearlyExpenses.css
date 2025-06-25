@@ -1,0 +1,16 @@
+.yearly-expenses__container {
+  padding: 4rem 0rem;
+}
+
+.expenses__title {
+  margin-bottom: 3rem;
+  color: var(--color-12);
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .yearly-expenses__container {
+    padding: 4rem 1rem;
+  }
+}

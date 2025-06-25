@@ -22,7 +22,53 @@ export const insertExpense = async (
   }
 };
 
-export const getExpensesByMonth = async (userId, year, month) => {
+// update expense by id
+export const updateExpense = async (
+  expenseId,
+  userId,
+  amount,
+  description,
+  categoryId,
+  date
+) => {
+  try {
+    const result = await query(
+      `UPDATE expenses
+      SET amount = $1, 
+      description = $2,
+      category_id = $3,
+      date = $4
+      WHERE id = $5
+      AND user_id = $6
+      RETURNING *`,
+      [amount, description, categoryId, date, expenseId, userId]
+    );
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error updating expenses.');
+    throw new Error('Error updating expenses.');
+  }
+};
+
+// delete expense by id
+export const deleteExpenseById = async (expenseId, userId) => {
+  if (!expenseId || !userId) {
+    throw new Error('Expense ID and user ID are required.');
+  }
+  try {
+    const result = await query(
+      `DELETE FROM expenses
+      WHERE id = $1
+      AND user_id = $2`,
+      [expenseId, userId]
+    );
+  } catch (err) {
+    console.error('Error deleting expense: ', err);
+    throw new Error('Error deleting expense.');
+  }
+};
+
+export const getTotalExpensesByMonth = async (userId, year, month) => {
   if (!userId || !year || !month) {
     throw new Error('User ID, year, and month are required.');
   }
@@ -49,7 +95,7 @@ export const getExpensesByMonth = async (userId, year, month) => {
   }
 };
 
-export const getExpensesByRange = async (
+export const getTotalExpensesByRange = async (
   userId,
   startYear,
   startMonth,
@@ -74,7 +120,7 @@ export const getExpensesByRange = async (
   }
 };
 
-export const getExpensesByCalendarYear = async (userId, year) => {
+export const getTotalExpensesByCalendarYear = async (userId, year) => {
   const startDate = `${year}-01-01`;
   const endDate = `${year}-12-31`;
 
@@ -90,33 +136,6 @@ export const getExpensesByCalendarYear = async (userId, year) => {
   } catch (err) {
     console.error('Error getting expenses by calendar year: ', err);
     throw new Error('Error getting expenses by calendar year.');
-  }
-};
-
-export const updateExpense = async (
-  expenseId,
-  userId,
-  amount,
-  description,
-  categoryId,
-  date
-) => {
-  try {
-    const result = await query(
-      `UPDATE expenses
-      SET amount = $1, 
-      description = $2,
-      category_id = $3,
-      date = $4
-      WHERE id = $5
-      AND user_id = $6
-      RETURNING *`,
-      [amount, description, categoryId, date, expenseId, userId]
-    );
-    return result.rows[0];
-  } catch (err) {
-    console.error('Error updating expenses.');
-    throw new Error('Error updating expenses.');
   }
 };
 
@@ -155,7 +174,11 @@ export const getMonthlyExpenseDetails = async (userId, year, month) => {
   }
 };
 
-export const getMonthlyExpensesByCategory = async (userId, year, month) => {
+export const getTotalMonthlyExpensesByCategory = async (
+  userId,
+  year,
+  month
+) => {
   if (!userId || !year || !month) {
     throw new Error('User ID, year, and month are required.');
   }
@@ -242,19 +265,37 @@ export const findExpenseById = async (expenseId, userId) => {
   }
 };
 
-export const deleteExpenseById = async (expenseId, userId) => {
-  if (!expenseId || !userId) {
-    throw new Error('Expense ID and user ID are required.');
-  }
+// get expenses by category for a year-month date range
+export const findExpensesByCategoryRange = async (
+  userId,
+  startYear,
+  startMonth,
+  endYear,
+  endMonth
+) => {
+  const startDate = `${startYear}-${String(startMonth).padStart(2, '0')}-01`;
+  const nextMonth = +endMonth === 12 ? 1 : +endMonth + 1;
+  const nextYear = +endMonth === 12 ? +endYear + 1 : endYear;
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
   try {
     const result = await query(
-      `DELETE FROM expenses
-      WHERE id = $1
-      AND user_id = $2`,
-      [expenseId, userId]
+      `SELECT 
+        categories.name AS category_name,
+        SUM(expenses.amount) AS total_amount
+      FROM expenses
+      LEFT JOIN categories
+      ON expenses.category_id = categories.id
+      WHERE expenses.user_id = $1
+      AND expenses.date 
+      BETWEEN $2 AND $3
+      GROUP BY categories.name
+      ORDER BY total_amount DESC`,
+      [userId, startDate, endDate]
     );
+    return result.rows;
   } catch (err) {
-    console.error('Error deleting expense: ', err);
-    throw new Error('Error deleting expense.');
+    console.error('Error fetching expenses by range: ', err);
+    throw new Error('Error fetching expenses by range.');
   }
 };

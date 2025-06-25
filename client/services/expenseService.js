@@ -19,6 +19,19 @@ export const getCurrentMonthExpenses = async () => {
   }
 };
 
+// get total expenses for a specific month
+export const getTotalMonthExpenses = async (year, month) => {
+  try {
+    const response = await axios.get(`${API_URL}/expenses/${year}/${month}`, {
+      withCredentials: true,
+    });
+    return response.data.total;
+  } catch (err) {
+    console.error('Error fetching total monthly expenses: ', err);
+    return 0;
+  }
+};
+
 // get all user's data by month
 export const getExpenseListByMonth = async (year, month) => {
   try {
@@ -35,7 +48,7 @@ export const getExpenseListByMonth = async (year, month) => {
   }
 };
 
-// get monthly user expenses grouped by categories
+// get monthly expenses grouped by categories
 export const getExpensesByCategory = async (year, month) => {
   try {
     const response = await axios.get(
@@ -50,6 +63,7 @@ export const getExpensesByCategory = async (year, month) => {
     throw err;
   }
 };
+
 // get all categories
 export const getCategories = async () => {
   try {
@@ -65,6 +79,7 @@ export const getCategories = async () => {
   }
 };
 
+// add a new category
 export const addCategory = async (name) => {
   try {
     const response = await axios.post(
@@ -83,6 +98,7 @@ export const addCategory = async (name) => {
   }
 };
 
+// add a new expense
 export const addExpense = async (expenseData) => {
   try {
     const response = await axios.post(`${API_URL}/expenses`, expenseData, {
@@ -92,18 +108,6 @@ export const addExpense = async (expenseData) => {
   } catch (err) {
     console.error('Error adding a new expense:', err);
     throw new Error(err);
-  }
-};
-
-export const getTotalMonthExpenses = async (year, month) => {
-  try {
-    const response = await axios.get(`${API_URL}/expenses/${year}/${month}`, {
-      withCredentials: true,
-    });
-    return response.data.total;
-  } catch (err) {
-    console.error('Error fetching total monthly expenses: ', err);
-    return 0;
   }
 };
 
@@ -141,7 +145,7 @@ export const editExpense = async (expenseId, updatedExpense) => {
   }
 };
 
-// get a single expense
+// get a single expense by id
 export const getExpenseById = async (expenseId) => {
   try {
     const response = await axios.get(`${API_URL}/expenses/edit/${expenseId}`, {
@@ -162,6 +166,26 @@ export const deleteExpense = async (expenseId) => {
     return response.data;
   } catch (err) {
     console.error('Error deleting expense: ', err);
+    throw new Error(err);
+  }
+};
+
+export const getCategoryExpensesByRange = async (
+  startYear,
+  startMonth,
+  endYear,
+  endMonth
+) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/expenses/range/${startYear}/${startMonth}/${endYear}/${endMonth}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching expenses by category range: ', err);
     throw new Error(err);
   }
 };
