@@ -9,12 +9,17 @@ import categoriesRouter from './routes/categoriesRoutes.js';
 
 dotenv.config();
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://expensetracker.uk',
+  'https://www.expensetracker.uk',
+];
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true,
   })
 );

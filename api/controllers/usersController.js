@@ -28,11 +28,10 @@ export const registerUser = async (req, res) => {
     //Store the token in a http-only cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'Lax',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
       path: '/',
       maxAge: 1000 * 60 * 60 * 48,
-      domain: req.hostname,
     });
 
     res.status(201).json({ message: 'User registered succesfully.' });
