@@ -52,9 +52,6 @@ export const Expenses = () => {
     setMonth(newMonth);
   };
 
-  // const handleViewToggle = () => {
-  //   toggleFullList();
-  // };
   const formattedMonthYear = new Intl.DateTimeFormat('en-GB', {
     year: 'numeric',
     month: 'long',
@@ -77,12 +74,14 @@ export const Expenses = () => {
           <button
             className={!showFullList ? 'active' : ''}
             onClick={() => toggleFullList(false)}
+            disabled={!showFullList}
           >
             Category View
           </button>
           <button
             className={showFullList ? 'active' : ''}
             onClick={() => toggleFullList(true)}
+            disabled={showFullList}
           >
             Full List
           </button>

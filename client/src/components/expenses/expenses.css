@@ -47,6 +47,15 @@
   color: var(--color-5);
 }
 
+.view-toggle button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.view-toggle button:disabled:hover {
+  border-color: inherit;
+}
+
 @media (max-width: 768px) {
   .expenses__navigation_container {
     flex-direction: column;
