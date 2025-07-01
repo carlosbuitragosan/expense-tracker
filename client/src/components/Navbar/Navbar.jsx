@@ -7,8 +7,7 @@ import './navbar.css';
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout } = useAuthStore();
-  console.log('user: ', user);
+  const { isAuthenticated, logout } = useAuthStore();
 
   useEffect(() => {
     if (!isAuthenticated) return;

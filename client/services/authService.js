@@ -1,12 +1,14 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useAuthStore } from '../src/store/useExpenseStore';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export const registerUser = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/users/register`, formData);
+    const token = response.data.token;
+    if (token) {
+      localStorage.setItem('token', token);
+    }
     return response.data;
   } catch (err) {
     const errorMesage =
@@ -17,11 +19,10 @@ export const registerUser = async (formData) => {
 
 export const loginUser = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}/users/login`, formData, {
-      withCredentials: true,
-    });
-    if (response.data.userId) {
-      await useAuthStore.getState().checkAuth();
+    const response = await axios.post(`${API_URL}/users/login`, formData);
+    const token = response.data.token;
+    if (token) {
+      localStorage.setItem('token', token);
     }
     return response.data;
   } catch (err) {
@@ -32,9 +33,12 @@ export const loginUser = async (formData) => {
 };
 
 export const getUserProfile = async () => {
+  const token = localStorage.getItem('token');
   try {
     const response = await axios.get(`${API_URL}/users/profile`, {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (err) {
@@ -45,8 +49,7 @@ export const getUserProfile = async () => {
 
 export const logoutUser = async () => {
   try {
-    // withCredentials: true ensures the cookie is sent with the request
-    await axios.post(`${API_URL}/users/logout`, {}, { withCredentials: true });
+    localStorage.removeItem('token');
   } catch (err) {
     console.error('Error during logout: ', err);
   }

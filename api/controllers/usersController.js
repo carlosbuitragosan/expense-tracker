@@ -1,4 +1,4 @@
-import jwt, { decode } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { createUser, getUserByEmail } from '../models/usersModel.js';
 import dotenv from 'dotenv';
@@ -20,21 +20,12 @@ export const registerUser = async (req, res) => {
     const newUser = await createUser(email, passwordHash);
 
     const token = jwt.sign(
-      { UserId: newUser.id, email: newUser.email },
+      { userId: newUser.id, email: newUser.email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRATION }
     );
 
-    //Store the token in a http-only cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      path: '/',
-      maxAge: 1000 * 60 * 60 * 48,
-    });
-
-    res.status(201).json({ message: 'User registered succesfully.' });
+    res.status(201).json({ message: 'User registered succesfully.', token });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.', error: err });
   }
@@ -68,7 +59,6 @@ export const loginUser = async (req, res) => {
     if (!existingUser) {
       return res.status(401).json({ error: 'Invalid credentials.' });
     }
-
     // check if password matches
     const passwordMatch = await bcrypt.compare(
       password,
@@ -81,30 +71,17 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(
       { userId: existingUser.id, email: existingUser.email },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRATION }
+      { expiresIn: process.env.JWT_EXPIRATION || '2d' }
     );
 
-    //Store the token in a http-only cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'Lax',
-      path: '/',
-      maxAge: 1000 * 60 * 60 * 48,
-      domain: req.hostname,
+    // return the token in the response
+    return res.status(200).json({
+      message: 'Login successful.',
+      token,
+      userId: existingUser.id,
     });
-
-    return res
-      .status(200)
-      .json({ userId: existingUser.id, message: 'Login successful.' });
   } catch (err) {
     console.error('Error logging in user: ', err);
     res.status(500).json({ message: 'Error logging in user', error: err });
   }
-};
-
-// logout user
-export const logoutUser = (req, res) => {
-  res.clearCookie('token');
-  return res.status(200).json({ message: 'Logged out successfully.' });
 };
