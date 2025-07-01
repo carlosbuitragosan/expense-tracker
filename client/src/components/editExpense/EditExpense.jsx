@@ -103,7 +103,15 @@ export const EditExpense = () => {
       await editExpense(id, updatedFormData);
       setNewExpenseId(id);
       toast.success('Expense updated successfully.');
-      navigate(fromPage);
+
+      const returnState = location.state || {};
+      if (returnState.from === 'expenses') {
+        navigate('/expenses', {
+          state: { year: returnState.year, month: returnState.month },
+        });
+      } else {
+        navigate('/dashboard');
+      }
 
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);

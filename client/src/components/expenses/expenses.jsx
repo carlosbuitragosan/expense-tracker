@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   getExpensesByCategory,
   getExpenseListByMonth,
@@ -13,8 +14,11 @@ import './expenses.css';
 export const Expenses = () => {
   const { showFullList, toggleFullList } = useExpenseStore();
   const { refreshMonthKey } = useExpenseStore();
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const location = useLocation();
+  const initialYear = location.state?.year || new Date().getFullYear();
+  const initialMonth = location.state?.month || new Date().getMonth() + 1;
+  const [year, setYear] = useState(initialYear);
+  const [month, setMonth] = useState(initialMonth);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [categoryExpenses, setCategoryExpenses] = useState([]);
   const [detailedExpenses, setDetailedExpenses] = useState([]);

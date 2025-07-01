@@ -15,8 +15,12 @@ export const DetailedExpenses = ({ expenses }) => {
   const [expenseToDelete, setExpenseToDelete] = useState(null);
 
   const handleEditClick = (expense) => {
+    const date = new Date(expense.date);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
     navigate(`/expenses/edit/${expense.id}`, {
-      state: { from: 'expenses' },
+      state: { from: 'expenses', year, month },
     });
   };
 
