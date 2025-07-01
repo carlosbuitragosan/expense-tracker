@@ -78,17 +78,32 @@ export const Navbar = () => {
           {isAuthenticated && (
             <>
               <li className="nav-item">
-                <NavLink className="nav-link nav-action" to="/dashboard">
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-action${isActive ? ' active' : ''}`
+                  }
+                  to="/dashboard"
+                >
                   Today
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link nav-action" to="/expenses">
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-action${isActive ? ' active' : ''}`
+                  }
+                  to="/expenses"
+                >
                   Breakdown
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link nav-action" to="/reports">
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-action${isActive ? ' active' : ''}`
+                  }
+                  to="/reports"
+                >
                   Reports
                 </NavLink>
               </li>
