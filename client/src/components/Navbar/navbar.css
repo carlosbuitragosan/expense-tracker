@@ -33,6 +33,12 @@
   padding: 0.6rem 0 1rem 0;
 }
 
-.nav-item btn {
-  background-color: blue !important;
+.nav-logout {
+  margin: 0 0 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .nav-logout {
+    margin: 1rem 0 0 0;
+  }
 }

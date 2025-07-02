@@ -109,7 +109,7 @@ export const Navbar = () => {
               </li>
               <li className="nav-item">
                 <button
-                  className="nav-action custom-nav-button"
+                  className="nav-action custom-nav-button nav-logout"
                   onClick={handleLogout}
                 >
                   Logout
