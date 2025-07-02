@@ -176,6 +176,7 @@ export const AddExpense = () => {
             <form className="expense__form" onSubmit={handleSubmit}>
               <input
                 type="number"
+                inputMode="decimal"
                 name="amount"
                 placeholder="Add amount"
                 value={formData.amount}

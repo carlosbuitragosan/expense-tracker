@@ -131,6 +131,7 @@ export const EditExpense = () => {
         <form className="expense__form" onSubmit={handleSubmit}>
           <input
             type="number"
+            inputMode="decimal"
             name="amount"
             value={formData.amount}
             onChange={handleChange}
