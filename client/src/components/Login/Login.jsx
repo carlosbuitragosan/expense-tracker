@@ -58,7 +58,7 @@ export const Login = () => {
       </form>
 
       <div className="login__register_container">
-        <p>Not a user?</p>
+        <p className="login__register_not-a-user">Not a user?</p>
         <button
           className="button"
           type="button"
