@@ -61,13 +61,11 @@ textarea {
   outline: none;
   background-color: var(--color-1);
   color: var(--color-3);
-  /* border-bottom: 1px solid var(--color-2); */
-  box-shadow: 0 1px 0 0 var(--color-2);
+  border-bottom: 1px solid var(--color-2);
   padding: 0.5rem;
   font-size: 1rem;
   font-family: inherit;
-  transform: translateZ(0);
-  will-change: transform;
+  border-radius: 0;
 }
 
 .link {
