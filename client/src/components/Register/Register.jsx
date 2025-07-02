@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { registerUser } from '../../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import './register.css';
+import { toast } from 'react-toastify';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export const Register = () => {
     setError(null);
     try {
       await registerUser(formData);
+      toast.success('Registration successful! Please log in.');
       navigate('/users/login');
     } catch (err) {
       setError(err);
