@@ -18,3 +18,8 @@
   gap: 1rem;
   align-items: center;
 }
+
+.register__login_already-a-user {
+  margin: 0;
+  cursor: pointer;
+}

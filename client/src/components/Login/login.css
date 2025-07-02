@@ -21,4 +21,5 @@
 
 .login__register_not-a-user {
   margin: 0;
+  cursor: pointer;
 }

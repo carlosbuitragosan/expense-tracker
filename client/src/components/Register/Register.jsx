@@ -63,7 +63,7 @@ export const Register = () => {
       </form>
 
       <div className="register__login_container">
-        <p>Already a user?</p>
+        <p className="register__login_already-a-user">Already a user?</p>
         <button type="button" onClick={() => navigate('/users/login')}>
           Log In
         </button>
