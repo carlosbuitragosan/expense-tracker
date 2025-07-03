@@ -17,25 +17,25 @@ export const AddExpense = () => {
   const [showButton, setShowButton] = useState(true);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
-  const maxDescriptionLength = 200;
   const [formData, setFormData] = useState({
     amount: '',
     description: '',
     categoryId: undefined,
     date: new Date().toISOString().split('T')[0],
   });
+  const maxDescriptionLength = 200;
+
+  const fetchCategories = async () => {
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch (err) {
+      console.error('Error fetching categories: ', err);
+    }
+  };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (err) {
-        console.error('Error fetching categories: ', err);
-      }
-    };
     fetchCategories();
-
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -107,6 +107,7 @@ export const AddExpense = () => {
     const updatedFormData = { ...formData, date: fullDate };
     try {
       const response = await addExpense(updatedFormData);
+      await fetchCategories();
       const newExpense = response.data;
 
       setFormData({

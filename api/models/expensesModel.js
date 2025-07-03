@@ -15,6 +15,13 @@ export const insertExpense = async (
     RETURNING *`,
       [userId, amount, description, categoryId, date]
     );
+
+    await query(
+      `UPDATE categories
+      SET usage_count = usage_count + 1
+      WHERE id = $1`,
+      [categoryId]
+    );
     return result.rows[0];
   } catch (err) {
     console.error('Error inserting expense into database: ', err);

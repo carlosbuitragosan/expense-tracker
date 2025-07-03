@@ -1,4 +1,5 @@
 import query from '../config/db.js';
+import { defaultCategories } from '../config/defaultCategories.js';
 
 export const createUser = async (email, passwordHash) => {
   try {
@@ -10,6 +11,16 @@ export const createUser = async (email, passwordHash) => {
       [email, passwordHash]
     );
     const newUser = result.rows[0];
+
+    await Promise.all(
+      defaultCategories.map((name) =>
+        query(
+          `INSERT INTO categories (name, user_id, usage_count)
+          VALUES ($1, $2, 0)`,
+          [name, newUser.id]
+        )
+      )
+    );
 
     return newUser;
   } catch (err) {

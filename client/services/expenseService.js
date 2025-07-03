@@ -64,32 +64,6 @@ export const getExpensesByCategory = async (year, month) => {
   }
 };
 
-// get all categories
-export const getCategories = async () => {
-  try {
-    const response = await apiClient.get(`/categories`);
-    return response.data;
-  } catch (err) {
-    console.error('Error fetching categories: ', err);
-    throw new Error(
-      err.response?.data?.error || err.message || 'Error fetching categories.'
-    );
-  }
-};
-
-// add a new category
-export const addCategory = async (name) => {
-  try {
-    const response = await apiClient.post(`/categories`, { name });
-    return response.data;
-  } catch (err) {
-    console.error('Error adding new category: ', err);
-    throw new Error(
-      err.response?.data?.error || err.message || 'Error adding new category.'
-    );
-  }
-};
-
 // add a new expense
 export const addExpense = async (expenseData) => {
   try {
@@ -162,5 +136,33 @@ export const getCategoryExpensesByRange = async (
   } catch (err) {
     console.error('Error fetching expenses by category range: ', err);
     throw new Error(err);
+  }
+};
+
+// categories
+
+// get all categories
+export const getCategories = async () => {
+  try {
+    const response = await apiClient.get(`/categories`);
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching categories: ', err);
+    throw new Error(
+      err.response?.data?.error || err.message || 'Error fetching categories.'
+    );
+  }
+};
+
+// add a new category
+export const addCategory = async (name) => {
+  try {
+    const response = await apiClient.post(`/categories`, { name });
+    return response.data;
+  } catch (err) {
+    console.error('Error adding new category: ', err);
+    throw new Error(
+      err.response?.data?.error || err.message || 'Error adding new category.'
+    );
   }
 };
