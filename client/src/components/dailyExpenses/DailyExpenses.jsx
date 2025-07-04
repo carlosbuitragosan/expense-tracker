@@ -89,11 +89,11 @@ export const DailyExpenses = () => {
                 <li
                   className={`detailedExpenses__list_item ${expense.id === +newExpenseId ? 'new-expense-highlight' : ''}`}
                 >
-                  <div>
+                  <div className="detailedExpenses__date-category_container">
                     <p>{formattedDate(expense.date)}</p>
-                    <p className="detailedExpenses__category">
+                    <div className="detailedExpenses__category">
                       {expense.category_name || 'No category'}
-                    </p>
+                    </div>
                   </div>
                   <p className="detailedExpenses__description">
                     {expense.description}
