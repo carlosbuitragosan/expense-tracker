@@ -5,11 +5,13 @@ import './yearlyExpenses.css';
 
 export const YearlyExpenses = () => {
   const [expenses, setExpenses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const currentyear = new Date().getFullYear();
 
   useEffect(() => {
     const fetchYearlyExpenses = async () => {
       try {
+        setLoading(true);
         const data = await getCategoryExpensesByRange(
           currentyear,
           1,
@@ -19,6 +21,8 @@ export const YearlyExpenses = () => {
         setExpenses(data);
       } catch (err) {
         console.error('Failed to fetch yearly expenses:', err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchYearlyExpenses();
@@ -28,7 +32,22 @@ export const YearlyExpenses = () => {
     <div className="yearly-expenses__container">
       <h2 className="expenses__list expenses__title">Report - {currentyear}</h2>
       <ul className="expenses__list">
-        {expenses.length > 0 ? (
+        {loading ? (
+          <div className="placeholder-glow">
+            <div
+              className="placeholder col-12 mb-3"
+              style={{ height: '30px' }}
+            />
+            <div
+              className="placeholder col-10 mb-3"
+              style={{ height: '30px' }}
+            />
+            <div
+              className="placeholder col-8 mb-3"
+              style={{ height: '30px' }}
+            />
+          </div>
+        ) : expenses.length > 0 ? (
           expenses.map((expense) => (
             <li key={expense.category_name} className="expenses__list_item">
               <div className="item__category_container">
@@ -42,9 +61,9 @@ export const YearlyExpenses = () => {
             </li>
           ))
         ) : (
-          <p>No expenses found for this year</p>
+          <p className="no-expenses">No expenses found for this year</p>
         )}
-        {expenses.length > 0 && (
+        {!loading && expenses.length > 0 && (
           <p className="totalSpent">
             Total:{' '}
             {displayAmount(

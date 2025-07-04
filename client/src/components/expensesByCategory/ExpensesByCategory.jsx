@@ -18,7 +18,7 @@ export const ExpensesByCategory = ({ expenses }) => {
           </li>
         ))
       ) : (
-        <p>No expenses found for this month</p>
+        <p className="no-expenses">No expenses found for this month</p>
       )}
     </ul>
   );

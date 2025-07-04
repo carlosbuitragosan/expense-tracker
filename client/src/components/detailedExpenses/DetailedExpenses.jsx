@@ -82,7 +82,7 @@ export const DetailedExpenses = ({ expenses }) => {
             </div>
           ))
         ) : (
-          <p>No expenses found for this month</p>
+          <p className="no-expenses">No expenses found for this month</p>
         )}
 
         {/* Modal for delete confirmation */}

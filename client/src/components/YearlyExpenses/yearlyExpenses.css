@@ -9,6 +9,9 @@
   font-weight: 400;
 }
 
+.no-expenses {
+  color: var(--color-2);
+}
 @media (max-width: 768px) {
   .yearly-expenses__container {
     padding: 4rem 1rem;
