@@ -7,7 +7,7 @@ export const ProtectedRoutes = ({ children }) => {
   if (isLoading) {
     return (
       <div className="container py-5">
-        <p className="text-muted text-center">
+        <p className="server-message text-center">
           The server is starting up (free hosting) — this may take some time...
         </p>
         <div className="placeholder-glow">
