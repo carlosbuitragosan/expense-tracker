@@ -9,6 +9,8 @@ import { ExpensesByCategory } from '../expensesByCategory/ExpensesByCategory';
 import { DetailedExpenses } from '../detailedExpenses/DetailedExpenses';
 import { displayAmount } from '../../../utils/amountUtils';
 import { useExpenseStore } from '../../store/useExpenseStore';
+import arrowBack from '../../assets/arrow-back.svg';
+import arrowForward from '../../assets/arrow-forward.svg';
 import './expenses.css';
 
 export const Expenses = () => {
@@ -62,11 +64,11 @@ export const Expenses = () => {
       <div className="expenses__navigation_container">
         <div className="expenses__navigation">
           <button onClick={() => handleMonthChange(-1)}>
-            <span className="material-symbols-outlined">arrow_back</span>
+            <img className="material-symbols-outlined" src={arrowBack} />
           </button>
           <p className="expenses__navigation_date">{formattedMonthYear}</p>
           <button onClick={() => handleMonthChange(1)}>
-            <span className="material-symbols-outlined">arrow_forward</span>
+            <img className="material-symbols-outlined" src={arrowForward} />
           </button>
         </div>
 

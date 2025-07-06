@@ -7,6 +7,7 @@ import {
   getCategories,
   addCategory,
 } from '../../../services/expenseService';
+import add from '../../assets/add.svg';
 import './addExpense.css';
 
 export const AddExpense = () => {
@@ -227,7 +228,7 @@ export const AddExpense = () => {
                     type="button"
                     onClick={handleAddCategory}
                   >
-                    <span className="material-symbols-outlined">add</span>
+                    <img className="material-symbols-outlined" src={add} />
                   </button>
                 </div>
               )}
