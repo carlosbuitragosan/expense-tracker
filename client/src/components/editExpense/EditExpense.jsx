@@ -8,6 +8,7 @@ import {
   addCategory,
   getExpenseById,
 } from '../../../services/expenseService';
+import add from '../../assets/add.svg';
 import './editExpense.css';
 
 export const EditExpense = () => {
@@ -180,7 +181,7 @@ export const EditExpense = () => {
                 type="button"
                 onClick={handleAddCategory}
               >
-                <span className="material-symbols-outlined">add</span>
+                <img src={add} />
               </button>
             </div>
           )}

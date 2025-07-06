@@ -228,7 +228,7 @@ export const AddExpense = () => {
                     type="button"
                     onClick={handleAddCategory}
                   >
-                    <img className="material-symbols-outlined" src={add} />
+                    <img src={add} />
                   </button>
                 </div>
               )}

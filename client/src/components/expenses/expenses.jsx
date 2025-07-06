@@ -24,10 +24,12 @@ export const Expenses = () => {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [categoryExpenses, setCategoryExpenses] = useState([]);
   const [detailedExpenses, setDetailedExpenses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
+        setLoading(true);
         const categoryData = await getExpensesByCategory(year, month);
         const detailedData = await getExpenseListByMonth(year, month);
         const total = await getTotalMonthExpenses(year, month);
@@ -37,6 +39,8 @@ export const Expenses = () => {
         setTotalExpenses(total);
       } catch (err) {
         console.error('Error fetching expenses: ', err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchExpenses();
@@ -61,45 +65,55 @@ export const Expenses = () => {
 
   return (
     <div className="expense__container">
-      <div className="expenses__navigation_container">
-        <div className="expenses__navigation">
-          <button onClick={() => handleMonthChange(-1)}>
-            <img className="material-symbols-outlined" src={arrowBack} />
-          </button>
-          <p className="expenses__navigation_date">{formattedMonthYear}</p>
-          <button onClick={() => handleMonthChange(1)}>
-            <img className="material-symbols-outlined" src={arrowForward} />
-          </button>
+      {loading ? (
+        <div className="placeholder-glow px-3">
+          <div className="placeholder col-12 mb-3" style={{ height: '30px' }} />
+          <div className="placeholder col-10 mb-3" style={{ height: '20px' }} />
+          <div className="placeholder col-8 mb-3" style={{ height: '20px' }} />
         </div>
+      ) : (
+        <>
+          <div className="expenses__navigation_container">
+            <div className="expenses__navigation">
+              <button onClick={() => handleMonthChange(-1)}>
+                <img src={arrowBack} />
+              </button>
+              <p className="expenses__navigation_date">{formattedMonthYear}</p>
+              <button onClick={() => handleMonthChange(1)}>
+                <img src={arrowForward} />
+              </button>
+            </div>
 
-        <div className="view-toggle">
-          <button
-            className={!showFullList ? 'active' : ''}
-            onClick={() => toggleFullList(false)}
-            disabled={!showFullList}
-          >
-            Category View
-          </button>
-          <button
-            className={showFullList ? 'active' : ''}
-            onClick={() => toggleFullList(true)}
-            disabled={showFullList}
-          >
-            Full List
-          </button>
-        </div>
-      </div>
+            <div className="view-toggle">
+              <button
+                className={!showFullList ? 'active' : ''}
+                onClick={() => toggleFullList(false)}
+                disabled={!showFullList}
+              >
+                Category View
+              </button>
+              <button
+                className={showFullList ? 'active' : ''}
+                onClick={() => toggleFullList(true)}
+                disabled={showFullList}
+              >
+                Full List
+              </button>
+            </div>
+          </div>
 
-      <div className="expenses__container">
-        <p className="totalSpent">
-          {`This month: ${totalExpenses ? displayAmount(totalExpenses) : 0}`}
-        </p>
-        {!showFullList ? (
-          <ExpensesByCategory expenses={categoryExpenses} />
-        ) : (
-          <DetailedExpenses expenses={detailedExpenses} />
-        )}
-      </div>
+          <div className="expenses__container">
+            <p className="totalSpent">
+              {`This month: ${totalExpenses ? displayAmount(totalExpenses) : 0}`}
+            </p>
+            {!showFullList ? (
+              <ExpensesByCategory expenses={categoryExpenses} />
+            ) : (
+              <DetailedExpenses expenses={detailedExpenses} />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
