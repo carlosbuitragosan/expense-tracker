@@ -23,10 +23,12 @@ export const DailyExpenses = () => {
   const [dailyExpenses, setDailyExpenses] = useState([]);
   const [totalDailyExpenses, setTotalDailyExpenses] = useState(0);
   const [expenseToDelete, setExpenseToDelete] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
+        setLoading(true);
         const expenses = await getDailyExpenses(year, month, day);
         setDailyExpenses(expenses);
 
@@ -37,6 +39,8 @@ export const DailyExpenses = () => {
         setTotalDailyExpenses(total);
       } catch (err) {
         console.error('Error fetching daily expenses: ', err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchExpenses();
@@ -76,7 +80,13 @@ export const DailyExpenses = () => {
 
   return (
     <div>
-      {dailyExpenses.length === 0 ? (
+      {loading ? (
+        <div className="placeholder-glow px-3">
+          <div className="placeholder col-12 mb-3" style={{ height: '30px' }} />
+          <div className="placeholder col-10 mb-3" style={{ height: '20px' }} />
+          <div className="placeholder col-8 mb-3" style={{ height: '20px' }} />
+        </div>
+      ) : dailyExpenses.length === 0 ? (
         <p className="dailyTotal">No expenses for today</p>
       ) : (
         <>

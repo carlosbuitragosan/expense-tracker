@@ -1,6 +1,10 @@
 {
   "name": "Expense Tracker",
   "short_name": "Expenses",
+  "theme_color": "#070f2b",
+  "background_color": "#070f2b",
+  "display": "standalone",
+  "start_url": ".",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -14,8 +18,5 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "theme_color": "#070f2b",
-  "background_color": "#070f2b",
-  "display": "standalone"
+  ]
 }
