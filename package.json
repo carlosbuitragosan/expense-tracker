@@ -1,5 +1,5 @@
 {
-  "name": "wealthfare_app",
+  "name": "expense-tracker",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
