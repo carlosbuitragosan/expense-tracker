@@ -19,10 +19,10 @@ React · Express · PostgreSQL · JWT · Zustand · Nginx · PM2 · Ubuntu VPS
 
 ### Deployment
 
-- Ubuntu VPS (self-managed infrastructure)
+- Self-managed Ubuntu VPS
 - Nginx reverse proxy with HTTPS (Let’s Encrypt)
-- Database hosted on Supabase (PostgreSQL)
-- PM2 process management for the Node API
+- PostgreSQL (local VPS instance)
+- PM2 for Node.js process management
 
 ### Next Steps
 
