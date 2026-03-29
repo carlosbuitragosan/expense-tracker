@@ -1,4 +1,4 @@
-![Deploy Status](https://github.com/carlosbuitragosan/country-flashcards/actions/workflows/deploy.yml/badge.svg)
+![Deploy Status](https://github.com/carlosbuitragosan/expense-tracker/actions/workflows/deploy.yml/badge.svg)
 
 # Expense Tracker
 
