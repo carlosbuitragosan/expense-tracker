@@ -1,3 +1,5 @@
+![Deploy Status](https://github.com/carlosbuitragosan/country-flashcards/actions/workflows/deploy.yml/badge.svg)
+
 # Expense Tracker
 
 A full-stack expense tracking application built with React, Express, and PostgreSQL.
