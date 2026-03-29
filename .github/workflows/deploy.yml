@@ -19,7 +19,7 @@ jobs:
 
           script: |
             set -e
-            echo " Starting deployment..."
+            echo "Starting deployment..."
 
             # Go to project
             cd /var/www/expense-tracker
