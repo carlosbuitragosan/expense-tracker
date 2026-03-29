@@ -22,7 +22,7 @@ jobs:
             echo " Starting deployment..."
 
             # Go to project
-            cd /va/www/expense-tracker
+            cd /var/www/expense-tracker
 
             # Update repo
             git fetch origin main
